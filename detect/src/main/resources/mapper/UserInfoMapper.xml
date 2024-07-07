@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.UserInfoDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="userInfoDefaultMapping" type="com.bjj.detect.entity.UserInfo">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_name" property="name"/>
+        <result column="c_username" property="username"/>
+        <result column="c_password" property="password"/>
+        <result column="c_avatar" property="avatar"/>
+        <result column="c_islock" property="isLock"/>
+        <result column="c_level" property="level"/>
+        <result column="c_companyid" property="companyId"/>
+        <result column="c_organizationid" property="organizationId"/>
+        <result column="c_organizationname" property="organizationName"/>
+        <result column="c_roleids" property="roleIds" typeHandler="com.syzx.framework.dao.handler.LongSetTypeHandler"/>
+        <result column="c_roles" property="roles"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.UserInfo">
+        INSERT INTO t_userinfo
+            (c_id,c_createtime,c_name,c_username,c_password,c_avatar,c_islock,c_level,c_companyid,c_organizationid)
+        VALUES
+            (#{id},#{createTime},#{name},#{username},#{password},#{avatar},#{isLock},#{level},#{companyId},#{organizationId})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_userinfo
+            (c_id,c_createtime,c_name,c_username,c_password,c_avatar,c_islock,c_level,c_companyid,c_organizationid)
+        VALUES
+        <foreach collection="userInfoes" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.name},#{item.username},#{item.password},#{item.avatar},#{item.isLock},#{item.level},#{item.companyId},#{item.organizationId})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.UserInfo">
+        UPDATE t_userinfo
+        SET c_name=#{name},c_password=#{password},c_avatar=#{avatar},c_islock=#{isLock},c_level=#{level},c_companyid=#{companyId},c_organizationid=#{organizationId}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_userinfo SET 
+            c_name = CASE c_id
+            <foreach collection="userInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.name}
+            </foreach>
+            END
+            ,c_password = CASE c_id
+            <foreach collection="userInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.password}
+            </foreach>
+            END
+            ,c_avatar = CASE c_id
+            <foreach collection="userInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.avatar}
+            </foreach>
+            END
+            ,c_islock = CASE c_id
+            <foreach collection="userInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.isLock}
+            </foreach>
+            END
+            ,c_level = CASE c_id
+            <foreach collection="userInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.level}
+            </foreach>
+            END
+            ,c_companyid = CASE c_id
+            <foreach collection="userInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.companyId}
+            </foreach>
+            END
+            ,c_organizationid = CASE c_id
+            <foreach collection="userInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.organizationId}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="userInfoes" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.UserInfo">
+        INSERT INTO t_userinfo
+            (c_id,c_createtime,c_name,c_username,c_password,c_avatar,c_islock,c_level,c_companyid,c_organizationid)
+        VALUES
+            (#{id},#{createTime},#{name},#{username},#{password},#{avatar},#{isLock},#{level},#{companyId},#{organizationId})
+        ON DUPLICATE KEY UPDATE
+            c_name=#{name},c_password=#{password},c_avatar=#{avatar},c_islock=#{isLock},c_level=#{level},c_companyid=#{companyId},c_organizationid=#{organizationId}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_userinfo
+            (c_id,c_createtime,c_name,c_username,c_password,c_avatar,c_islock,c_level,c_companyid,c_organizationid)
+        VALUES
+        <foreach collection="userInfoes" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.name},#{item.username},#{item.password},#{item.avatar},#{item.isLock},#{item.level},#{item.companyId},#{item.organizationId})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_name=VALUES(c_name),c_password=VALUES(c_password),c_avatar=VALUES(c_avatar),c_islock=VALUES(c_islock),c_level=VALUES(c_level),c_companyid=VALUES(c_companyid),c_organizationid=VALUES(c_organizationid)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_userinfo
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_userinfo
+        WHERE c_id IN
+        <foreach collection="userInfoes" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_userinfo
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_userinfo
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_userinfo WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_userinfo
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_userinfo WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="userInfoDefaultMapping">
+        SELECT * FROM t_userinfo
+    </select>
+
+    <select id="getByProperty" resultMap="userInfoDefaultMapping">
+        SELECT * FROM t_userinfo WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="userInfoDefaultMapping">
+        SELECT * FROM t_userinfo
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="userInfoDefaultMapping">
+        ${sql}
+    </select>
+
+    <update id="updatePassword" parameterType="com.bjj.detect.entity.UserInfo">
+        UPDATE t_userinfo
+        SET c_password=#{password}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateNameAndAvatar" parameterType="com.bjj.detect.entity.UserInfo">
+        UPDATE t_userinfo
+        SET c_name=#{name},c_avatar=#{avatar}
+        WHERE c_id=#{id}
+    </update>
+
+    <!--</editor-fold>-->
+
+</mapper>

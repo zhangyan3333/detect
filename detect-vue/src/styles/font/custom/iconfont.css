@@ -1,0 +1,119 @@
+@font-face {
+  font-family: "Ionicons"; /* Project id 2723262 */
+  src: url('iconfont.woff2?t=1654452155357') format('woff2'),
+       url('iconfont.woff?t=1654452155357') format('woff'),
+       url('iconfont.ttf?t=1654452155357') format('truetype');
+}
+
+.Ionicons {
+  font-family: "Ionicons" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-online:before {
+  content: "\e627";
+}
+
+.icon-switch:before {
+  content: "\e78a";
+}
+
+.icon-point:before {
+  content: "\e610";
+}
+
+.icon-region:before {
+  content: "\e601";
+}
+
+.icon-device:before {
+  content: "\e655";
+}
+
+.icon-notice:before {
+  content: "\e678";
+}
+
+.icon-session:before {
+  content: "\e643";
+}
+
+.icon-server:before {
+  content: "\e7d8";
+}
+
+.icon-alarm:before {
+  content: "\e671";
+}
+
+.icon-infrared:before {
+  content: "\e629";
+}
+
+.icon-organization:before {
+  content: "\e611";
+}
+
+.icon-thread:before {
+  content: "\e6d8";
+}
+
+.icon-log:before {
+  content: "\e666";
+}
+
+.icon-setting:before {
+  content: "\e617";
+}
+
+.icon-user:before {
+  content: "\e60f";
+}
+
+.icon-system:before {
+  content: "\e616";
+}
+
+.icon-safe:before {
+  content: "\e60d";
+}
+
+.icon-role:before {
+  content: "\e623";
+}
+
+.icon-insert:before {
+  content: "\e64f";
+}
+
+.icon-password:before {
+  content: "\e603";
+}
+
+.icon-info:before {
+  content: "\e62d";
+}
+
+.icon-personal:before {
+  content: "\e789";
+}
+
+.icon-default-avatar:before {
+  content: "\e614";
+}
+
+.icon-task:before {
+  content: "\e65c";
+}
+
+.icon-monitor:before {
+  content: "\e63b";
+}
+
+.icon-usual:before {
+  content: "\e613";
+}
+
