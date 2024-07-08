@@ -66,11 +66,11 @@ class DetectApplicationTests {
 //			System.out.println( detail.toString() );
 //		}
 
-//		System.out.println("---------------------------------------------");
-//		for (Byte b : details.get(0).getBookWord()){
-//			System.out.print(b + " ");
-//		}
-//		System.out.println("---------------------------------------------");
+		System.out.println("---------------------------------------------");
+		for (Byte b : details.get(0).getBookWord()){
+			System.out.print(b + " ");
+		}
+		System.out.println("---------------------------------------------");
 //		System.out.println(details.get(0).getBookWord().toString());
 
 //		byte2image(details.get(0).getBookWord(),"d:\\bjjImages\\abc.jpg");
