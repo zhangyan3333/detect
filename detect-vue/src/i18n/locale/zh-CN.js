@@ -24,6 +24,11 @@ export default {
             session:'会话',
             thread:'线程'
         },
+        detect:{
+            self:'检定管理',
+            waitDetect:'待处理',
+            detectLedger:'检测台账'
+        },
         safe: {
             self: '安全监测',
             monitor:'实时监测',

@@ -2,6 +2,7 @@ import system from './modules/system';
 import setting from './modules/setting';
 import personal from './modules/personal';
 import BasicLayout from '@/layouts/basic-layout';
+import detect from '@/router/modules/detect';
 
 /**
  * 在主框架内显示
@@ -50,7 +51,8 @@ const frameIn = [
     },
     system,
     personal,
-    setting
+    setting,
+    detect
 ];
 
 /**
