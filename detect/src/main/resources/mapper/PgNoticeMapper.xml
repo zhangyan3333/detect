@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.PgNoticeDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="pgNoticeDefaultMapping" type="com.bjj.detect.entity.PgNotice">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_recordid" property="recordId"/>
+        <result column="c_metercustomer" property="meterCustomer"/>
+        <result column="c_metername" property="meterName"/>
+        <result column="c_metertype" property="meterType"/>
+        <result column="c_metercode" property="meterCode"/>
+        <result column="c_meterfactory" property="meterFactory"/>
+        <result column="c_sbasis" property="sBasis"/>
+        <result column="c_detectresult" property="detectResult"/>
+        <result column="c_approver" property="approver"/>
+        <result column="c_inspector" property="inspector"/>
+        <result column="c_verifier" property="verifier"/>
+        <result column="c_detectdate" property="detectDate"/>
+        <result column="c_certcode" property="certCode"/>
+        <result column="c_standardloc" property="standardLoc"/>
+        <result column="c_stemperature" property="sTemperature"/>
+        <result column="c_shumidity" property="sHumidity"/>
+        <result column="c_sname" property="sname"/>
+        <result column="c_srangel" property="sRangeL"/>
+        <result column="c_srangeh" property="sRangeH"/>
+        <result column="c_sresolution" property="sResolution"/>
+        <result column="c_sregulatecode" property="sRegulateCode"/>
+        <result column="c_sedate" property="sEdate"/>
+        <result column="c_mname" property="mname"/>
+        <result column="c_mrangel" property="mRangeL"/>
+        <result column="c_mrangeh" property="mRangeH"/>
+        <result column="c_mresolution" property="mResolution"/>
+        <result column="c_sfactory" property="sFactory"/>
+        <result column="c_sregulatebcode" property="sRegulateBcode"/>
+        <result column="c_sbdate" property="sBdate"/>
+        <result column="c_zeroerrormax" property="zeroErrorMax"/>
+        <result column="c_indicationerrormax" property="indicationErrorMax"/>
+        <result column="c_returnerrormax" property="returnErrorMax"/>
+        <result column="c_positionmax" property="positionMax"/>
+        <result column="c_unqualifieditem" property="UnqualifiedItem"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.PgNotice">
+        INSERT INTO t_pgnotice
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem)
+        VALUES
+            (#{id},#{createTime},#{recordId},#{meterCustomer},#{meterName},#{meterType},#{meterCode},#{meterFactory},#{sBasis},#{detectResult},#{approver},#{inspector},#{verifier},#{detectDate},#{certCode},#{standardLoc},#{sTemperature},#{sHumidity},#{sname},#{sRangeL},#{sRangeH},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRangeL},#{mRangeH},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{UnqualifiedItem})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_pgnotice
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem)
+        VALUES
+        <foreach collection="pgNotices" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.recordId},#{item.meterCustomer},#{item.meterName},#{item.meterType},#{item.meterCode},#{item.meterFactory},#{item.sBasis},#{item.detectResult},#{item.approver},#{item.inspector},#{item.verifier},#{item.detectDate},#{item.certCode},#{item.standardLoc},#{item.sTemperature},#{item.sHumidity},#{item.sname},#{item.sRangeL},#{item.sRangeH},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRangeL},#{item.mRangeH},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.UnqualifiedItem})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.PgNotice">
+        UPDATE t_pgnotice
+        SET c_recordid=#{recordId},c_metercustomer=#{meterCustomer},c_metername=#{meterName},c_metertype=#{meterType},c_metercode=#{meterCode},c_meterfactory=#{meterFactory},c_sbasis=#{sBasis},c_detectresult=#{detectResult},c_approver=#{approver},c_inspector=#{inspector},c_verifier=#{verifier},c_detectdate=#{detectDate},c_certcode=#{certCode},c_standardloc=#{standardLoc},c_stemperature=#{sTemperature},c_shumidity=#{sHumidity},c_sname=#{sname},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrangel=#{mRangeL},c_mrangeh=#{mRangeH},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_unqualifieditem=#{UnqualifiedItem}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_pgnotice SET 
+            c_recordid = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.recordId}
+            </foreach>
+            END
+            ,c_metercustomer = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterCustomer}
+            </foreach>
+            END
+            ,c_metername = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterName}
+            </foreach>
+            END
+            ,c_metertype = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterType}
+            </foreach>
+            END
+            ,c_metercode = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterCode}
+            </foreach>
+            END
+            ,c_meterfactory = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterFactory}
+            </foreach>
+            END
+            ,c_sbasis = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sBasis}
+            </foreach>
+            END
+            ,c_detectresult = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.detectResult}
+            </foreach>
+            END
+            ,c_approver = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.approver}
+            </foreach>
+            END
+            ,c_inspector = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.inspector}
+            </foreach>
+            END
+            ,c_verifier = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.verifier}
+            </foreach>
+            END
+            ,c_detectdate = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.detectDate}
+            </foreach>
+            END
+            ,c_certcode = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.certCode}
+            </foreach>
+            END
+            ,c_standardloc = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.standardLoc}
+            </foreach>
+            END
+            ,c_stemperature = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sTemperature}
+            </foreach>
+            END
+            ,c_shumidity = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sHumidity}
+            </foreach>
+            END
+            ,c_sname = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sname}
+            </foreach>
+            END
+            ,c_srangel = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRangeL}
+            </foreach>
+            END
+            ,c_srangeh = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRangeH}
+            </foreach>
+            END
+            ,c_sresolution = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sResolution}
+            </foreach>
+            END
+            ,c_sregulatecode = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRegulateCode}
+            </foreach>
+            END
+            ,c_sedate = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sEdate}
+            </foreach>
+            END
+            ,c_mname = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mname}
+            </foreach>
+            END
+            ,c_mrangel = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mRangeL}
+            </foreach>
+            END
+            ,c_mrangeh = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mRangeH}
+            </foreach>
+            END
+            ,c_mresolution = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mResolution}
+            </foreach>
+            END
+            ,c_sfactory = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sFactory}
+            </foreach>
+            END
+            ,c_sregulatebcode = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRegulateBcode}
+            </foreach>
+            END
+            ,c_sbdate = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sBdate}
+            </foreach>
+            END
+            ,c_zeroerrormax = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.zeroErrorMax}
+            </foreach>
+            END
+            ,c_indicationerrormax = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.indicationErrorMax}
+            </foreach>
+            END
+            ,c_returnerrormax = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.returnErrorMax}
+            </foreach>
+            END
+            ,c_positionmax = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionMax}
+            </foreach>
+            END
+            ,c_unqualifieditem = CASE c_id
+            <foreach collection="pgNotices" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.UnqualifiedItem}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="pgNotices" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.PgNotice">
+        INSERT INTO t_pgnotice
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem)
+        VALUES
+            (#{id},#{createTime},#{recordId},#{meterCustomer},#{meterName},#{meterType},#{meterCode},#{meterFactory},#{sBasis},#{detectResult},#{approver},#{inspector},#{verifier},#{detectDate},#{certCode},#{standardLoc},#{sTemperature},#{sHumidity},#{sname},#{sRangeL},#{sRangeH},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRangeL},#{mRangeH},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{UnqualifiedItem})
+        ON DUPLICATE KEY UPDATE
+            c_recordid=#{recordId},c_metercustomer=#{meterCustomer},c_metername=#{meterName},c_metertype=#{meterType},c_metercode=#{meterCode},c_meterfactory=#{meterFactory},c_sbasis=#{sBasis},c_detectresult=#{detectResult},c_approver=#{approver},c_inspector=#{inspector},c_verifier=#{verifier},c_detectdate=#{detectDate},c_certcode=#{certCode},c_standardloc=#{standardLoc},c_stemperature=#{sTemperature},c_shumidity=#{sHumidity},c_sname=#{sname},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrangel=#{mRangeL},c_mrangeh=#{mRangeH},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_unqualifieditem=#{UnqualifiedItem}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_pgnotice
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem)
+        VALUES
+        <foreach collection="pgNotices" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.recordId},#{item.meterCustomer},#{item.meterName},#{item.meterType},#{item.meterCode},#{item.meterFactory},#{item.sBasis},#{item.detectResult},#{item.approver},#{item.inspector},#{item.verifier},#{item.detectDate},#{item.certCode},#{item.standardLoc},#{item.sTemperature},#{item.sHumidity},#{item.sname},#{item.sRangeL},#{item.sRangeH},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRangeL},#{item.mRangeH},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.UnqualifiedItem})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_recordid=VALUES(c_recordid),c_metercustomer=VALUES(c_metercustomer),c_metername=VALUES(c_metername),c_metertype=VALUES(c_metertype),c_metercode=VALUES(c_metercode),c_meterfactory=VALUES(c_meterfactory),c_sbasis=VALUES(c_sbasis),c_detectresult=VALUES(c_detectresult),c_approver=VALUES(c_approver),c_inspector=VALUES(c_inspector),c_verifier=VALUES(c_verifier),c_detectdate=VALUES(c_detectdate),c_certcode=VALUES(c_certcode),c_standardloc=VALUES(c_standardloc),c_stemperature=VALUES(c_stemperature),c_shumidity=VALUES(c_shumidity),c_sname=VALUES(c_sname),c_srangel=VALUES(c_srangel),c_srangeh=VALUES(c_srangeh),c_sresolution=VALUES(c_sresolution),c_sregulatecode=VALUES(c_sregulatecode),c_sedate=VALUES(c_sedate),c_mname=VALUES(c_mname),c_mrangel=VALUES(c_mrangel),c_mrangeh=VALUES(c_mrangeh),c_mresolution=VALUES(c_mresolution),c_sfactory=VALUES(c_sfactory),c_sregulatebcode=VALUES(c_sregulatebcode),c_sbdate=VALUES(c_sbdate),c_zeroerrormax=VALUES(c_zeroerrormax),c_indicationerrormax=VALUES(c_indicationerrormax),c_returnerrormax=VALUES(c_returnerrormax),c_positionmax=VALUES(c_positionmax),c_unqualifieditem=VALUES(c_unqualifieditem)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_pgnotice
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_pgnotice
+        WHERE c_id IN
+        <foreach collection="pgNotices" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_pgnotice
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_pgnotice
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_pgnotice WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_pgnotice
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_pgnotice WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="pgNoticeDefaultMapping">
+        SELECT * FROM t_pgnotice
+    </select>
+
+    <select id="getByProperty" resultMap="pgNoticeDefaultMapping">
+        SELECT * FROM t_pgnotice WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="pgNoticeDefaultMapping">
+        SELECT * FROM t_pgnotice
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="pgNoticeDefaultMapping">
+        ${sql}
+    </select>
+
+    <!--</editor-fold>-->
+
+</mapper>

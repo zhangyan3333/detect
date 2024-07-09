@@ -11,20 +11,23 @@ import java.util.Date;
 @Setter
 public class StandardMeter {
 	private int sid;
-	private String sname;   // 名称
-	private String sunit;   // 规格型号
-	private String scode;   // 出厂编号
-	private String sRegulateCode;    // 计量编号
-	private String sFactory;  // 厂家
-	private String sResolution;   // 准确度等级
+//	private String sname;   // 名称
+//	private String scode;   // 出厂编号
+//	private String sResolution;   // 准确度等级
+//	private String sRangeL;
+//	private String sRangeH;
+//	private Date sEdate;
+
+//	private String sRegulateCode;    // 计量编号
+//	private String sFactory;  // 厂家
+//	private String sRegulateBcode;   // 计量证书编号
+//  private Date sBdate;
+
 	private String sAccuracy;
-	private String sRegulateBcode;   // 计量证书编号
 	private String sDivisionNo;    // 分度号
-	private String sRangeL;
-	private String sRangeH;
 	private String sRangeUnit;
-	private Date sBdate;
-	private Date sEdate;
+	private String sunit;   // 规格型号
+
 	private int sModule;
 	private BigDecimal rtp;
 	private BigDecimal ra;

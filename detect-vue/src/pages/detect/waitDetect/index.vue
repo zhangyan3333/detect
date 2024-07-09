@@ -3,7 +3,7 @@
 		<div>
 			<Row style="margin-bottom: 5px;">
 				<Col flex="100px">
-					<Button type="success" icon="md-add" @click="modalShow(-1)" long>{{ '申请' }}</Button>
+					<Button type="success" icon="md-add" @click="modalShow(-1)" long>{{ '同步检定数据' }}</Button>
 				</Col>
 				<Col flex="auto">
 				</Col>
@@ -59,9 +59,8 @@
 					<Tag v-if="row.status === 1" color="gray">冻结</Tag>
 				</template>
 				<template slot-scope ="{ row, index }" slot="action">
-					<Button v-if="row.status != '1'" type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '编辑' }}</Button>
-					<Button v-if="row.status != '1' && row.state == 1001" type="info" size="small" style="margin-right: 10px" @click="reState(index)">{{ '撤回' }}</Button>
-					<Button v-if="row.status != '1' && row.changeState == 1" type="info" size="small" style="margin-right: 10px" @click="reChange(index)">{{ '撤回' }}</Button>
+					<Button  type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '编辑' }}</Button>
+					<Button  type="info" size="small" style="margin-right: 10px" @click="reState(index)">{{ '撤回' }}</Button>
 				</template>
 			</Table>
 			<Page style="margin-top: 10px" :total="queryResult.count" :page-size="entityQuery.pageSize" :current="entityQuery.pageIndex"
@@ -258,18 +257,17 @@ import { mapState, mapActions } from 'vuex';
 import dayjs from 'dayjs';
 import { deepClone, format, getProjectUrl } from '@/libs/system/commonUtil';
 import {deleteFile, entityRequest, requestHandle} from '@/libs/system/requestUtil';
-import { organizationToNodeMapping, entityTreeToNodeTree } from '@/libs/system/treeUtil';
 import util from "@/libs/util";
 import {UpdateToken} from "@api/account";
 // import fileList from '../../project/projectLaborCompany/file-list'
 
 export default {
 	name: 'laborCompany-laborCompanyInfo',
-	components:{ fileList },
+	// components:{ fileList },
 	data() {
 		let _this = this;
 		return {
-			apiBasePath: 'laborCompanies',
+			apiBasePath: 'detect',
 			uploadUrl:'',
 			headers: {
 				'Authorization': 'Bearer ' + util.cookies.get('token')
@@ -300,7 +298,7 @@ export default {
 					align: 'center',
 					isShow: true
 				}, {
-					title: '分包企业名称',
+					title: '送检单位',
 					key: 'name',
 					minWidth: 300,
 					isShow: true
@@ -315,12 +313,6 @@ export default {
 					minWidth: 200,
 					isShow: true
 				},
-				// {
-				// 	title: '营业执照有效期',
-				// 	key: 'codeTerm',
-				// 	minWidth: 140,
-				// 	isShow: true
-				// },
 				{
 					title: '公司法人',
 					key: 'ownerName',
@@ -486,46 +478,19 @@ export default {
 				count: 0,
 				entities: []
 			},
-			organizations: [],
-			roles: [],
 			ruleValidate: {
-				name: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				createOrgName: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				code: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				codeTerm: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				ownerName: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				qualificationType: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				companyTel: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				leaderName: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				leaderTel: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				certCode: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				safetyCode: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				certTerm: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-				safetyTerm: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
-			},
-			data: {
-				name: '',
-				status1: '',
-				count: null,
-				date: '',
-				status2: '',
-				status3: ''
-			},
+
+			}
 		}
 	},
 	mounted() {
 		this.entityQuery.roles = this.info.roles;
-		this.entityQuery.showAll = 1;
-		this.entityQuery.type = 0 ;
-		this.entityQuery.status = -1 ;
-		this.entityQuery.state = -1 ;
-		this.entityQuery.organizationId = this.info.organizationId;
 		this.entityQuery.sortOrder = 'desc';
 		this.entityQuery.sortKey = 'state';
-		this.query();
-		requestHandle(UpdateToken(), () => {
-			this.uploadUrl = getProjectUrl('api/basicfile');
-		});
+		// this.query();
+		// requestHandle(UpdateToken(), () => {
+		// 	this.uploadUrl = getProjectUrl('api/basicfile');
+		// });
 	},
 	computed: {
 		...mapState('admin/user', [
@@ -579,13 +544,13 @@ export default {
 			conFile.loadUserName = this.info.name;
 			// conFile.lineProjectId = util.cookies.get('projectId');
 
-			entityRequest('insert', 'contractFiles', conFile,
-					// 第四个参数, onSuccess
-					this.query,
-					// 第五个参数, onFinish
-					() => {
-						this.isShowFileModel = false;
-					});
+			// entityRequest('insert', 'contractFiles', conFile,
+			// 		// 第四个参数, onSuccess
+			// 		this.query,
+			// 		// 第五个参数, onFinish
+			// 		() => {
+			// 			this.isShowFileModel = false;
+			// 		});
 		},
 		onFormatError(file) {
 			this.$Message.error({
@@ -646,188 +611,47 @@ export default {
 			this.$refs.fileList.show(4,entity);
 		},
 		modalShow(index) {
-			this.reportFile = '';
-			this.reviewFile = '';
-			this.addFile = '';
-			this.selectIndex = index;
 			this.entity = index < 0 ? {} : deepClone(this.queryResult.entities[index]);
-			this.entity.permitInfo = this.entity.permitUserName +':' + this.entity.permitAdvice;
 			if( this.entity.state == 1001 ){
-				this.$Message.error({
-					background: true,
-					content: '当前公司正在进行准入审批，请等待审批完成后再进行操作',
-					duration: 5
-				});
-			}else {
+			// 	this.$Message.error({
+			// 		background: true,
+			// 		content: '当前公司正在进行准入审批，请等待审批完成后再进行操作',
+			// 		duration: 5
+			// 	});
+			// }else {
 				if (index < 0){  // 初始化添加填报信息
-					this.entity.createUserid = util.cookies.get('uuid');
-					this.entity.createUsername = this.info.name;
-					this.entity.createOrgName = this.info.organizationName;
-					this.entity.createOrgId = this.info.organizationId;
-					this.entity.type = 0;  //劳务分包企业
-					this.entity.status = 0;  //劳务分包企业现状  0正常 1冻结
-					//state 为企业申请状态 1001申请中 1002申请失败返回申请人 1003申请通过 1004撤销申请
-					this.entity.state = 1001;  //进入提交状态
+
 				}
 				this.isShowModel = true;
-				// setTimeout(() => {
-				// 	this.$refs.formValidate.resetFields();
-				// }, 10);
-
 			}
 		},
 		reState(index){
 			this.entity = index < 0 ? {} : deepClone(this.queryResult.entities[index]);//获取更新的企业
 			this.entity.state = 1002;         //修改更新状态为正常
-			entityRequest('update', 'laborCompanies', this.entity,
-					// 第四个参数, onSuccess
-					this.query,null,null,false)
-		},
-		reChange(index){
-			this.entity = index < 0 ? {} : deepClone(this.queryResult.entities[index]);
-			this.entity.changeState = 3;
-			entityRequest('update', 'laborCompanies', this.entity,
-					// 第四个参数, onSuccess
-					this.query,null,null,false)
+			// entityRequest('update', 'laborCompanies', this.entity,
+			// 		// 第四个参数, onSuccess
+			// 		this.query,null,null,false)
 		},
 		modalOk() {
-			entityRequest('get','flowUsers',null,
-					(response)=>{
-						if (response.data.length > 0){
-							let flowUsers = response.data;
-							for (let i = 0; i < flowUsers.length; i++) {
-								if (flowUsers[i].type == '1'){
-									this.entity.handleUserId = flowUsers[i].handleUserId;
-									this.entity.handleUserName = flowUsers[i].handleUserName;
-								}
-							}
-						}
-					},
-					()=>{
-						this.$refs.formValidate.validate((valid) => {
-							if (valid) {
-								this.$Modal.confirm({
-									title: '提交审批',
-									content: '点击确定后将提交审批',
-									onOk: () => {
-										this.entity.changeAdvice = '';
-										// 营业执照有效期不需要输入，改为默认
-										// this.entity.codeTerm = dayjs(this.entity.codeTerm).format('YYYY-MM-DD');
-										this.entity.codeTerm = '2099-01-01';
-										let certTimes = '';
-										if (this.entity.certTerm.length > 0){
-											for (let i = 0; i < this.entity.certTerm.length; i++) {
-												if (i == this.entity.certTerm.length - 1){
-													certTimes += dayjs(this.entity.certTerm[i]).format('YYYY-MM-DD');
-												}else {
-													certTimes += dayjs(this.entity.certTerm[i]).format('YYYY-MM-DD')+',';
-												}
-											}
-										}
-										this.entity.certTerm = certTimes;
-										this.entity.safetyTerm = dayjs(this.entity.safetyTerm).format('YYYY-MM-DD');
-										// this.entity.ownerName = '0'; //删除信息
-										// this.entity.companyTel = '0';//删除信息
 
-
-										let id = this.entity.id;
-
-										entityRequest('get','flowUsers',null,)
-
-										if (this.selectIndex < 0 || this.entity.state == 1002 ){
-											if (this.entity.state == 1002){ // 如果之前被驳回，现在重新审批
-												this.entity.state = 1001;
-												// this.entity.handleUserId = this.entity.handleUserId;
-												// this.entity.handleUserName = $t('config.companyCheck.checkUserName');
-												entityRequest('update', this.apiBasePath, this.entity,
-														// 第四个参数, onSuccess
-														this.query,
-														// 第五个参数, onFinish
-														() => {
-															this.isShowModel = false;
-														});
-											}else {
-												this.entity.state = 1001;
-												// this.entity.handleUserId = $t('config.companyCheck.checkUserId');
-												// this.entity.handleUserName = $t('config.companyCheck.checkUserName');
-												entityRequest('insert', this.apiBasePath, this.entity,
-														// 第四个参数, onSuccess
-														this.query,
-														// 第五个参数, onFinish
-														() => {
-															this.isShowModel = false;
-														},()=>{
-
-														});
-											}
-										}else {
-											this.entity.state = 1001;
-											this.entity.lineId = id;
-											this.entity.id = new Date().getTime();
-											this.entity.modifyUsername = this.info.name;
-											this.entity.modifyDate = dayjs(new Date()).format('YYYY-MM-DD');
-
-											entityRequest('insert', 'laborCompanyChanges', this.entity,
-													// 第四个参数, onSuccess
-													this.query,
-													// 第五个参数, onFinish
-													() => {
-														this.isShowModel = false;
-													});
-										}
-									},
-									onCancel:()=>{
-										// 取消按钮的loading状态
-										// 因为表单的校验，会导致确定之后，按钮会进入loading状态
-										// 所以要在验证不通过的时候取消loading状态
-										this.modalLoading = false;
-										setTimeout(() => {
-											this.modalLoading = true;
-										}, 0);
-									}
-								})
-							} else {
-								// 取消按钮的loading状态
-								// 因为表单的校验，会导致确定之后，按钮会进入loading状态
-								// 所以要在验证不通过的时候取消loading状态
-								this.modalLoading = false;
-								setTimeout(() => {
-									this.modalLoading = true;
-								}, 0);
-							}
-						});
-					}
-			)
 		},
 		modalCancel() {
 			this.isShowModel = false;
 		},
 		query() {
 			this.tableLoading = true;
-			entityRequest('page', this.apiBasePath, this.entityQuery,
-					// 第四个参数, onSuccess
-					(response) => {
-						this.queryResult.count = response.data.count;
-						this.queryResult.entities = response.data.entities;
-					},
-					// 第五个参数, onFinish
-					() => {
-						this.tableLoading = false;
-					});
-		},
-		loadOrganizations(){
-			entityRequest('get', 'organizations', this.info.organizationId,
-					// 第四个参数, onSuccess
-					(response) => {
-						this.organizations = entityTreeToNodeTree(response.data, organizationToNodeMapping);
-					});
-		},
-		loadRoles(){
-			entityRequest('get', 'roles', undefined,
-					// 第四个参数, onSuccess
-					(response) => {
-						this.roles = response.data;
-					});
+			this.queryResult.count = 0;
+			this.queryResult.entities = [];
+			// entityRequest('page', this.apiBasePath, this.entityQuery,
+			// 		// 第四个参数, onSuccess
+			// 		(response) => {
+			// 			this.queryResult.count = response.data.count;
+			// 			this.queryResult.entities = response.data.entities;
+			// 		},
+			// 		// 第五个参数, onFinish
+			// 		() => {
+			// 			this.tableLoading = false;
+			// 		});
 		},
 		getProjectUrl
 	}

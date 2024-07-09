@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.PgInfoDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="pgInfoDefaultMapping" type="com.bjj.detect.entity.PgInfo">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_pgrecordid" property="pgRecordId"/>
+        <result column="c_spressure" property="sPressure"/>
+        <result column="c_strikeup" property="strikeUp"/>
+        <result column="c_strikedown" property="strikeDown"/>
+        <result column="c_positionup" property="positionUp"/>
+        <result column="c_positiondown" property="positionDown"/>
+        <result column="c_indicationerror" property="indicationError"/>
+        <result column="c_returnerror" property="returnError"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.PgInfo">
+        INSERT INTO t_pginfo
+            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+        VALUES
+            (#{id},#{createTime},#{pgRecordId},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_pginfo
+            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+        VALUES
+        <foreach collection="pgInfoes" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.pgRecordId},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.PgInfo">
+        UPDATE t_pginfo
+        SET c_pgrecordid=#{pgRecordId},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_pginfo SET 
+            c_pgrecordid = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.pgRecordId}
+            </foreach>
+            END
+            ,c_spressure = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sPressure}
+            </foreach>
+            END
+            ,c_strikeup = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.strikeUp}
+            </foreach>
+            END
+            ,c_strikedown = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.strikeDown}
+            </foreach>
+            END
+            ,c_positionup = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionUp}
+            </foreach>
+            END
+            ,c_positiondown = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionDown}
+            </foreach>
+            END
+            ,c_indicationerror = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.indicationError}
+            </foreach>
+            END
+            ,c_returnerror = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.returnError}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="pgInfoes" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.PgInfo">
+        INSERT INTO t_pginfo
+            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+        VALUES
+            (#{id},#{createTime},#{pgRecordId},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError})
+        ON DUPLICATE KEY UPDATE
+            c_pgrecordid=#{pgRecordId},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_pginfo
+            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+        VALUES
+        <foreach collection="pgInfoes" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.pgRecordId},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_pgrecordid=VALUES(c_pgrecordid),c_spressure=VALUES(c_spressure),c_strikeup=VALUES(c_strikeup),c_strikedown=VALUES(c_strikedown),c_positionup=VALUES(c_positionup),c_positiondown=VALUES(c_positiondown),c_indicationerror=VALUES(c_indicationerror),c_returnerror=VALUES(c_returnerror)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_pginfo
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_pginfo
+        WHERE c_id IN
+        <foreach collection="pgInfoes" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_pginfo
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_pginfo
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_pginfo WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_pginfo
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_pginfo WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="pgInfoDefaultMapping">
+        SELECT * FROM t_pginfo
+    </select>
+
+    <select id="getByProperty" resultMap="pgInfoDefaultMapping">
+        SELECT * FROM t_pginfo WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="pgInfoDefaultMapping">
+        SELECT * FROM t_pginfo
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="pgInfoDefaultMapping">
+        ${sql}
+    </select>
+
+    <!--</editor-fold>-->
+
+</mapper>
