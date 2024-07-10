@@ -1,0 +1,8 @@
+# initializer
+org.springframework.context.ApplicationContextInitializer=\
+com.bjj.detect.gptest.InitTest
+
+
+# listener
+org.springframework.context.ApplicationListener=\
+com.bjj.detect.gptest.ListenTest
