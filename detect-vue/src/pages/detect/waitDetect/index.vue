@@ -303,54 +303,54 @@ export default {
 					minWidth: 300,
 					isShow: true
 				},{
-					title: '申报单位',
+					title: '器具名称',
 					key: 'createOrgName',
 					minWidth: 200,
 					isShow: true
 				},{
-					title: '统一社会信用代码',
+					title: '型号规格',
 					key: 'code',
 					minWidth: 200,
 					isShow: true
 				},
 				{
-					title: '公司法人',
+					title: '出厂编号',
 					key: 'ownerName',
 					minWidth: 100,
 					isShow: true
 				}, {
-					title: '法人身份证',
+					title: '制造单位',
 					key: 'companyTel',
 					minWidth: 160,
 					isShow: true
 				},
 				{
-					title: '联系人',
+					title: '检定结论',
 					key: 'leaderName',
 					minWidth: 100,
 					isShow: true
 				}, {
-					title: '联系方式',
+					title: '检定原始记录',
 					key: 'leaderTel',
 					minWidth: 160,
 					isShow: true
 				}, {
-					title: '资质类别',
+					title: '结果文件',
 					key: 'qualificationType',
 					minWidth: 400,
 					isShow: true
 				}, {
-					title: '资质证书编号',
+					title: '批准人',
 					key: 'certCode',
 					minWidth: 150,
 					isShow: true
 				},  {
-					title: '资质证书有效期',
+					title: '核验员',
 					key: 'certTerm',
 					minWidth: 150,
 					isShow: true
 				},  {
-					title: '安全许可证编号',
+					title: '检定员',
 					key: 'safetyCode',
 					minWidth: 150,
 					isShow: true
