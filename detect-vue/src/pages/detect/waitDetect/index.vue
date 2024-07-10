@@ -7,9 +7,9 @@
 				</Col>
 				<Col flex="auto">
 				</Col>
-				<Col style="margin-left: 20px" flex="500px">
-					<Input search placeholder='可搜索劳务公司名称或申报单位名称' v-model="entityQuery.fullSearch" @on-search="query" />
-				</Col>
+<!--				<Col style="margin-left: 20px" flex="500px">-->
+<!--					<Input search placeholder='可搜索器具名称' v-model="entityQuery.fullSearch" @on-search="query" />-->
+<!--				</Col>-->
 				<Col flex="20px">
 					<Dropdown trigger="click" style="margin-top: 5px">
 						<Tooltip class="ivu-ml" :content="$t('page.common.columnSetting')" placement="top">
@@ -36,28 +36,12 @@
 				</template>
 
 				<!-- 这里添加订制列 -->
-				<template slot-scope="{ row }" slot="companyLevel">
-					<Tag v-if="row.level === 'A'" color="blue">A</Tag>
-					<Tag v-if="row.level === 'B'" color="blue">B</Tag>
-					<Tag v-if="row.level === 'C'" color="blue">C</Tag>
-				</template>
-				<!-- state 为企业申请状态 1001申请中 1002申请失败返回申请人 1003申请通过 1004撤销申请 -->
-				<template slot-scope="{ row }" slot="state">
-					<Tag v-if="row.state === 1001" color="blue">审批中</Tag>
-					<Tag v-if="row.state === 1002" color="red">驳回</Tag>
-					<Tag v-if="row.state === 1003" color="green">通过</Tag>
-					<Tag v-if="row.state === 1004" color="gray">撤回</Tag>
-				</template>
-				<template slot-scope="{ row }" slot="changeState">
-					<Tag v-if="row.changeState === 0" color="green">正常</Tag>
-					<Tag v-if="row.changeState === 1" color="blue">审批中</Tag>
-					<Tag v-if="row.changeState === 2" color="red">驳回</Tag>
-					<Tag v-if="row.changeState === 3" color="gray">撤销</Tag>
-				</template>
-				<template slot-scope="{ row }" slot="status">
-					<Tag v-if="row.status === 0" color="green">正常</Tag>
-					<Tag v-if="row.status === 1" color="gray">冻结</Tag>
-				</template>
+<!--				<template slot-scope="{ row }" slot="companyLevel">-->
+<!--					<Tag v-if="row.level === 'A'" color="blue">A</Tag>-->
+<!--					<Tag v-if="row.level === 'B'" color="blue">B</Tag>-->
+<!--					<Tag v-if="row.level === 'C'" color="blue">C</Tag>-->
+<!--				</template>-->
+
 				<template slot-scope ="{ row, index }" slot="action">
 					<Button  type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '编辑' }}</Button>
 					<Button  type="info" size="small" style="margin-right: 10px" @click="reState(index)">{{ '撤回' }}</Button>
@@ -248,7 +232,8 @@
 			</Modal>
 		</div>
 
-		<file-list ref="fileList"/>
+<!--		<file-list ref="fileList"/>-->
+		<detect-info ref="detectInfo"/>
 	</Card>
 </template>
 
@@ -258,12 +243,12 @@ import dayjs from 'dayjs';
 import { deepClone, format, getProjectUrl } from '@/libs/system/commonUtil';
 import {deleteFile, entityRequest, requestHandle} from '@/libs/system/requestUtil';
 import util from "@/libs/util";
-import {UpdateToken} from "@api/account";
+import detectInfo from '@/pages/detect/waitDetect/detectInfo';
 // import fileList from '../../project/projectLaborCompany/file-list'
 
 export default {
 	name: 'laborCompany-laborCompanyInfo',
-	// components:{ fileList },
+	components:{ detectInfo },
 	data() {
 		let _this = this;
 		return {
@@ -297,99 +282,72 @@ export default {
 					fixed: 'left',
 					align: 'center',
 					isShow: true
-				}, {
-					title: '送检单位',
-					key: 'name',
-					minWidth: 300,
-					isShow: true
 				},{
 					title: '器具名称',
-					key: 'createOrgName',
+					key: 'meterType',
 					minWidth: 200,
+					align: 'center',
 					isShow: true
 				},{
 					title: '型号规格',
-					key: 'code',
+					key: 'meterName',
 					minWidth: 200,
+					align: 'center',
 					isShow: true
-				},
-				{
+				}, {
+					title: '送检单位',
+					key: 'meterCustomer',
+					minWidth: 300,
+					align: 'center',
+					isShow: true
+				}, {
 					title: '出厂编号',
-					key: 'ownerName',
+					key: 'meterCode',
 					minWidth: 100,
+					align: 'center',
 					isShow: true
 				}, {
 					title: '制造单位',
-					key: 'companyTel',
-					minWidth: 160,
+					key: 'meterFactory',
+					align: 'center',
+					minWidth: 300,
 					isShow: true
 				},
 				{
 					title: '检定结论',
 					key: 'leaderName',
 					minWidth: 100,
+					align: 'center',
 					isShow: true
 				}, {
 					title: '检定原始记录',
 					key: 'leaderTel',
-					minWidth: 160,
+					minWidth: 200,
+					align: 'center',
+					render: function (h, {row,index}) {
+						return [h('a', {
+							style:{
+								marginRight : '20px'
+							},
+							on: {
+								click: (val) => {
+									_this.$refs.detectInfo.isShowView = true;
+								}
+							}
+						},'查看'),h('a', {
+							on: {
+								click: (val) => {
+									window.open(getProjectUrl(row.filePath));
+								}
+							}
+						},'     导出')]
+					},
 					isShow: true
 				}, {
 					title: '结果文件',
 					key: 'qualificationType',
-					minWidth: 400,
-					isShow: true
-				}, {
-					title: '批准人',
-					key: 'certCode',
-					minWidth: 150,
-					isShow: true
-				},  {
-					title: '核验员',
-					key: 'certTerm',
-					minWidth: 150,
-					isShow: true
-				},  {
-					title: '检定员',
-					key: 'safetyCode',
-					minWidth: 150,
-					isShow: true
-				},  {
-					title: '安全许可证有效期',
-					key: 'safetyTerm',
-					minWidth: 150,
-					isShow: true
-				},{
-					title: '准入申报材料',
-					key: 'reportFile',
+					minWidth: 200,
 					align: 'center',
-					minWidth: 140,
-					isShow: true,
-					render: function (h, {row,index}) {
-						// console.log(row.reportFile)
-						return [h('a', {
-							on: {
-								click: (val) => {
-									if (row.reportFile != null){
-										window.open(getProjectUrl(row.reportFile));
-									}else {
-										_this.$Message.error({
-											background: true,
-											content: '当前公司未上传准入申报材料',
-											duration: 5
-										});
-									}
-
-								}
-							}
-						},'查看')]
-					}
-				}, {
-					title: '准入评审材料',
-					key: 'reviewFile',
-					align: 'center',
-					minWidth: 140,
-					isShow: true,
 					render: function (h, {row,index}) {
 						return [h('a', {
 							on: {
@@ -406,55 +364,29 @@ export default {
 								}
 							}
 						},'查看')]
-					}
+					},
+					isShow: true
 				}, {
-					title: '补充资料',
-					key: 'addFile',
+					title: '批准人',
+					key: 'certCode',
+					minWidth: 150,
 					align: 'center',
-					minWidth: 140,
-					isShow: true,
-					render: function (h, {row,index}) {
-						return [h('a', {
-							on: {
-								click: (val) => {
-									_this.$refs.fileList.show(4,row);
-								}
-							}
-						},'查看')]
-					}
-				},{
-					title: '公司评级',
+					isShow: true
+				},  {
+					title: '核验员',
+					key: 'certTerm',
+					minWidth: 150,
 					align: 'center',
-					slot: 'companyLevel',
-					minWidth: 100,
 					isShow: true
-				},{
-					title: '企业状态',
-					key: 'status',
-					slot: 'status',
-					minWidth: 100,
-					isShow: true
-				},{
-					title: '准入状态',
-					key: 'state',
-					slot: 'state',
-					minWidth: 100,
-					isShow: true
-				},{
-					title: '更新状态',
-					key: 'changeState',
-					slot: 'changeState',
-					minWidth: 100,
-					isShow: true
-				},{
-					title: '待审批人员',
-					key: 'handleUserName',
+				},  {
+					title: '检定员',
+					key: 'safetyCode',
+					minWidth: 150,
 					align: 'center',
-					minWidth: 200,
 					isShow: true
 				},{
-					title: '审批意见',
-					key: 'permitAdvice',
+					title: '备注',
+					key: 'remark',
 					align: 'center',
 					minWidth: 200,
 					isShow: true
@@ -487,7 +419,7 @@ export default {
 		this.entityQuery.roles = this.info.roles;
 		this.entityQuery.sortOrder = 'desc';
 		this.entityQuery.sortKey = 'state';
-		// this.query();
+		this.query();
 		// requestHandle(UpdateToken(), () => {
 		// 	this.uploadUrl = getProjectUrl('api/basicfile');
 		// });
@@ -640,18 +572,28 @@ export default {
 		},
 		query() {
 			this.tableLoading = true;
-			this.queryResult.count = 0;
-			this.queryResult.entities = [];
-			// entityRequest('page', this.apiBasePath, this.entityQuery,
-			// 		// 第四个参数, onSuccess
-			// 		(response) => {
-			// 			this.queryResult.count = response.data.count;
-			// 			this.queryResult.entities = response.data.entities;
-			// 		},
-			// 		// 第五个参数, onFinish
-			// 		() => {
-			// 			this.tableLoading = false;
-			// 		});
+
+			entityRequest('page', this.apiBasePath, this.entityQuery,
+					// 第四个参数, onSuccess
+					(response) => {
+						this.queryResult.count = response.data.count;
+						console.log(this.entityQuery.pageIndex , this.entityQuery.pageSize)
+						let entities = response.data.entities;
+
+						let result = [];
+						let index = this.entityQuery.pageIndex;
+						let size = this.entityQuery.pageSize;
+
+						for (let i = (index-1) *size; i < (index-1) *size + size && i < entities.length; i++) {
+							result.push(entities[i]);
+						}
+
+						this.queryResult.entities = result;
+					},
+					// 第五个参数, onFinish
+					() => {
+						this.tableLoading = false;
+					});
 		},
 		getProjectUrl
 	}

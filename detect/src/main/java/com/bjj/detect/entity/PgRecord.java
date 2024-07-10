@@ -71,7 +71,7 @@ public class PgRecord extends AbstractEntity {
 
 	// 冗余字段
 	private String meterName;  // 器具名称
-								// 规格型号未知
+	private String meterType;  // 规格型号未知
 
 	private String resultFile; // 结果文件地址
 	private String recordFile;  // 记录文件地址

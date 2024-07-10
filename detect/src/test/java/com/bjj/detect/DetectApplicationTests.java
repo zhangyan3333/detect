@@ -28,7 +28,7 @@ class DetectApplicationTests {
 		List<DetectedDetail> details = new ArrayList<>();
 
 		Connection conn = sqlConnect.connect();
-		String sql = "select * from Tbl_DetectedDetail";
+		String sql = "select * from Tbl_DetectedDetail order by ddate desc";
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 
@@ -37,8 +37,8 @@ class DetectApplicationTests {
 			detail.setDid(rs.getInt("did"));
 			detail.setMid(rs.getInt("mid"));
 			detail.setDdate(rs.getDate("ddate"));
-			detail.setBookWord(rs.getBytes("bookWord"));
-			detail.setBookJl(rs.getBytes("bookJl"));
+//			detail.setBookWord(rs.getBytes("bookWord"));
+//			detail.setBookJl(rs.getBytes("bookJl"));
 			detail.setMeterResault(rs.getInt("meterResault"));
 			detail.setMeterRlaCode(rs.getString("meterRlaCode"));
 			detail.setMeterRlaType(rs.getString("meterRlaType"));
@@ -66,11 +66,11 @@ class DetectApplicationTests {
 //			System.out.println( detail.toString() );
 //		}
 
-		System.out.println("---------------------------------------------");
-		for (Byte b : details.get(0).getBookWord()){
-			System.out.print(b + " ");
-		}
-		System.out.println("---------------------------------------------");
+//		System.out.println("---------------------------------------------");
+//		for (Byte b : details.get(0).getBookWord()){
+//			System.out.print(b + " ");
+//		}
+//		System.out.println("---------------------------------------------");
 //		System.out.println(details.get(0).getBookWord().toString());
 
 //		byte2image(details.get(0).getBookWord(),"d:\\bjjImages\\abc.jpg");
