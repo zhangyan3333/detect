@@ -1,6 +1,6 @@
 site:
 #  <editor-fold desc="开发配置区，此为开发配置，打包时会自动删除，打包完成后会自动修复">
-  data-path: D:/detectData
+  data-path: D:/detectData/
 #  </editor-fold>
 #  <editor-fold desc="打包配置区，此为打包配置，开发时会自动注释">
 #  data-path: /run/detectData/
@@ -31,7 +31,7 @@ sqlmeta:
     username: sa
     password: '123456'
     driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
-
+  sync-step: "0 0/1 * * * ?"   #配置定时同步间隔
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml

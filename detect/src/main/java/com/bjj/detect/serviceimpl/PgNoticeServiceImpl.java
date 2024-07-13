@@ -1,17 +1,17 @@
 package com.bjj.detect.serviceimpl;
 
+import com.bjj.detect.dao.PgNoticeDao;
 import com.bjj.detect.entity.PgNotice;
 import com.bjj.detect.service.PgNoticeService;
-import com.bjj.detect.dao.PgNoticeDao;
 import com.syzx.framework.dao.condition.ConditionFactory;
-import java.util.List;
-import java.util.ArrayList;
-import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.dao.condition.IQueryCondition;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * PgNotice服务接口实现 <br/>

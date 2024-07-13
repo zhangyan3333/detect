@@ -1,10 +1,10 @@
 package com.bjj.detect.service;
 
 import com.bjj.detect.entity.PgNotice;
-import java.util.List;
 import com.syzx.framework.dao.condition.IQueryCondition;
 import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+import java.util.List;
 
 /**
  * PgNotice服务接口 <br/>

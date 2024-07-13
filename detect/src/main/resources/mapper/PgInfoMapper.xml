@@ -8,6 +8,7 @@
         <result column="c_id" property="id"/>
         <result column="c_createtime" property="createTime"/>
         <result column="c_pgrecordid" property="pgRecordId"/>
+        <result column="c_index" property="index"/>
         <result column="c_spressure" property="sPressure"/>
         <result column="c_strikeup" property="strikeUp"/>
         <result column="c_strikedown" property="strikeDown"/>
@@ -15,6 +16,8 @@
         <result column="c_positiondown" property="positionDown"/>
         <result column="c_indicationerror" property="indicationError"/>
         <result column="c_returnerror" property="returnError"/>
+        <result column="c_upimage" property="upImage"/>
+        <result column="c_downimage" property="downImage"/>
     </resultMap>
 
     <!--</editor-fold>-->
@@ -23,23 +26,23 @@
 
     <insert id="insert" parameterType="com.bjj.detect.entity.PgInfo">
         INSERT INTO t_pginfo
-            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+            (c_id,c_createtime,c_pgrecordid,c_index,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage,c_downimage)
         VALUES
-            (#{id},#{createTime},#{pgRecordId},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError})
+            (#{id},#{createTime},#{pgRecordId},#{index},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError},#{upImage},#{downImage})
     </insert>
 
     <insert id="insertAll" parameterType="java.util.List">
         INSERT INTO t_pginfo
-            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+            (c_id,c_createtime,c_pgrecordid,c_index,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage,c_downimage)
         VALUES
         <foreach collection="pgInfoes" item="item" separator=",">
-            (#{item.id},#{item.createTime},#{item.pgRecordId},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError})
+            (#{item.id},#{item.createTime},#{item.pgRecordId},#{item.index},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError},#{item.upImage},#{item.downImage})
         </foreach>
     </insert>
 
     <update id="update" parameterType="com.bjj.detect.entity.PgInfo">
         UPDATE t_pginfo
-        SET c_pgrecordid=#{pgRecordId},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError}
+        SET c_pgrecordid=#{pgRecordId},c_index=#{index},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError},c_upimage=#{upImage},c_downimage=#{downImage}
         WHERE c_id=#{id}
     </update>
 
@@ -48,6 +51,11 @@
             c_pgrecordid = CASE c_id
             <foreach collection="pgInfoes" item="item" separator=" ">
                 WHEN #{item.id} THEN #{item.pgRecordId}
+            </foreach>
+            END
+            ,c_index = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.index}
             </foreach>
             END
             ,c_spressure = CASE c_id
@@ -85,6 +93,16 @@
                 WHEN #{item.id} THEN #{item.returnError}
             </foreach>
             END
+            ,c_upimage = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage}
+            </foreach>
+            END
+            ,c_downimage = CASE c_id
+            <foreach collection="pgInfoes" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage}
+            </foreach>
+            END
         WHERE c_id IN
         <foreach collection="pgInfoes" item="item" separator="," open="(" close=")">
             #{item.id}
@@ -93,22 +111,22 @@
 
     <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.PgInfo">
         INSERT INTO t_pginfo
-            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+            (c_id,c_createtime,c_pgrecordid,c_index,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage,c_downimage)
         VALUES
-            (#{id},#{createTime},#{pgRecordId},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError})
+            (#{id},#{createTime},#{pgRecordId},#{index},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError},#{upImage},#{downImage})
         ON DUPLICATE KEY UPDATE
-            c_pgrecordid=#{pgRecordId},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError}
+            c_pgrecordid=#{pgRecordId},c_index=#{index},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError},c_upimage=#{upImage},c_downimage=#{downImage}
     </insert>
 
     <insert id="insertOrUpdateAll" parameterType="java.util.List">
         INSERT INTO t_pginfo
-            (c_id,c_createtime,c_pgrecordid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror)
+            (c_id,c_createtime,c_pgrecordid,c_index,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage,c_downimage)
         VALUES
         <foreach collection="pgInfoes" item="item" separator=",">
-            (#{item.id},#{item.createTime},#{item.pgRecordId},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError})
+            (#{item.id},#{item.createTime},#{item.pgRecordId},#{item.index},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError},#{item.upImage},#{item.downImage})
         </foreach>
         ON DUPLICATE KEY UPDATE
-            c_pgrecordid=VALUES(c_pgrecordid),c_spressure=VALUES(c_spressure),c_strikeup=VALUES(c_strikeup),c_strikedown=VALUES(c_strikedown),c_positionup=VALUES(c_positionup),c_positiondown=VALUES(c_positiondown),c_indicationerror=VALUES(c_indicationerror),c_returnerror=VALUES(c_returnerror)
+            c_pgrecordid=VALUES(c_pgrecordid),c_index=VALUES(c_index),c_spressure=VALUES(c_spressure),c_strikeup=VALUES(c_strikeup),c_strikedown=VALUES(c_strikedown),c_positionup=VALUES(c_positionup),c_positiondown=VALUES(c_positiondown),c_indicationerror=VALUES(c_indicationerror),c_returnerror=VALUES(c_returnerror),c_upimage=VALUES(c_upimage),c_downimage=VALUES(c_downimage)
     </insert>
 
     <delete id="delete">

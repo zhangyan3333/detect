@@ -1,10 +1,10 @@
 package com.bjj.detect.service;
 
 import com.bjj.detect.entity.PgCertificate;
-import java.util.List;
 import com.syzx.framework.dao.condition.IQueryCondition;
 import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+import java.util.List;
 
 /**
  * PgCertificate服务接口 <br/>

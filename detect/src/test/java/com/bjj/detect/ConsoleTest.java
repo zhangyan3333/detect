@@ -19,6 +19,8 @@ import org.springframework.core.metrics.StartupStep;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 public class ConsoleTest {
@@ -39,6 +41,11 @@ public class ConsoleTest {
 
 	@Test
 	public void testAspect(){
-		sqlConnect.connect();
+		List<Integer> ins = new ArrayList<>();
+		ins.add(1);
+		ins.add(2);
+		System.out.println(ins.indexOf(3));
+		System.out.println(ins.indexOf(2));
+		System.out.println(ins.indexOf(1));
 	}
 }

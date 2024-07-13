@@ -1,17 +1,17 @@
 package com.bjj.detect.serviceimpl;
 
+import com.bjj.detect.dao.PgCertificateDao;
 import com.bjj.detect.entity.PgCertificate;
 import com.bjj.detect.service.PgCertificateService;
-import com.bjj.detect.dao.PgCertificateDao;
 import com.syzx.framework.dao.condition.ConditionFactory;
-import java.util.List;
-import java.util.ArrayList;
-import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.dao.condition.IQueryCondition;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * PgCertificate服务接口实现 <br/>

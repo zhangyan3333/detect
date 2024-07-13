@@ -1,21 +1,21 @@
 package com.bjj.detect.controller;
 
 import com.bjj.detect.entity.PgInfo;
-import com.bjj.detect.service.PgInfoService;
 import com.bjj.detect.query.PgInfoQuery;
+import com.bjj.detect.service.PgInfoService;
 import com.syzx.framework.controller.ApiResult;
 import com.syzx.framework.controller.ApiResultCode;
+import com.syzx.framework.query.QueryResult;
 import java.util.List;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.syzx.framework.query.QueryResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * PgInfo控制器 <br/>
@@ -25,8 +25,8 @@ import com.syzx.framework.query.QueryResult;
  * @version 1.0.0
  * @author 代码生成器
  */
-@RestController
 @RequestMapping("/api/pgInfoes")
+@RestController
 public class PgInfoController {
 
     //<editor-fold desc="字段区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">

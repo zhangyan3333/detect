@@ -1,33 +1,45 @@
 package com.bjj.detect.serviceimpl;
 
+import com.bjj.detect.dao.PgRecordDao;
 import com.bjj.detect.entity.PgRecord;
 import com.bjj.detect.service.PgRecordService;
-import com.bjj.detect.dao.PgRecordDao;
+import com.bjj.detect.util.DataTransfer;
+import com.bjj.detect.util.RunnerSelf;
 import com.syzx.framework.dao.condition.ConditionFactory;
-import java.util.List;
-import java.util.ArrayList;
-import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.dao.condition.IQueryCondition;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import com.syzx.framework.utils.PrintUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * PgRecord服务接口实现 <br/>
  * <p>
  * CreateTime 2024/07/10 01:44
- * 
+ *
  * @version 1.0.0
  * @author 代码生成器
  */
 @Service
+@Slf4j
 public class PgRecordServiceImpl implements PgRecordService {
 
     //<editor-fold desc="字段区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">
 
     @Autowired
     private PgRecordDao pgRecordDao;
+
 
     //</editor-fold>
 
@@ -133,5 +145,24 @@ public class PgRecordServiceImpl implements PgRecordService {
 
 
     //</editor-fold>
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+
+    @Autowired
+    private DataTransfer dataTransfer;
+
+
+    /**
+     * @param :
+     * @return: void
+     * @description:  每隔 一定时间进行一次同步
+     * @author: zhangyan
+     * @date: 2024/7/14 1:21
+    **/
+    @Scheduled(fixedRate = 1800000)
+    public void detectRecordSync(){
+        dataTransfer.detectRecordSqlToMysql();
+        PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
+    }
 
 }

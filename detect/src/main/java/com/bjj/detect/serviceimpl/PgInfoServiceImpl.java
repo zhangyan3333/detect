@@ -1,17 +1,17 @@
 package com.bjj.detect.serviceimpl;
 
+import com.bjj.detect.dao.PgInfoDao;
 import com.bjj.detect.entity.PgInfo;
 import com.bjj.detect.service.PgInfoService;
-import com.bjj.detect.dao.PgInfoDao;
 import com.syzx.framework.dao.condition.ConditionFactory;
-import java.util.List;
-import java.util.ArrayList;
-import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.dao.condition.IQueryCondition;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * PgInfo服务接口实现 <br/>

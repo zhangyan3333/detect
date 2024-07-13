@@ -1,9 +1,9 @@
 package com.bjj.detect.query;
 
 import com.bjj.detect.entity.PgInfo;
+import com.syzx.framework.query.AbstractEntityQuery;
 import lombok.Getter;
 import lombok.Setter;
-import com.syzx.framework.query.AbstractEntityQuery;
 
 /**
  * PgInfo查询 <br/>

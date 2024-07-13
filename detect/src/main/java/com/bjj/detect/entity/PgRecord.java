@@ -17,6 +17,8 @@ import java.util.List;
 @Setter
 public class PgRecord extends AbstractEntity {
 
+	private int mid; //记录已经同步的检定结果，因为sql库中主键id自增，可以选择比mid大的读取即可。
+
 	private String detectCode; // 检定证书编号
 
 	private String meterCustomer;  // 送检单位
@@ -57,6 +59,7 @@ public class PgRecord extends AbstractEntity {
 	private float indicationErrorUpperPermit;  // 示值误差-测量上限-允许值
 	private float returnErrorUpperPermit;  // 回程误差-测量上限-允许值
 	private float positionUpperPermit;  // 位移误差-测量上限-允许值
+
 	private int detectResult; // 检定结果：  0 合格  1 不合格
 	private float detectLevel; // 符合：xx 级
 
@@ -65,6 +68,8 @@ public class PgRecord extends AbstractEntity {
 	private String inspector; // 检定员
 	private String verifier; // 核验员
 	private Date detectTime; // 检定日期
+
+	private int checkStep;  // 状态 1.检定员上传完证书  2.核验审核  3.批准人审核
 
 //	@Transient
 //	private List<PgInfo> infos;  // 标准器检测记录区数据
@@ -78,4 +83,6 @@ public class PgRecord extends AbstractEntity {
 	private String imgPath1;  // 图片文件地址
 	private String imgPath2;  // 图片文件地址
 	private String imgPath3;  // 图片文件地址
+
+
 }

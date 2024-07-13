@@ -82,10 +82,29 @@ class DetectApplicationTests {
 
 	@Test
 	public void imageTest() throws Exception{
-		byte[] source = image2byte("D:\\a.jpg");
+		byte[] source = image2byte("D:\\001.jpg");
 		for (Byte b : source){
 			System.out.print(b + " ");
 		}
+		Connection conn = sqlConnect.connect();
+		String sql = "update Tbl_DetectedMeter_copy1 set " +
+				"meterUpiont1=?,meterUpiont2=?,meterUpiont3=?,meterUpiont4=?,meterUpiont5=?,meterUpiont6=?," +
+				"meterDpiont1=?,meterDpiont2=?,meterDpiont3=?,meterDpiont4=?,meterDpiont5=?,meterDpiont6=?," +
+				"imagePiont1=?,imagePiont2=?,imagePiont3=?,imagePiont4=?,imagePiont5=?,imagePiont6=?," +
+				"imagePiont7=?,imagePiont8=?,imagePiont9=?,imagePiont10=?,imagePiont11=?,imagePiont12=?" +
+				" where mid = ?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ps.setString(1,"0.00"); ps.setString(7,"0.00");ps.setBytes(13,source);ps.setBytes(19,source);
+		ps.setString(2,"0.40"); ps.setString(8,"0.41");ps.setBytes(14,source);ps.setBytes(20,source);
+		ps.setString(3,"0.80"); ps.setString(9,"0.81");ps.setBytes(15,source);ps.setBytes(21,source);
+		ps.setString(4,"1.20"); ps.setString(10,"1.21");ps.setBytes(16,source);ps.setBytes(22,source);
+		ps.setString(5,"1.60"); ps.setString(11,"1.62");ps.setBytes(17,source);ps.setBytes(23,source);
+		ps.setString(6,null); ps.setString(12,null);ps.setBytes(18,null);ps.setBytes(24,null);
+		ps.setInt(25,70);
+		int a = ps.executeUpdate();
+		System.out.println(a);
+
+
 //		DetectedDetail detail = new DetectedDetail();
 //		detail.setDid(2);
 //		detail.setBookWord(source);

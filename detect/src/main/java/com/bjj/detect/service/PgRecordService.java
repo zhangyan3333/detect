@@ -1,16 +1,16 @@
 package com.bjj.detect.service;
 
 import com.bjj.detect.entity.PgRecord;
-import java.util.List;
 import com.syzx.framework.dao.condition.IQueryCondition;
 import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+import java.util.List;
 
 /**
  * PgRecord服务接口 <br/>
  * <p>
  * CreateTime 2024/07/10 01:44
- * 
+ *
  * @version 1.0.0
  * @author 代码生成器
  */
@@ -74,4 +74,5 @@ public interface PgRecordService {
 
     //</editor-fold>
 
+    void detectRecordSync();
 }
