@@ -47,7 +47,7 @@
     </update>
 
     <update id="updateAll" parameterType="java.util.List">
-        UPDATE t_pginfo SET 
+        UPDATE t_pginfo SET
             c_pgrecordid = CASE c_id
             <foreach collection="pgInfoes" item="item" separator=" ">
                 WHEN #{item.id} THEN #{item.pgRecordId}
@@ -193,4 +193,8 @@
 
     <!--</editor-fold>-->
 
+    <select id="getByRecordId" resultMap="pgInfoDefaultMapping">
+        SELECT * FROM t_pginfo
+        WHERE c_pgrecordid=#{recordId}
+    </select>
 </mapper>

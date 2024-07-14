@@ -4,6 +4,7 @@ import com.syzx.framework.entity.AbstractEntity;
 import com.syzx.framework.orm.annotation.Transient;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -84,5 +85,6 @@ public class PgRecord extends AbstractEntity {
 	private String imgPath2;  // 图片文件地址
 	private String imgPath3;  // 图片文件地址
 
-
+	@Transient
+	private List<PgInfo> infos; // 加载检测信息
 }

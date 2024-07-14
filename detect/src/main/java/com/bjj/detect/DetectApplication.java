@@ -1,18 +1,18 @@
 package com.bjj.detect;
 
+
+import javafx.application.Application;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 @Async
 @MapperScan("com.bjj.detect.dao")
 @SpringBootApplication
-@EnableScheduling
 public class DetectApplication extends SpringBootServletInitializer {
 
     //<editor-fold desc="函数区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">

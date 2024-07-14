@@ -1,6 +1,8 @@
 package com.bjj.detect.serviceimpl;
 
+import com.bjj.detect.dao.PgInfoDao;
 import com.bjj.detect.dao.PgRecordDao;
+import com.bjj.detect.entity.PgInfo;
 import com.bjj.detect.entity.PgRecord;
 import com.bjj.detect.service.PgRecordService;
 import com.bjj.detect.util.DataTransfer;
@@ -11,6 +13,7 @@ import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -134,14 +137,14 @@ public class PgRecordServiceImpl implements PgRecordService {
      * @param entityQuery 查询条件
      * @return 符合查询条件的分页结果
      */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public QueryResult<PgRecord> pageByQuery(IEntityQuery entityQuery) {
-        QueryResult<PgRecord> result = new QueryResult<>();
-        result.setEntities(pgRecordDao.getByQuery(entityQuery.getQueryMap()));
-        result.setCount(pgRecordDao.countByQuery(entityQuery.getCountMap()));
-        return result;
-    }
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public QueryResult<PgRecord> pageByQuery(IEntityQuery entityQuery) {
+//        QueryResult<PgRecord> result = new QueryResult<>();
+//        result.setEntities(pgRecordDao.getByQuery(entityQuery.getQueryMap()));
+//        result.setCount(pgRecordDao.countByQuery(entityQuery.getCountMap()));
+//        return result;
+//    }
 
 
     //</editor-fold>
@@ -151,6 +154,8 @@ public class PgRecordServiceImpl implements PgRecordService {
     @Autowired
     private DataTransfer dataTransfer;
 
+    @Autowired
+    private PgInfoDao pgInfoDao;
 
     /**
      * @param :
@@ -165,4 +170,46 @@ public class PgRecordServiceImpl implements PgRecordService {
         PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
     }
 
+    /**
+     * @param :
+     * @return: void
+     * @description: 同步标准器
+     * @author: zhangyan
+     * @date: 2024/7/14 22:52
+    **/
+    @Scheduled(fixedRate = 3600000)
+    public void standardMeterSync(){
+        dataTransfer.readStandardMeter();
+        PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public QueryResult<PgRecord> pageByQuery(IEntityQuery entityQuery) {
+        QueryResult<PgRecord> result = new QueryResult<>();
+        List<PgRecord> records = pgRecordDao.getByQuery(entityQuery.getQueryMap());
+        for (int i = 0; i < records.size(); i++) {
+            PgRecord record = records.get(i);
+            List<PgInfo> infos = pgInfoDao.getByRecordId(record.getId());
+            record.setInfos(sortInfos(infos));
+        }
+        result.setEntities(records);
+        result.setCount(pgRecordDao.countByQuery(entityQuery.getCountMap()));
+        return result;
+    }
+
+    private List<PgInfo> sortInfos(List<PgInfo> infos){
+        List<PgInfo> resultInfos = new ArrayList<>();
+        int flag = 1;
+        for (int i = flag; flag < infos.size() +1; i++) {
+            for (int j = 0; j < infos.size(); j++) {
+                if (infos.get(j).getIndex() == i){
+                    resultInfos.add(infos.get(j));
+                    flag += 1;
+                }
+            }
+        }
+        return resultInfos;
+    }
 }

@@ -2,8 +2,10 @@ package com.bjj.detect.util;
 
 import com.bjj.detect.entity.PgInfo;
 import com.bjj.detect.entity.PgRecord;
+import com.bjj.detect.entity.StandardMeter;
 import com.bjj.detect.service.PgInfoService;
 import com.bjj.detect.service.PgRecordService;
+import com.bjj.detect.service.StandardMeterService;
 import com.bjj.detect.sqldto.DetectedDetail;
 import com.bjj.detect.sqldto.DetectedMeter;
 import com.syzx.framework.config.FrameworkConfig;
@@ -49,6 +51,9 @@ public class DataTransfer {
 	@Autowired
 	private PgRecordService pgRecordService;
 
+	@Autowired
+	private StandardMeterService standardMeterService;
+
 	private static final DateTimeFormatter datePathFormat = DateTimeFormatter.ofPattern("yyyy/MM");
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -85,6 +90,7 @@ public class DataTransfer {
 					record.setMeterRangeH(rs.getString("meterRangeH"));
 					record.setMeterCode(rs.getString("meterCode"));
 					record.setMeterDivisionNo(rs.getString("meterDivisionNo"));
+					record.setMeterName(rs.getString("meterType"));
 
 					// 将图片从数据库读出并存储到本地
 					imageToPath(record,rs);
@@ -107,7 +113,8 @@ public class DataTransfer {
 
 		List<String[]> infos = changeToPgInfo(rs);
 
-		List<Float> pa = pressArray(record.getMeterRangeL(),record.getMeterRangeH());
+		List<Float> pa = pressArray(record.getMeterRangeL(),record.getMeterRangeH(),record);
+
 		for (int i = 0; i < pa.size(); i++) {
 			PgInfo info = new PgInfo();
 			String[] meta = infos.get(i);
@@ -132,13 +139,43 @@ public class DataTransfer {
 	 * @param meterRangeL:
 	 * @param meterRangeH:
 	 * @return: float
-	 * @description: 根据仪表测量范围，获取标准压力器值
+	 * @description: 根据仪表测量范围，获取标准压力器值 等 经验值
 	 * @author: zhangyan
 	 * @date: 2024/7/14 1:56
 	**/
-	private List<Float> pressArray(	String meterRangeL, String meterRangeH){
+	private List<Float> pressArray(	String meterRangeL, String meterRangeH, PgRecord record){
 		List<Float> pressArray = new ArrayList<Float>();
+		List<StandardMeter> meters = standardMeterService.get();
 		if (meterRangeL.equals("0")&&meterRangeH.equals("1.6")){
+			// 配置检定仪表信息，待修改
+			for (StandardMeter meter : meters){
+				if (meter.getSid() == 27){ loadStandardMetetInfo(record,meter);}
+			}
+
+			record.setSBasis("JJG52-2013《弹性元件式一般压力表、压力真空表和真空表》");  // 依据
+			record.setSTemperature(23f);  // 温度
+			record.setSHumidity(49f);    // 湿度
+			record.setStandardMedium("空气");  //介质
+			record.setStandardLoc("中国铁路北京局集团有限公司计量管理所");  // 检测地点
+
+			// 录入检定结果
+			record.setAppearance("合格");
+			record.setPointer("合格");
+			record.setIndicationErrorMax(0.1f);
+			record.setReturnErrorMax(0.1f);
+			record.setPositionMax(0.0f);
+			record.setIndicationErrorPermit(0.0256f);
+			record.setReturnErrorPermit(0.0256f);
+			record.setPositionPermit(0.0128f);
+			record.setIndicationErrorUpper(0.02f);
+			record.setReturnErrorUpper(0.02f);
+			record.setPositionUpper(0.00f);
+			record.setIndicationErrorUpperPermit(0.04f);
+			record.setReturnErrorUpperPermit(0.04f);
+			record.setPositionUpperPermit(0.02f);
+			record.setDetectLevel(1.6f);
+
+			// 制定压力器值范围
 			pressArray.add(0f);
 			pressArray.add(0.4f);
 			pressArray.add(0.8f);
@@ -146,6 +183,27 @@ public class DataTransfer {
 			pressArray.add(1.6f);
 		}
 		return pressArray;
+	}
+
+	/**
+	 * @param record:
+	 * @param meter:
+	 * @return: void
+	 * @description: 添加标准器信息到记录中
+	 * @author: zhangyan
+	 * @date: 2024/7/14 22:16
+	**/
+	private void loadStandardMetetInfo(PgRecord record, StandardMeter meter){
+		record.setSname(meter.getSname());
+		record.setScode(meter.getScode());
+		record.setSRangeL(meter.getSRangeL());
+		record.setSRangeH(meter.getSRangeH());
+		record.setSResolution(meter.getSResolution());
+		record.setSEdate(meter.getSEdate());
+		record.setSResolution(meter.getSResolution());
+		record.setSFactory(meter.getSFactory());
+		record.setSRegulateBcode(meter.getSRegulateBcode());
+		record.setSBdate(meter.getSBdate());
 	}
 
 	private List<String[]> changeToPgInfo(ResultSet rs){
@@ -225,6 +283,89 @@ public class DataTransfer {
 			}
 		}else {
 			return "";
+		}
+	}
+
+	/**
+	 * @param :
+	 * @return: void
+	 * @description: 从标准器数据库读取同步
+	 * @author: zhangyan
+	 * @date: 2024/7/14 23:50
+	**/
+	@Transactional(rollbackFor = Exception.class)
+	public void readStandardMeter(){
+		List<StandardMeter> meters = standardMeterService.get();
+		List<Integer> ids = new ArrayList<>();
+		for (StandardMeter m:meters){
+			ids.add(m.getSid());
+		}
+		try{
+			Connection conn = sqlConnect.connect();
+			String sqlCount = "select count(*) from Tbl_StandardMeter";
+			PreparedStatement ps = conn.prepareStatement(sqlCount);
+			ResultSet rs = ps.executeQuery();
+			int count = 0;
+			if (rs.next()){
+				count = rs.getInt(1);
+			}
+			if (count == meters.size()){
+
+			}else {
+				// 获取所有标准器
+				String sql = "select * from Tbl_StandardMeter";
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+
+				List<StandardMeter> standards = new ArrayList<>();
+				while(rs.next()){
+					StandardMeter standardMeter = new StandardMeter();
+					standardMeter.setSid(rs.getInt("sid"));
+					standardMeter.setSname(rs.getString("sname"));
+					standardMeter.setScode(rs.getString("scode"));
+					standardMeter.setSRegulateBcode(rs.getString("sResolution"));
+					standardMeter.setSRangeL(rs.getString("sRangeL"));
+					standardMeter.setSRangeH(rs.getString("sRangeH"));
+					standardMeter.setSEdate(rs.getDate("sEdate"));
+					standardMeter.setSRegulateCode(rs.getString("sRegulateCode"));
+					standardMeter.setSFactory(rs.getString("sFactory"));
+					standardMeter.setSRegulateBcode(rs.getString("sRegulateBcode"));
+					standardMeter.setSBdate(rs.getDate("sBdate"));
+					standardMeter.setSAccuracy(rs.getString("sAccuracy"));
+					standardMeter.setSDivisionNo(rs.getString("sDivisionNo"));
+					standardMeter.setSRangeUnit(rs.getString("sRangeUnit"));
+					standardMeter.setSunit(rs.getString("sunit"));
+					standardMeter.setSModule(rs.getInt("sModule"));
+					standardMeter.setRtp(rs.getBigDecimal("rtp").toString());
+					standardMeter.setRa(rs.getBigDecimal("ra").toString());
+					standardMeter.setRb(rs.getBigDecimal("rb").toString());
+					standardMeter.setRc(rs.getBigDecimal("rc").toString());
+					standardMeter.setA4(rs.getBigDecimal("a4").toString());
+					standardMeter.setB4(rs.getBigDecimal("b4").toString());
+					standardMeter.setW0(rs.getBigDecimal("w0").toString());
+					standardMeter.setW100(rs.getBigDecimal("w100").toString());
+					standardMeter.setT800(rs.getBigDecimal("t800").toString());
+					standardMeter.setT900(rs.getBigDecimal("t900").toString());
+					standardMeter.setT1000(rs.getBigDecimal("t1000").toString());
+					standardMeter.setT1100(rs.getBigDecimal("t1100").toString());
+
+					standards.add(standardMeter);
+				}
+				for (int i = 0; i < standards.size(); i++) {
+					StandardMeter standardMeter = standards.get(i);
+					if (ids.indexOf(standardMeter.getSid()) > -1){
+						continue;
+					}else {
+						standardMeterService.insert(standardMeter);
+					}
+				}
+			}
+
+			sqlConnect.release(conn,ps,rs);
+		}catch (Exception e){
+			PrintUtil.info("读取标准器数据库出错"
+					+ sdf.format(new Date())
+					+ e.toString());
 		}
 	}
 }

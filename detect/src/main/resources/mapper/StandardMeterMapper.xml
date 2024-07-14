@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.StandardMeterDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="standardMeterDefaultMapping" type="com.bjj.detect.entity.StandardMeter">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_sid" property="sid"/>
+        <result column="c_sname" property="sname"/>
+        <result column="c_scode" property="scode"/>
+        <result column="c_sresolution" property="sResolution"/>
+        <result column="c_srangel" property="sRangeL"/>
+        <result column="c_srangeh" property="sRangeH"/>
+        <result column="c_sedate" property="sEdate"/>
+        <result column="c_sregulatecode" property="sRegulateCode"/>
+        <result column="c_sfactory" property="sFactory"/>
+        <result column="c_sregulatebcode" property="sRegulateBcode"/>
+        <result column="c_sbdate" property="sBdate"/>
+        <result column="c_saccuracy" property="sAccuracy"/>
+        <result column="c_sdivisionno" property="sDivisionNo"/>
+        <result column="c_srangeunit" property="sRangeUnit"/>
+        <result column="c_sunit" property="sunit"/>
+        <result column="c_smodule" property="sModule"/>
+        <result column="c_rtp" property="rtp"/>
+        <result column="c_ra" property="ra"/>
+        <result column="c_rb" property="rb"/>
+        <result column="c_rc" property="rc"/>
+        <result column="c_a4" property="a4"/>
+        <result column="c_b4" property="b4"/>
+        <result column="c_w0" property="w0"/>
+        <result column="c_w100" property="w100"/>
+        <result column="c_t800" property="t800"/>
+        <result column="c_t900" property="t900"/>
+        <result column="c_t1000" property="t1000"/>
+        <result column="c_t1100" property="t1100"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.StandardMeter">
+        INSERT INTO t_standardmeter
+            (c_id,c_createtime,c_sid,c_sname,c_scode,c_sresolution,c_srangel,c_srangeh,c_sedate,c_sregulatecode,c_sfactory,c_sregulatebcode,c_sbdate,c_saccuracy,c_sdivisionno,c_srangeunit,c_sunit,c_smodule,c_rtp,c_ra,c_rb,c_rc,c_a4,c_b4,c_w0,c_w100,c_t800,c_t900,c_t1000,c_t1100)
+        VALUES
+            (#{id},#{createTime},#{sid},#{sname},#{scode},#{sResolution},#{sRangeL},#{sRangeH},#{sEdate},#{sRegulateCode},#{sFactory},#{sRegulateBcode},#{sBdate},#{sAccuracy},#{sDivisionNo},#{sRangeUnit},#{sunit},#{sModule},#{rtp},#{ra},#{rb},#{rc},#{a4},#{b4},#{w0},#{w100},#{t800},#{t900},#{t1000},#{t1100})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_standardmeter
+            (c_id,c_createtime,c_sid,c_sname,c_scode,c_sresolution,c_srangel,c_srangeh,c_sedate,c_sregulatecode,c_sfactory,c_sregulatebcode,c_sbdate,c_saccuracy,c_sdivisionno,c_srangeunit,c_sunit,c_smodule,c_rtp,c_ra,c_rb,c_rc,c_a4,c_b4,c_w0,c_w100,c_t800,c_t900,c_t1000,c_t1100)
+        VALUES
+        <foreach collection="standardMeters" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.sid},#{item.sname},#{item.scode},#{item.sResolution},#{item.sRangeL},#{item.sRangeH},#{item.sEdate},#{item.sRegulateCode},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.sAccuracy},#{item.sDivisionNo},#{item.sRangeUnit},#{item.sunit},#{item.sModule},#{item.rtp},#{item.ra},#{item.rb},#{item.rc},#{item.a4},#{item.b4},#{item.w0},#{item.w100},#{item.t800},#{item.t900},#{item.t1000},#{item.t1100})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.StandardMeter">
+        UPDATE t_standardmeter
+        SET c_sid=#{sid},c_sname=#{sname},c_scode=#{scode},c_sresolution=#{sResolution},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sedate=#{sEdate},c_sregulatecode=#{sRegulateCode},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_saccuracy=#{sAccuracy},c_sdivisionno=#{sDivisionNo},c_srangeunit=#{sRangeUnit},c_sunit=#{sunit},c_smodule=#{sModule},c_rtp=#{rtp},c_ra=#{ra},c_rb=#{rb},c_rc=#{rc},c_a4=#{a4},c_b4=#{b4},c_w0=#{w0},c_w100=#{w100},c_t800=#{t800},c_t900=#{t900},c_t1000=#{t1000},c_t1100=#{t1100}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_standardmeter SET 
+            c_sid = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sid}
+            </foreach>
+            END
+            ,c_sname = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sname}
+            </foreach>
+            END
+            ,c_scode = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.scode}
+            </foreach>
+            END
+            ,c_sresolution = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sResolution}
+            </foreach>
+            END
+            ,c_srangel = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRangeL}
+            </foreach>
+            END
+            ,c_srangeh = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRangeH}
+            </foreach>
+            END
+            ,c_sedate = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sEdate}
+            </foreach>
+            END
+            ,c_sregulatecode = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRegulateCode}
+            </foreach>
+            END
+            ,c_sfactory = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sFactory}
+            </foreach>
+            END
+            ,c_sregulatebcode = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRegulateBcode}
+            </foreach>
+            END
+            ,c_sbdate = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sBdate}
+            </foreach>
+            END
+            ,c_saccuracy = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sAccuracy}
+            </foreach>
+            END
+            ,c_sdivisionno = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sDivisionNo}
+            </foreach>
+            END
+            ,c_srangeunit = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRangeUnit}
+            </foreach>
+            END
+            ,c_sunit = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sunit}
+            </foreach>
+            END
+            ,c_smodule = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sModule}
+            </foreach>
+            END
+            ,c_rtp = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.rtp}
+            </foreach>
+            END
+            ,c_ra = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.ra}
+            </foreach>
+            END
+            ,c_rb = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.rb}
+            </foreach>
+            END
+            ,c_rc = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.rc}
+            </foreach>
+            END
+            ,c_a4 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.a4}
+            </foreach>
+            END
+            ,c_b4 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.b4}
+            </foreach>
+            END
+            ,c_w0 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.w0}
+            </foreach>
+            END
+            ,c_w100 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.w100}
+            </foreach>
+            END
+            ,c_t800 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.t800}
+            </foreach>
+            END
+            ,c_t900 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.t900}
+            </foreach>
+            END
+            ,c_t1000 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.t1000}
+            </foreach>
+            END
+            ,c_t1100 = CASE c_id
+            <foreach collection="standardMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.t1100}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="standardMeters" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.StandardMeter">
+        INSERT INTO t_standardmeter
+            (c_id,c_createtime,c_sid,c_sname,c_scode,c_sresolution,c_srangel,c_srangeh,c_sedate,c_sregulatecode,c_sfactory,c_sregulatebcode,c_sbdate,c_saccuracy,c_sdivisionno,c_srangeunit,c_sunit,c_smodule,c_rtp,c_ra,c_rb,c_rc,c_a4,c_b4,c_w0,c_w100,c_t800,c_t900,c_t1000,c_t1100)
+        VALUES
+            (#{id},#{createTime},#{sid},#{sname},#{scode},#{sResolution},#{sRangeL},#{sRangeH},#{sEdate},#{sRegulateCode},#{sFactory},#{sRegulateBcode},#{sBdate},#{sAccuracy},#{sDivisionNo},#{sRangeUnit},#{sunit},#{sModule},#{rtp},#{ra},#{rb},#{rc},#{a4},#{b4},#{w0},#{w100},#{t800},#{t900},#{t1000},#{t1100})
+        ON DUPLICATE KEY UPDATE
+            c_sid=#{sid},c_sname=#{sname},c_scode=#{scode},c_sresolution=#{sResolution},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sedate=#{sEdate},c_sregulatecode=#{sRegulateCode},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_saccuracy=#{sAccuracy},c_sdivisionno=#{sDivisionNo},c_srangeunit=#{sRangeUnit},c_sunit=#{sunit},c_smodule=#{sModule},c_rtp=#{rtp},c_ra=#{ra},c_rb=#{rb},c_rc=#{rc},c_a4=#{a4},c_b4=#{b4},c_w0=#{w0},c_w100=#{w100},c_t800=#{t800},c_t900=#{t900},c_t1000=#{t1000},c_t1100=#{t1100}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_standardmeter
+            (c_id,c_createtime,c_sid,c_sname,c_scode,c_sresolution,c_srangel,c_srangeh,c_sedate,c_sregulatecode,c_sfactory,c_sregulatebcode,c_sbdate,c_saccuracy,c_sdivisionno,c_srangeunit,c_sunit,c_smodule,c_rtp,c_ra,c_rb,c_rc,c_a4,c_b4,c_w0,c_w100,c_t800,c_t900,c_t1000,c_t1100)
+        VALUES
+        <foreach collection="standardMeters" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.sid},#{item.sname},#{item.scode},#{item.sResolution},#{item.sRangeL},#{item.sRangeH},#{item.sEdate},#{item.sRegulateCode},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.sAccuracy},#{item.sDivisionNo},#{item.sRangeUnit},#{item.sunit},#{item.sModule},#{item.rtp},#{item.ra},#{item.rb},#{item.rc},#{item.a4},#{item.b4},#{item.w0},#{item.w100},#{item.t800},#{item.t900},#{item.t1000},#{item.t1100})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_sid=VALUES(c_sid),c_sname=VALUES(c_sname),c_scode=VALUES(c_scode),c_sresolution=VALUES(c_sresolution),c_srangel=VALUES(c_srangel),c_srangeh=VALUES(c_srangeh),c_sedate=VALUES(c_sedate),c_sregulatecode=VALUES(c_sregulatecode),c_sfactory=VALUES(c_sfactory),c_sregulatebcode=VALUES(c_sregulatebcode),c_sbdate=VALUES(c_sbdate),c_saccuracy=VALUES(c_saccuracy),c_sdivisionno=VALUES(c_sdivisionno),c_srangeunit=VALUES(c_srangeunit),c_sunit=VALUES(c_sunit),c_smodule=VALUES(c_smodule),c_rtp=VALUES(c_rtp),c_ra=VALUES(c_ra),c_rb=VALUES(c_rb),c_rc=VALUES(c_rc),c_a4=VALUES(c_a4),c_b4=VALUES(c_b4),c_w0=VALUES(c_w0),c_w100=VALUES(c_w100),c_t800=VALUES(c_t800),c_t900=VALUES(c_t900),c_t1000=VALUES(c_t1000),c_t1100=VALUES(c_t1100)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_standardmeter
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_standardmeter
+        WHERE c_id IN
+        <foreach collection="standardMeters" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_standardmeter
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_standardmeter
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_standardmeter WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_standardmeter
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_standardmeter WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="standardMeterDefaultMapping">
+        SELECT * FROM t_standardmeter
+    </select>
+
+    <select id="getByProperty" resultMap="standardMeterDefaultMapping">
+        SELECT * FROM t_standardmeter WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="standardMeterDefaultMapping">
+        SELECT * FROM t_standardmeter
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="standardMeterDefaultMapping">
+        ${sql}
+    </select>
+
+    <!--</editor-fold>-->
+
+</mapper>

@@ -252,7 +252,7 @@ export default {
 	data() {
 		let _this = this;
 		return {
-			apiBasePath: 'detect',
+			apiBasePath: 'pgRecords',
 			uploadUrl:'',
 			headers: {
 				'Authorization': 'Bearer ' + util.cookies.get('token')
@@ -284,35 +284,38 @@ export default {
 					isShow: true
 				},{
 					title: '器具名称',
-					key: 'meterType',
-					minWidth: 200,
-					align: 'center',
-					isShow: true
-				},{
-					title: '型号规格',
 					key: 'meterName',
 					minWidth: 200,
 					align: 'center',
 					isShow: true
-				}, {
-					title: '送检单位',
-					key: 'meterCustomer',
-					minWidth: 300,
-					align: 'center',
-					isShow: true
-				}, {
-					title: '出厂编号',
-					key: 'meterCode',
-					minWidth: 100,
-					align: 'center',
-					isShow: true
-				}, {
-					title: '制造单位',
-					key: 'meterFactory',
-					align: 'center',
-					minWidth: 300,
-					isShow: true
 				},
+				// {
+				// 	title: '型号规格',
+				// 	key: 'sname',
+				// 	minWidth: 200,
+				// 	align: 'center',
+				// 	isShow: true
+				// },
+				// {
+				// 	title: '送检单位',
+				// 	key: 'meterCustomer',
+				// 	minWidth: 300,
+				// 	align: 'center',
+				// 	isShow: true
+				// },
+				// {
+				// 	title: '出厂编号',
+				// 	key: 'meterCode',
+				// 	minWidth: 100,
+				// 	align: 'center',
+				// 	isShow: true
+				// }, {
+				// 	title: '制造单位',
+				// 	key: 'meterFactory',
+				// 	align: 'center',
+				// 	minWidth: 300,
+				// 	isShow: true
+				// },
 				{
 					title: '检定结论',
 					key: 'leaderName',
@@ -331,6 +334,7 @@ export default {
 							},
 							on: {
 								click: (val) => {
+									_this.$refs.detectInfo.initData(row);
 									_this.$refs.detectInfo.isShowView = true;
 								}
 							}
@@ -417,8 +421,8 @@ export default {
 	},
 	mounted() {
 		this.entityQuery.roles = this.info.roles;
-		this.entityQuery.sortOrder = 'desc';
-		this.entityQuery.sortKey = 'state';
+		// this.entityQuery.sortOrder = 'desc';
+		// this.entityQuery.sortKey = 'state';
 		this.query();
 		// requestHandle(UpdateToken(), () => {
 		// 	this.uploadUrl = getProjectUrl('api/basicfile');
@@ -572,28 +576,37 @@ export default {
 		},
 		query() {
 			this.tableLoading = true;
-
+			// 使用 mysql查询
 			entityRequest('page', this.apiBasePath, this.entityQuery,
-					// 第四个参数, onSuccess
-					(response) => {
+					(response)=>{
+						this.queryResult.entities = response.data.entities;
 						this.queryResult.count = response.data.count;
-						console.log(this.entityQuery.pageIndex , this.entityQuery.pageSize)
-						let entities = response.data.entities;
-
-						let result = [];
-						let index = this.entityQuery.pageIndex;
-						let size = this.entityQuery.pageSize;
-
-						for (let i = (index-1) *size; i < (index-1) *size + size && i < entities.length; i++) {
-							result.push(entities[i]);
-						}
-
-						this.queryResult.entities = result;
 					},
-					// 第五个参数, onFinish
 					() => {
 						this.tableLoading = false;
-					});
+					})
+			// 按照sql查询
+			// entityRequest('page', this.apiBasePath, this.entityQuery,
+			// 		// 第四个参数, onSuccess
+			// 		(response) => {
+			// 			this.queryResult.count = response.data.count;
+			// 			console.log(this.entityQuery.pageIndex , this.entityQuery.pageSize)
+			// 			let entities = response.data.entities;
+			//
+			// 			let result = [];
+			// 			let index = this.entityQuery.pageIndex;
+			// 			let size = this.entityQuery.pageSize;
+			//
+			// 			for (let i = (index-1) *size; i < (index-1) *size + size && i < entities.length; i++) {
+			// 				result.push(entities[i]);
+			// 			}
+			//
+			// 			this.queryResult.entities = result;
+			// 		},
+			// 		// 第五个参数, onFinish
+			// 		() => {
+			// 			this.tableLoading = false;
+			// 		});
 		},
 		getProjectUrl
 	}

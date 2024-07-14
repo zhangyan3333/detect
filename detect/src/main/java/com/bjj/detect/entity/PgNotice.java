@@ -61,4 +61,6 @@ public class PgNotice extends AbstractEntity {
 	private float positionMax;  // 最大位移误差
 
 	private String UnqualifiedItem;  // 不合格项目
+
+	private int state;  // 修改状态
 }

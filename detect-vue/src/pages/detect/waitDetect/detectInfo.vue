@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 	<Modal
 			ref="detectInfo"
 			title= " "
@@ -19,7 +19,7 @@
 					<Col span="2" style="text-align: right ;padding-right: 10px">检定证书编号：</Col>
 					<Col span="4">
 						<FormItem prop="birth">
-							<Input v-model="entity.evaluateOrgName"></Input>
+							<Input v-model="entity.detectCode"></Input>
 						</FormItem>
 					</Col>
 				</Row>
@@ -37,41 +37,41 @@
 <!--		</Table>-->
 		<Row class-name="rowElement" style="margin-top: -20px">
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">送检单位</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement"></p> </Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.meterCustomer" /></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">出厂编号</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.meterCode"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">测量范围</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">～</p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">{{entity.meterRangeL}}～{{entity.meterRangeH}}</p></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">准确度等级</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.meterResolution"><template #append> 级 </template></Input></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">分度值</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.meterDivisionNo"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">制造单位</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input :autosize="{maxRows: 2}" type="textarea" style="margin-top: 3px;font-size: 16px;" v-model="entity.meterFactory"/></Col>
 		</Row>
 		<Row class-name="rowElement">
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">标准器名称</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">数字压力计</p> </Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.sname"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">标准器编号</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.scode"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">测量范围</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">0～60</p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">{{entity.srangeL}}～{{entity.srangeH}}</p></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">准确度等级</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">0.05级</p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.sresolution"><template #append> 级 </template></Input></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">工作介质</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">空气</p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.standardMedium"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">检定地点</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input :autosize="{maxRows: 2}" type="textarea" v-model="entity.standardLoc"/></Col>
 		</Row>
 		<Row class-name="rowElement">
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">标准器有效期</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">  年  月  日</p> </Col>
+			<Col span="2" class="ivu-b ivu-text-center"> <Input class="pInput" v-model="entity.se"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">检定依据</p></Col>
-			<Col span="10" class="ivu-b ivu-text-center"><p class="pElement">JJG52-2013《弹性元件式一般压力表、压力真空表和真空表》</p></Col>
+			<Col span="10" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.sbasis"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">温度</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">℃</p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.stemperature"><template #append>&nbsp;℃ </template> </Input></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">湿度</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">％RH</p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.shumidity"><template #append> ％RH </template> </Input></Col>
 		</Row>
 		<Row style="height: 465px">
 			<Col span="14" class="ivu-b ivu-text-center">
@@ -99,73 +99,94 @@
 					<Col span="4" class="ivu-b ivu-text-center"><p style="margin-top: 40px;font-size: 16px">回程误差</p></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.spressure"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.strikeUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.strikeDown"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.positionUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.positionDown"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.indicationError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.returnError"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.spressure"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.strikeUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.strikeDown"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.positionUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.positionDown"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.indicationError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.returnError"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.spressure"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.strikeUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.strikeDown"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.positionUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.positionDown"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.indicationError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.returnError"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.spressure"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.strikeUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.strikeDown"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.positionUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.positionDown"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.indicationError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.returnError"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.spressure"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.strikeUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.strikeDown"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.positionUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.positionDown"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.indicationError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.returnError"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><p class="pElement"></p></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.spressure"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.strikeUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.strikeDown"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.positionUp"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.positionDown"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.indicationError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.returnError"/></Col>
 				</Row>
 			</Col>
 			<Col span="10" class="ivu-b" style="font-size: 16px">
 				<Row class-name="resultRow" style="margin-top: 30px"><p style="font-size: 20px;">检定结果：</p></Row>
-				<Row class-name="resultRow"><p>1 外观检查：</p></Row>
-				<Row class-name="resultRow"><p>2 指针偏转平稳性：</p></Row>
-				<Row class-name="resultRow"><p>3 最大示值误差：</p><p style="margin-left: 80px">允许值：±</p></Row>
-				<Row class-name="resultRow"><p>4 最大回程误差：</p><p style="margin-left: 80px">允许值： </p></Row>
-				<Row class-name="resultRow"><p>5 最大轻敲位移：</p><p style="margin-left: 80px">允许值： </p></Row>
+				<Row class-name="resultRow"><p>1 外观检查：</p> <Input class="result" v-model="entity.appearance"/></Row>
+				<Row class-name="resultRow"><p>2 指针偏转平稳性：</p><Input class="result" v-model="entity.pointer"/></Row>
+				<Row class-name="resultRow"><p>3 最大示值误差：</p><Input class="result" v-model="entity.indicationErrorMax"/><p style="margin-left: 80px">允许值：</p>
+					<Input class="result" v-model="entity.indicationErrorPermit"><template #prepend><span>±</span></template></Input></Row>
+				<Row class-name="resultRow"><p>4 最大回程误差：</p><Input class="result" v-model="entity.returnErrorMax"/>
+					<p style="margin-left: 80px">允许值： </p><Input class="result" v-model="entity.returnErrorPermit"/></Row>
+				<Row class-name="resultRow"><p>5 最大轻敲位移：</p><Input class="result" v-model="entity.positionMax"/>
+					<p style="margin-left: 80px">允许值： </p><Input class="result" v-model="entity.positionPermit"/></Row>
 				<Row class-name="resultRow"><p>6 测量上限处：</p></Row>
-				<Row class-name="resultRow"><p style="margin-left: 20px">示值误差：</p><p style="margin-left: 110px">允许值：±</p></Row>
-				<Row class-name="resultRow"><p style="margin-left: 20px">回程误差：</p><p style="margin-left: 110px">允许值： </p></Row>
-				<Row class-name="resultRow"><p style="margin-left: 20px">轻敲位移：</p><p style="margin-left: 110px">允许值： </p></Row>
-				<Row class-name="resultRow"><p>7 检定结论：</p><p style="margin-left: 14px">□ 合格 </p><p style="margin-left: 80px">符合 &nbsp;&nbsp;  &nbsp;&nbsp;  级 </p></Row>
-				<Row class-name="resultRow"><p style="margin-left: 113px">□ 不合格</p></Row>
+				<Row class-name="resultRow">
+					<p style="margin-left: 20px">示值误差：</p><Input class="result" v-model="entity.indicationErrorUpper"/>
+					<p style="margin-left: 110px">允许值：</p><Input class="result" v-model="entity.indicationErrorUpperPermit"><template #prepend><span>±</span></template></Input>
+				</Row>
+				<Row class-name="resultRow">
+					<p style="margin-left: 20px">回程误差：</p><Input class="result" v-model="entity.returnErrorUpper"/>
+					<p style="margin-left: 110px">允许值：</p><Input class="result" v-model="entity.returnErrorUpperPermit"/>
+				</Row>
+				<Row class-name="resultRow">
+					<p style="margin-left: 20px">轻敲位移：</p><Input class="result" v-model="entity.positionUpper"/>
+					<p style="margin-left: 110px">允许值： </p><Input class="result" v-model="entity.positionUpperPermit"/>
+				</Row>
+				<Row  style="margin-top: 20px;margin-left: 50px">
+					<p style="margin-top: 4px">7 检定结论：</p>
+					<RadioGroup v-model="entity.detectResult" type="button">
+						<Radio label="合  格"></Radio>
+						<Radio label="不合格"></Radio>
+					</RadioGroup>
+					<Input style="padding-left: 40px;width: 30%" v-model="entity.detectLevel">
+						<template #prepend><span>符合</span></template>
+						<template #append><span>级</span></template>
+					</Input>
+				</Row>
 			</Col>
 		</Row>
 
@@ -199,6 +220,12 @@ export default {
 			entity:{
 				total:0
 			},
+			info1: { },
+			info2: { },
+			info3: { },
+			info4: { },
+			info5: { },
+			info6: { },
 			ruleValidate:{
 				// evaluateTime: [{ required: true, message: '该项为必填项，请输入内容', trigger: 'blur' }],
 			},
@@ -284,30 +311,10 @@ export default {
 		])
 	},
 	mounted() {
-		this.loadTable();
+
 	},
 	methods: {
-		loadTable(){
-			this.evaluations =[
-				{'item':'资源配备（15分）','index': 1, 'content':'现场负责人有较强的管理能力、协调能力和解决问题能力。','standard':'5','score':0,'note':''},
-				{'item':'资源配备（15分）','index': 2, 'content':'现场人员结构合理，数量充足，特种作业人员持证上岗。','standard':'5','score':0,'note':''},
-				{'item':'资源配备（15分）','index': 3, 'content':'按合同约定合理配置施工机具、提供合格材料。','standard':'5','score':0,'note':''},
-				{'item':'工程进度（20分）','index': 4, 'content':'积极配合项目部的各项工作，服从指挥、协调、安排。','standard':'10','score':0,'note':''},
-				{'item':'工程进度（20分）','index': 5, 'content':'按时完成关键节点或阶段性计划。','standard':'10','score':0,'note':''},
-				{'item':'施工安全（20分）','index': 6, 'content':'人员经过安全培训上岗。','standard':'5','score':0,'note':''},
-				{'item':'施工安全（20分）','index': 7, 'content':'按要求配备和使用劳保或安全防护用品。','standard':'5','score':0,'note':''},
-				{'item':'施工安全（20分）','index': 8, 'content':'认真执行安全技术规范，落实安全措施，及时整改安全隐患。','standard':'5','score':0,'note':''},
-				{'item':'施工安全（20分）','index': 9, 'content':'未发生人员轻伤及以上安全事故或事件。','standard':'5','score':0,'note':''},
-				{'item':'工程质量（20分）','index': 10, 'content':'严格按照合同约定的质量标准和技术交底组织施工。','standard':'5','score':0,'note':''},
-				{'item':'工程质量（20分）','index': 11, 'content':'配合施工质量随工监督检查，积极整改质量问题。','standard':'5','score':0,'note':''},
-				{'item':'工程质量（20分）','index': 12, 'content':'交付工程质量验收合格，无遗留质量问题和返工返修。','standard':'10','score':0,'note':''},
-				{'item':'文明施工（10分）','index': 13, 'content':'做好材料、机具的现场保管工作，施工过程中避免损坏、浪费。','standard':'5','score':0,'note':''},
-				{'item':'文明施工（10分）','index': 14, 'content':'按照标准文明工地要求做好现场管理。','standard':'5','score':0,'note':''},
-				{'item':'综合管理（15分）','index': 15, 'content':'分包企业队伍稳定，与招用人员签订劳动合同，推行实名制管理，按时足额支付农民工工资，无恶意讨薪、聚众闹事。','standard':'5','score':0,'note':''},
-				{'item':'综合管理（15分）','index': 16, 'content':'分包补充合同控制在合理范围，无价款结算纠纷。分包企业无坐地起价、超合同约定追索工程款等情况。','standard':'5','score':0,'note':''},
-				{'item':'综合管理（15分）','index': 17, 'content':'分包企业诚信自律，无偷工减料、弄虚作假、恶意诉讼和行贿等行为。','standard':'5','score':0,'note':''},
-			]
-		},
+
 		chargeScore(){
 			let sum = 0
 			for (let i = 0; i < this.evaluations.length; i++) {
@@ -316,18 +323,7 @@ export default {
 			}
 			this.entity.total = parseFloat(sum).toFixed(1);
 		},
-		handleSpan ({ row, column, rowIndex, columnIndex }) {
-			let merge = [1,2,4,6,7,8,10,11,13,15,16];
-			if (rowIndex === 0 && columnIndex === 0) {return {rowspan: 3, colspan: 1};}
-			else if (rowIndex === 3 && columnIndex === 0) {return {rowspan: 2, colspan: 1};}
-			else if (rowIndex === 5 && columnIndex === 0) {return {rowspan: 4, colspan: 1};}
-			else if (rowIndex === 9 && columnIndex === 0) {return {rowspan: 3, colspan: 1};}
-			else if (rowIndex === 12 && columnIndex === 0) {return {rowspan: 2, colspan: 1};}
-			else if (rowIndex === 14 && columnIndex === 0) {return {rowspan: 3, colspan: 1};}
-			else if (merge.indexOf(rowIndex) > -1  && columnIndex === 0) {return {rowspan: 0, colspan: 0};}
-		},
 		loadData(index,info,type){
-			this.loadTable();
 			this.entity.laborCompanyId= info.laborCompanyName.split(',')[0];
 			this.entity.laborCompanyName= info.laborCompanyName.split(',')[1];
 			this.entity.projectId = info.projectId;
@@ -342,65 +338,20 @@ export default {
 			this.entity.evaluateOrgId = this.info.organizationId;
 		},
 		initData(info){
-			this.entity={};
-			this.entity.laborCompanyName= info.laborCompanyName
-			this.entity.projectName = info.projectName;
-			this.entity.contractName = info.contractName;
-			this.entity.assessor = info.assessor;
-			this.entity.evaluateOrgName = info.organizationName;
-			this.entity.total = info.total;
-			this.entity.evaluateTime = info.evaluateTime;
-			this.entity.periodYear = info.periodYear;
-			this.entity.periodQuarter = info.periodQuarter;
-			this.entity.evaluateOrgName = info.evaluateOrgName;
-
-			let scores = info.scores.split(',');
-			let notes = info.notes.split(',');
-			for (let i = 0; i < scores.length; i++) {
-				this.evaluations[i].score = scores[i];
-				this.evaluations[i].note = notes[i]
+			this.entity = info;
+			this.entity.se = dayjs(info.sEdate).format('YYYY年M月D日');
+			let infos = this.entity.infos;
+			for (let i = 0; i < infos.length; i++) {
+				if (i == 0){ this.info1 = infos[i]}
+				if (i == 1){ this.info2 = infos[i]}
+				if (i == 2){ this.info3 = infos[i]}
+				if (i == 3){ this.info4 = infos[i]}
+				if (i == 4){ this.info5 = infos[i]}
+				if (i == 5){ this.info6 = infos[i]}
 			}
 		},
 		modalOk(){
-				if (this.entity.evaluateTime != null  && this.entity.evaluateTime != '' ) {
-					this.entity.evaluateTime = dayjs(this.entity.evaluateTime).format('YYYY-MM-DD')
-					let notes = []; let scores =[]
-					for (let i = 0; i < this.evaluations.length; i++) {
-						notes[parseInt(this.evaluations[i].index)-1] = this.evaluations[i].note;
-						scores[parseInt(this.evaluations[i].index)-1] = this.evaluations[i].score;
-					}
-					this.entity.scores = scores.join(',');
-					this.entity.notes = notes.join(',');
-					if (this.entity.total < 60 ) {this.entity.level = '不合格'}
-					if (this.entity.total >= 60 && this.entity.total <90) {this.entity.level = '合格'}
-					if (this.entity.total > 90) {this.entity.level = '优秀'}
-
-
-					entityRequest('insert', this.apiBasePath, this.entity,
-							// 第四个参数, onSuccess
-							this.query,
-							// 第五个参数, onFinish
-							() => {
-								this.isShowView = false;
-							});
-				} else {
-					this.$Message.error({
-						background: true,
-						content: '请选择考核时间',
-						duration: 3
-					});
-					// 取消按钮的loading状态
-					// 因为表单的校验，会导致确定之后，按钮会进入loading状态
-					// 所以要在验证不通过的时候取消loading状态
-					this.modalLoading = false;
-					setTimeout(() => {
-						this.modalLoading = true;
-					}, 0);
-				}
-
-
-
-			console.log(this.entity);
+			console.log(this.entity)
 		},
 		modalCancel(){
 			this.isShowView = false;
@@ -418,12 +369,23 @@ export default {
 </script>
 
 <style scoped>
+	/deep/ .pInput .ivu-input{
+		text-align: center;
+	}
+	.result{
+		width: 20%;
+		margin-top: -5px;
+	}
 	.rowElement{
 		height: 60px;
 		margin-top: 1px;
 	}
 	.pElement{
 		margin-top: 20px;
+		font-size: 16px;
+	}
+	.pInput{
+		margin-top: 15px;
 		font-size: 16px;
 	}
 	.resultRow{
