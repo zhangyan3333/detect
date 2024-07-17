@@ -16,6 +16,11 @@ import java.util.List;
  */
 public interface PgRecordService {
 
+    void detectRecordSync();
+    void standardMeterSync();
+
+    void printWord(String filePath);
+
     //<editor-fold desc="函数区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">
 
     /**
@@ -74,6 +79,4 @@ public interface PgRecordService {
 
     //</editor-fold>
 
-    void detectRecordSync();
-    void standardMeterSync();
 }

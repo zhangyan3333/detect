@@ -5,7 +5,7 @@ export default {
     title: '$t:menu.detect.self',
     header: 'home',
     icon: 'iconfont icon-personal',
-    auth : ['superAdmin','waitDetect-view', 'detectLedger-view'],
+    auth : ['superAdmin','waitDetect-view', 'detectLedger-view','overTimeDetect-view'],
     children: [
         {
             auth : ['superAdmin', 'waitDetect-view'],
@@ -17,6 +17,12 @@ export default {
             auth : ['superAdmin', 'detectLedger-view'],
             path: `${pre}detectLedger`,
             title: '$t:menu.detect.detectLedger',
+            icon: 'iconfont icon-password'
+        },
+        {
+            auth : ['superAdmin', 'overTimeDetect-view'],
+            path: `${pre}overTimeDetect`,
+            title: '$t:menu.detect.overTimeDetect',
             icon: 'iconfont icon-password'
         }
     ]

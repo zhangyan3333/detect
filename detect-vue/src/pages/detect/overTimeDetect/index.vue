@@ -429,16 +429,17 @@
 				this.isShowModel = false;
 			},
 			query() {
-				this.tableLoading = true;
-				// 使用 mysql查询
-				entityRequest('page', this.apiBasePath, this.entityQuery,
-						(response)=>{
-							this.queryResult.entities = response.data.entities;
-							this.queryResult.count = response.data.count;
-						},
-						() => {
-							this.tableLoading = false;
-						})
+				this.tableLoading = false;
+				// this.tableLoading = true;
+				// // 使用 mysql查询
+				// entityRequest('page', this.apiBasePath, this.entityQuery,
+				// 		(response)=>{
+				// 			this.queryResult.entities = response.data.entities;
+				// 			this.queryResult.count = response.data.count;
+				// 		},
+				// 		() => {
+				// 			this.tableLoading = false;
+				// 		})
 				// 按照sql查询
 				// entityRequest('page', this.apiBasePath, this.entityQuery,
 				// 		// 第四个参数, onSuccess

@@ -1,6 +1,7 @@
 package com.bjj.detect.entity;
 
 import com.syzx.framework.entity.AbstractEntity;
+import com.syzx.framework.orm.annotation.FullSearch;
 import com.syzx.framework.orm.annotation.Transient;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.List;
 **/
 @Getter
 @Setter
+@FullSearch(propertyNames = {"meterName","meterCustomer"})
 public class PgRecord extends AbstractEntity {
 
 	private int mid; //记录已经同步的检定结果，因为sql库中主键id自增，可以选择比mid大的读取即可。
@@ -54,6 +56,7 @@ public class PgRecord extends AbstractEntity {
 	private float indicationErrorPermit;  // 示值误差允许值
 	private float returnErrorPermit;  // 回程误差允许值
 	private float positionPermit;  // 位移误差允许值
+
 	private float indicationErrorUpper;  // 示值误差-测量上限
 	private float returnErrorUpper;  // 回程误差-测量上限
 	private float positionUpper;  // 位移误差-测量上限
@@ -68,12 +71,12 @@ public class PgRecord extends AbstractEntity {
 
 	private String inspector; // 检定员
 	private String verifier; // 核验员
+	private String approver; // 批准员
 	private Date detectTime; // 检定日期
 
-	private int checkStep;  // 状态 1.检定员上传完证书  2.核验审核  3.批准人审核
+	private int checkStep;  // 状态 1.检定员上传完证书  2.核验审核  3.批准人审核  4.结果导出  5.提交
 
-//	@Transient
-//	private List<PgInfo> infos;  // 标准器检测记录区数据
+	private long resultId;  // 关联结果文件id
 
 	// 冗余字段
 	private String meterName;  // 器具名称

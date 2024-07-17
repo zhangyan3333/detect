@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * PgRecord控制器 <br/>
  * <p>
  * CreateTime 2024/07/10 01:44
- * 
+ *
  * @version 1.0.0
  * @author 代码生成器
  */
@@ -115,5 +115,11 @@ public class PgRecordController {
     }
 
     //</editor-fold>
+
+    @PostMapping(value = "/print")
+    public ApiResult<QueryResult<PgRecord>> printWord(@RequestBody PgRecordQuery pgRecordQuery) {
+        pgRecordService.printWord("");
+        return new ApiResult<>(ApiResultCode.Success, "获取成功", null);
+    }
 
 }

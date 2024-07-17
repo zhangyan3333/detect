@@ -27,9 +27,9 @@ spring:
 
 sqlmeta:
   connect-info:
-    url: jdbc:sqlserver://localhost:1433;databaseName=sllaid;
+    url: jdbc:sqlserver://192.168.43.159:1433;databaseName=sllaid;
     username: sa
-    password: '123456'
+    password: 'sa123'
     driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
   sync-step: "0 0/1 * * * ?"   #配置定时同步间隔
 

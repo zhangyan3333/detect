@@ -100,8 +100,20 @@
 				</Row>
 				<Row class-name="rowElement">
 					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.spressure"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.strikeUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.strikeDown"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center">
+						<Input class="pInput" v-model="info1.strikeUp">
+							<template #append>
+								<Button icon="ios-search" @click="imageUpShow(info1)"></Button>
+							</template>
+						</Input>
+					</Col>
+					<Col span="3" class="ivu-b ivu-text-center">
+						<Input class="pInput" v-model="info1.strikeDown">
+							<template #append>
+								<Button icon="ios-search" @click="imageDownShow(info1)"></Button>
+							</template>
+						</Input>
+					</Col>
 					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.positionUp"/></Col>
 					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.positionDown"/></Col>
 					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.indicationError"/></Col>
@@ -179,8 +191,8 @@
 				<Row  style="margin-top: 20px;margin-left: 50px">
 					<p style="margin-top: 4px">7 检定结论：</p>
 					<RadioGroup v-model="entity.detectResult" type="button">
-						<Radio label="合  格"></Radio>
-						<Radio label="不合格"></Radio>
+						<Radio :label="0">合  格</Radio>
+						<Radio :label="1">不合格</Radio>
 					</RadioGroup>
 					<Input style="padding-left: 40px;width: 30%" v-model="entity.detectLevel">
 						<template #prepend><span>符合</span></template>
@@ -190,11 +202,23 @@
 			</Col>
 		</Row>
 
+		<Modal
+				:title="imageTitl"
+				v-model="imageShow"
+				:styles="{top: '20px'}"
+				footer-hide
+		>
+			<img width="100%" height="200px" :src="getProjectUrl(imagePath)" />
+		</Modal>
+
 
 		<template #footer>
-			<Button type="primary" v-if="index<0" @click="modalOk()">确定</Button>
-			<Button type="default" v-if="index<0"  @click="modalCancel()">取消</Button>
+			<Button type="primary"  @click="modalExport()">导出</Button>
+			<Button type="primary" v-if="entity.status == 'ledger'" @click="modalExport()">打印</Button>
+			<Button type="primary" v-if="entity.status != 'ledger'" @click="modalOk()">保存</Button>
+			<Button type="default" @click="modalCancel()">取消</Button>
 		</template>
+
 	</Modal>
 </template>
 
@@ -202,7 +226,9 @@
 
 
 import util from "@/libs/util";
-import {entityRequest} from "@/libs/system/requestUtil";
+import { entityRequest } from "@/libs/system/requestUtil";
+import { getProjectUrl } from '@/libs/system/commonUtil';
+import { exportDetectRecord } from '@api/detect';
 import {mapState} from "vuex";
 import dayjs from "dayjs";
 
@@ -213,7 +239,10 @@ export default {
 		return{
 			apiBasePath: 'evaluations',
 			isShowView:false,
+			imagePath:'',
 			addLoading:true,
+			imageShow:false,
+			imageTitl:'',
 			index:-2,
 			tableKey:0,
 			evaluations:[],
@@ -351,7 +380,14 @@ export default {
 			}
 		},
 		modalOk(){
-			console.log(this.entity)
+			entityRequest('update', 'pgRecords', this.entity,
+					(response)=>{
+						this.$parent.$parent.query();
+					},
+					() => {
+						this.isShowView = false;
+					})
+
 		},
 		modalCancel(){
 			this.isShowView = false;
@@ -360,6 +396,32 @@ export default {
 		changeData(){
 			this.tableKey++;
 			console.log('click==========================')
+		},
+		imageUpShow(info){
+			this.imagePath = info.upImage;
+			console.log(info.upImage)
+			this.imageTitl = '升压点'+ info.index + '图片'
+			this.imageShow = true;
+		},
+		imageDownShow(info){
+			this.imagePath = info.downImage;
+			this.imageTitl = '降压点'+ info.index + '图片'
+			this.imageShow = true;
+		},
+		getProjectUrl,
+		modalExport(){
+			exportDetectRecord(this.entity)
+					.then(( response)=>{
+						window.open(getProjectUrl(response.data));
+						this.$Message.success({
+							background: true,
+							content: '数据导出成功',
+							duration: 3
+						});
+					}).finally(()=>{
+
+					})
+
 		}
 	},
 	watch: {

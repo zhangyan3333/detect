@@ -11,13 +11,20 @@ import com.syzx.framework.dao.condition.ConditionFactory;
 import com.syzx.framework.dao.condition.IQueryCondition;
 import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
-
+import com.syzx.framework.utils.PrintUtil;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.syzx.framework.utils.PrintUtil;
+import javax.print.*;
+import javax.print.attribute.DocAttributeSet;
+import javax.print.attribute.HashDocAttributeSet;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,7 +49,6 @@ public class PgRecordServiceImpl implements PgRecordService {
 
     @Autowired
     private PgRecordDao pgRecordDao;
-
 
     //</editor-fold>
 
@@ -72,11 +78,11 @@ public class PgRecordServiceImpl implements PgRecordService {
      * 更新单个实体.
      * @param pgRecord 需要更新的实体
      */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(PgRecord pgRecord) {
-        pgRecordDao.update(pgRecord);
-    }
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public void update(PgRecord pgRecord) {
+//        pgRecordDao.update(pgRecord);
+//    }
 
 
     /**
@@ -150,13 +156,10 @@ public class PgRecordServiceImpl implements PgRecordService {
     //</editor-fold>
 
     private SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-
     @Autowired
     private DataTransfer dataTransfer;
-
     @Autowired
     private PgInfoDao pgInfoDao;
-
     /**
      * @param :
      * @return: void
@@ -169,7 +172,6 @@ public class PgRecordServiceImpl implements PgRecordService {
         dataTransfer.detectRecordSqlToMysql();
         PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
     }
-
     /**
      * @param :
      * @return: void
@@ -182,8 +184,6 @@ public class PgRecordServiceImpl implements PgRecordService {
         dataTransfer.readStandardMeter();
         PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
     }
-
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public QueryResult<PgRecord> pageByQuery(IEntityQuery entityQuery) {
@@ -198,7 +198,6 @@ public class PgRecordServiceImpl implements PgRecordService {
         result.setCount(pgRecordDao.countByQuery(entityQuery.getCountMap()));
         return result;
     }
-
     private List<PgInfo> sortInfos(List<PgInfo> infos){
         List<PgInfo> resultInfos = new ArrayList<>();
         int flag = 1;
@@ -212,4 +211,42 @@ public class PgRecordServiceImpl implements PgRecordService {
         }
         return resultInfos;
     }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(PgRecord pgRecord) {
+        pgRecordDao.update(pgRecord);
+        List<PgInfo> infos = pgRecord.getInfos();
+        DecimalFormat df = new DecimalFormat("#.00");
+        for (int i = 0; infos != null && i < infos.size(); i++) {
+            PgInfo info = infos.get(i);
+            info.setIndicationError(Float.valueOf(df.format(Math.abs(info.getStrikeUp()-info.getStrikeDown()))));
+            info.setReturnError(Float.valueOf(df.format(Math.abs(info.getStrikeUp()-info.getStrikeDown()))));
+            pgInfoDao.update(info);
+        }
+    }
+    @Override
+    public void printWord(String path){
+//        DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+//        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+//        PrintService[] pservices = PrintServiceLookup.lookupPrintServices(flavor, aset);
+//        PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService();
+//        PrintService service = ServiceUI.printDialog(null, 200, 200, pservices,
+//                defaultService, flavor, aset);
+//        if (service != null) {
+//            try {
+//                DocPrintJob pj = service.createPrintJob();
+//                FileInputStream fis = new FileInputStream("G:" + File.separator + "检定证书.docx");//打印D盘zhidao.txt文档。
+//                DocAttributeSet das = new HashDocAttributeSet();
+//                Doc doc = new SimpleDoc(fis, flavor, das);
+//                pj.print(doc, aset);
+//            } catch (FileNotFoundException fe) {
+//                fe.printStackTrace();
+//            } catch (PrintException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            System.out.println("打印失败");
+//        }
+    }
+
 }

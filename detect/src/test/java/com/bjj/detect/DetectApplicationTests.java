@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -37,8 +38,8 @@ class DetectApplicationTests {
 			detail.setDid(rs.getInt("did"));
 			detail.setMid(rs.getInt("mid"));
 			detail.setDdate(rs.getDate("ddate"));
-//			detail.setBookWord(rs.getBytes("bookWord"));
-//			detail.setBookJl(rs.getBytes("bookJl"));
+			detail.setBookWord(rs.getBytes("bookWord"));
+			detail.setBookJl(rs.getBytes("bookJl"));
 			detail.setMeterResault(rs.getInt("meterResault"));
 			detail.setMeterRlaCode(rs.getString("meterRlaCode"));
 			detail.setMeterRlaType(rs.getString("meterRlaType"));
@@ -48,15 +49,15 @@ class DetectApplicationTests {
 
 //			new BufferedOutputStream(new FileOutputStream("d:\\bjjImages\\"+ detail.getDid()+".jpg"));
 			//读出流用getBinaryStream()方法。
-//			InputStream is = rs.getBinaryStream("bookWord");
-//			File file = new File("d:\\bjjImages\\"+ detail.getDid()+".jpg");
-//			try (OutputStream os = new FileOutputStream(file)) {
-//				byte[] buffer = new byte[1024];
-//				int length;
-//				while ((length = is.read(buffer)) != -1) {
-//					os.write(buffer, 0, length);
-//				}
-//			}
+			InputStream is = rs.getBinaryStream("bookWord");
+			File file = new File("d:\\bjjImages\\"+ detail.getDid()+".xls");
+			try (OutputStream os = new FileOutputStream(file)) {
+				byte[] buffer = new byte[1024];
+				int length;
+				while ((length = is.read(buffer)) != -1) {
+					os.write(buffer, 0, length);
+				}
+			}
 
 
 			details.add(detail);
@@ -82,38 +83,13 @@ class DetectApplicationTests {
 
 	@Test
 	public void imageTest() throws Exception{
-		byte[] source = image2byte("D:\\001.jpg");
-		for (Byte b : source){
-			System.out.print(b + " ");
-		}
+
+
 		Connection conn = sqlConnect.connect();
-		String sql = "update Tbl_DetectedMeter_copy1 set " +
-				"meterUpiont1=?,meterUpiont2=?,meterUpiont3=?,meterUpiont4=?,meterUpiont5=?,meterUpiont6=?," +
-				"meterDpiont1=?,meterDpiont2=?,meterDpiont3=?,meterDpiont4=?,meterDpiont5=?,meterDpiont6=?," +
-				"imagePiont1=?,imagePiont2=?,imagePiont3=?,imagePiont4=?,imagePiont5=?,imagePiont6=?," +
-				"imagePiont7=?,imagePiont8=?,imagePiont9=?,imagePiont10=?,imagePiont11=?,imagePiont12=?" +
-				" where mid = ?";
-		PreparedStatement ps = conn.prepareStatement(sql);
-		ps.setString(1,"0.00"); ps.setString(7,"0.00");ps.setBytes(13,source);ps.setBytes(19,source);
-		ps.setString(2,"0.40"); ps.setString(8,"0.41");ps.setBytes(14,source);ps.setBytes(20,source);
-		ps.setString(3,"0.80"); ps.setString(9,"0.81");ps.setBytes(15,source);ps.setBytes(21,source);
-		ps.setString(4,"1.20"); ps.setString(10,"1.21");ps.setBytes(16,source);ps.setBytes(22,source);
-		ps.setString(5,"1.60"); ps.setString(11,"1.62");ps.setBytes(17,source);ps.setBytes(23,source);
-		ps.setString(6,null); ps.setString(12,null);ps.setBytes(18,null);ps.setBytes(24,null);
-		ps.setInt(25,70);
-		int a = ps.executeUpdate();
-		System.out.println(a);
-
-
-//		DetectedDetail detail = new DetectedDetail();
-//		detail.setDid(2);
-//		detail.setBookWord(source);
-
-//		Connection conn = sqlConnect.connect();
 //		// 添加
 //		String sql = "insert into Tbl_test(id,image) values(?,?) ";
 //		PreparedStatement ps = conn.prepareStatement(sql);
-//		ps.setInt(1,2);
+//		ps.setInt(1,2);	
 //		ps.setBytes(2,source);
 //		int result = ps.executeUpdate();
 //		System.out.println(result == 1);
@@ -121,21 +97,22 @@ class DetectApplicationTests {
 //		conn.close();
 //		ps.close();
 
-//		String sql = "select * from Tbl_test";
-//		PreparedStatement ps = conn.prepareStatement(sql);
-//		ResultSet rs = ps.executeQuery();
-//
-//		while (rs.next()){
-//			InputStream is = rs.getBinaryStream("image");
-//			File file = new File("d:\\bjjImages\\abc.jpg");
-//			try (OutputStream os = new FileOutputStream(file)) {
-//				byte[] buffer = new byte[1024];
-//				int length;
-//				while ((length = is.read(buffer)) != -1) {
-//					os.write(buffer, 0, length);
-//				}
-//			}
-//		}
+		String sql = "select * from Table_test";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()){
+			InputStream is = rs.getBinaryStream("imagedata");
+			File file = new File("d:\\bjjImages\\abc.jpg");
+			try (OutputStream os = new FileOutputStream(file)) {
+				byte[] buffer = new byte[1024];
+				int length;
+				while ((length = is.read(buffer)) != -1) {
+					System.out.println(Arrays.toString(buffer));
+					os.write(buffer, 0, length);
+				}
+			}
+		}
 //
 //		sqlConnect.release(conn,ps,rs);
 

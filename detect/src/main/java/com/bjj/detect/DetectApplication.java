@@ -1,8 +1,5 @@
 package com.bjj.detect;
 
-
-import javafx.application.Application;
-import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.SpringApplication;

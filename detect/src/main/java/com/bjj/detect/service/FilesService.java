@@ -1,5 +1,6 @@
 package com.bjj.detect.service;
 
+import com.bjj.detect.entity.PgRecord;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FilesService {
@@ -9,4 +10,6 @@ public interface FilesService {
 	String saveFaceFile(MultipartFile file);
 
 	boolean deleteFile(String filePath);
+
+	String exportDetectRecord(Object o,int index);
 }

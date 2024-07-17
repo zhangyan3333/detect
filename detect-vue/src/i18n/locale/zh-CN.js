@@ -27,7 +27,8 @@ export default {
         detect:{
             self:'检定管理',
             waitDetect:'待处理',
-            detectLedger:'检测台账'
+            detectLedger:'检测台账',
+            overTimeDetect:'临期预警'
         },
         safe: {
             self: '安全监测',

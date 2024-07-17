@@ -55,6 +55,9 @@ service.interceptors.request.use(
         // 在请求发送之前做一些处理
         const token = util.cookies.get('token');
         console.log('请求拦截器');
+        if (config.url == '"/api/pgRecords/print"'){
+            config.timeout = 500000;
+        }
         console.log(token);
         if(token != undefined) {
             // 在消息头中插入Authorization字段
