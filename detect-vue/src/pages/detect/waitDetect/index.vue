@@ -234,8 +234,13 @@ export default {
 							},
 							on: {
 								click: (val) => {
-									_this.$refs.detectResult.initData(row);
-									_this.$refs.detectResult.isShowView = true;
+									if (row.resultFile == null || row.resultFile == ""){
+										_this.$refs.detectResult.initData(row);
+										_this.$refs.detectResult.isShowView = true;
+									}else {
+										console.log('显示检定证书')
+									}
+
 								}
 							}
 						},'查看'), h('a', {

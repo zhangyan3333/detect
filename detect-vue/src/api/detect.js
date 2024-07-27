@@ -16,4 +16,10 @@ export function exportDetectRecord (data) {
     });
 }
 
-
+export function exportDetectResult (data) {
+    return request({
+        url: '/api/basicfile/exportDetectResult',
+        method: 'post',
+        data
+    });
+}

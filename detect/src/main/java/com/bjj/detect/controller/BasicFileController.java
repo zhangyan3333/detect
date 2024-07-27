@@ -1,5 +1,6 @@
 package com.bjj.detect.controller;
 
+import com.bjj.detect.entity.PgCertificate;
 import com.bjj.detect.entity.PgRecord;
 import com.bjj.detect.service.FilesService;
 import com.syzx.framework.controller.ApiResult;
@@ -29,6 +30,11 @@ public class BasicFileController {
 
     @PostMapping(value = "/exportDetectRecord")
     public ApiResult<String> exportDetectRecord(@RequestBody PgRecord record) {
-        return new ApiResult(0, "上传成功", this.fileService.exportDetectRecord(record,0));
+        return new ApiResult(0, "导出成功", this.fileService.exportDetectRecord(record,0));
+    }
+
+    @PostMapping(value = "/exportDetectResult")
+    public ApiResult<String> exportDetectResult(@RequestBody PgCertificate certificate,int index) {
+        return new ApiResult(0, "导出成功", this.fileService.exportDetectRecord(certificate,index));
     }
 }

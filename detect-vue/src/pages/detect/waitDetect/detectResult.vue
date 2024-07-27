@@ -41,7 +41,7 @@
 		</div>
 		<div class="divList" >
 			<p class="pElement" style="font-size: 25px">检  定  依  据 ： </p>
-			<Input class="pInput" style="font-size: 25px;width: 40%" v-model="entity.sBasis"/>
+			<Input class="pInput" style="font-size: 25px;width: 40%" v-model="entity.sbasis"/>
 		</div>
 		<div class="divList" >
 			<p class="pElement" style="font-size: 25px">检  定  结  论 ：  </p>
@@ -373,6 +373,7 @@ import {entityRequest} from "@/libs/system/requestUtil";
 import { getProjectUrl } from '@/libs/system/commonUtil';
 import {mapState} from "vuex";
 import dayjs from "dayjs";
+import { exportDetectResult } from '@api/detect';
 
 export default {
 	name: "evaluations",
@@ -475,7 +476,8 @@ export default {
 				purchaseType:-1
 			},
 			currentProjectId:'',
-			projectList:[]
+			projectList:[],
+			currentIndex:1
 		}
 	},
 	computed: {
@@ -511,7 +513,11 @@ export default {
 			this.entity.evaluateOrgId = this.info.organizationId;
 		},
 		initData(info){
+			this.currentIndex = info.detectResult + 1;
+
+			//查询Pgcertification中是否有，有就返回复制entity，没有就使用info来赋值entity，保存后生成certificate，然后修改可以导出。
 			this.entity = info;
+
 
 			this.startDate = dayjs(info.createTime).format('YYYY 年 M 月 D 日');
 			this.endDate = dayjs(info.createTime).add(1, 'year').format('YYYY 年 M 月 D 日')
@@ -582,11 +588,18 @@ export default {
 		},
 		getProjectUrl,
 		modalExport(){
-			this.$Message.success({
-				background: true,
-				content: '数据导出成功',
-				duration: 3
-			});
+
+			exportDetectResult(this.entity,this.currentIndex)
+					.then(( response)=>{
+						window.open(getProjectUrl(response.data));
+						this.$Message.success({
+							background: true,
+							content: '数据导出成功',
+							duration: 3
+						});
+					}).finally(()=>{
+
+					})
 		}
 	},
 	watch: {

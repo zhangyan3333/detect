@@ -39,7 +39,7 @@ public class PgCertificate extends AbstractEntity {
 	private float sHumidity;     // 检测湿度
 
 	//检定使用计量标准
-	private String sname;  // 标准器名称 | 数字压力计
+	private String sname;  // 标准名称 | 数字压力计
 	private String sRangeL;    // 量程  测量范围 低 | 0
 	private String sRangeH;    // 量程  测量范围 高 | 60
 	private String sResolution;  // 准确度等级  | 0.05级

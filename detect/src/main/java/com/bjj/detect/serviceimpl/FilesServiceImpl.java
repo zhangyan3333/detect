@@ -1,6 +1,8 @@
 package com.bjj.detect.serviceimpl;
 
+import com.bjj.detect.entity.PgCertificate;
 import com.bjj.detect.entity.PgInfo;
+import com.bjj.detect.entity.PgNotice;
 import com.bjj.detect.entity.PgRecord;
 import com.bjj.detect.query.PgRecordQuery;
 import com.bjj.detect.service.FilesService;
@@ -101,30 +103,83 @@ public class FilesServiceImpl implements FilesService {
 	@Override
 	public String exportDetectRecord(Object o,int index) {
 		String filePath = "";
-		if (index == 0 ){ filePath = FrameworkConfig.dataPath + "2024/template" + "/一般压力表原始记录.docx";}
-		if (index == 1 ){ filePath = FrameworkConfig.dataPath + "2024/template" + "/检定证书.docx";}
-		if (index == 2 ){ filePath = FrameworkConfig.dataPath + "2024/template" + "/检定结果通知书.docx";}
+		String returnPath = "";
+
+		try{
+			if (index == 0 ){
+				filePath = FrameworkConfig.dataPath + "2024/template" + "/一般压力表原始记录.docx";
+				exportDetect(filePath,(PgRecord) o);
+			}
+			if (index == 1 ){
+				filePath = FrameworkConfig.dataPath + "2024/template" + "/检定证书.docx";
+				exportResult(filePath,index,(PgCertificate) o);
+			}
+			if (index == 2 ){
+				filePath = FrameworkConfig.dataPath + "2024/template" + "/检定结果通知书.docx";
+				exportResult(filePath,index,(PgCertificate) o);
+
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			throw new BusinessException(1, "导出失败，请联系管理员");
+		}
+
+		if (returnPath.equals("")){
+			throw new BusinessException(1, "导出失败，请联系管理员");
+		}
+
+		return returnPath;
+	}
+
+	public String exportResult(String filePath , int index, Object o){
+		String returnPath = "";
+		PgCertificate result = (PgCertificate) o ;
+		try{
+			//调用上面写的方法prepareFile把文件名传入
+			InputStream template = new FileInputStream(filePath);
+			//创建XWPFDocument对象，表示Word文档
+			XWPFDocument document = new XWPFDocument(template);
+			replaceResultParagraph(document,index,result);
+			replaceResultExcel(document,index,result);
+			String temp ="";
+			if (index == 1){
+				temp = "/检定证书" + result.getMeterFactory() + String.valueOf(System.currentTimeMillis()) + ".docx";
+			}else {
+				temp = "/检定结果通知书" + result.getMeterFactory() + String.valueOf(System.currentTimeMillis()) + ".docx";
+			}
+			String newFilePath = FrameworkConfig.dataPath + LocalDate.now().format(datePathFormat) + temp;
+			OutputStream output = new FileOutputStream(newFilePath);
+			// 将填充后的文档写入输出流
+			document.write(output);
+
+			// 关闭模板输入流和文档
+			template.close();
+			document.close();
+			output.flush();
+			output.close();
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return returnPath;
+	}
+
+
+	public String exportDetect(String filePath,PgRecord record){
 		String returnPath = "";
 		try{
 			//调用上面写的方法prepareFile把文件名传入
 			InputStream template = new FileInputStream(filePath);
 			//创建XWPFDocument对象，表示Word文档
 			XWPFDocument document = new XWPFDocument(template);
-			//获取所有段落
-			List<XWPFParagraph> paragraphList = document.getParagraphs();
-			PgRecord record = (PgRecord) o;
-
 			replaceDetectRecordParagraph(document,record);
-
 			replaceDetectRecordExcel(document,record);
-
 			String temp = "/检定证书" + record.getMeterFactory() + String.valueOf(System.currentTimeMillis()) + ".docx";
-
 			String newFilePath = FrameworkConfig.dataPath + LocalDate.now().format(datePathFormat) + temp;
-
 			OutputStream output = new FileOutputStream(newFilePath);
 			// 将填充后的文档写入输出流
 			document.write(output);
+
 			// 关闭模板输入流和文档
 			template.close();
 			document.close();
@@ -137,8 +192,6 @@ public class FilesServiceImpl implements FilesService {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-
-
 		return returnPath;
 	}
 
@@ -148,8 +201,71 @@ public class FilesServiceImpl implements FilesService {
 
 
 
+	public void replaceResultParagraph(XWPFDocument document, int index, PgCertificate pgCertificate) throws IOException {
+
+		//获取所有段落
+		List<XWPFParagraph> paragraphList = document.getParagraphs();
+		//遍历段落
+		for (int i = 0; i < paragraphList.size(); i++) {
+			//获取每个段落
+			XWPFParagraph paragraph = paragraphList.get(i);
+			//获取每个段落中的内容
+			List<XWPFRun> runs = paragraph.getRuns();
+			Date date = pgCertificate.getDetectDate();
+			//循环段落内容
+			for (int i1 = 0; i1 < runs.size(); i1++) {
+				//调用自定义方法replacePlaceholderV2替换内容
+				if (runs.get(i1).toString().contains("detectCode")) { replaceParagraphText(runs.get(i1), "detectCode", pgCertificate.getCertCode()); }
+
+				if (runs.get(i1).toString().contains("approver")) { replaceParagraphText(runs.get(i1), "approver", pgCertificate.getApprover()); }
+				if (runs.get(i1).toString().contains("verifier")) { replaceParagraphText(runs.get(i1), "verifier", pgCertificate.getVerifier()); }
+				if (runs.get(i1).toString().contains("inspector")) { replaceParagraphText(runs.get(i1), "inspector", pgCertificate.getInspector()); }
+				if (runs.get(i1).toString().contains("yy")) { replaceParagraphText(runs.get(i1), "yy", String.format("%tY", date)); }
+				if (runs.get(i1).toString().contains("mm")) { replaceParagraphText(runs.get(i1), "mm", String.format("%tm", date)); }
+				if (runs.get(i1).toString().contains("dd")) { replaceParagraphText(runs.get(i1), "dd", String.format("%td", date)); }
+			}
+
+		}
+	}
 
 
+	public void replaceResultExcel(XWPFDocument document, int index, PgCertificate pgCertificate) throws IOException {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		int tableSize = document.getTables().size();
+		for (int m = 0; m < tableSize; m++) {
+			XWPFTable table = document.getTables().get(m);
+			for (int i = 0; i < table.getRows().size(); i++) {
+				XWPFTableRow newRow = table.getRow(i);
+				List<XWPFTableCell> cells = newRow.getTableCells();
+
+				for (int j = 0; j < cells.size(); j++) {
+					XWPFTableCell cell = cells.get(j);
+					String text = cell.getText();
+					System.out.println(text);
+					if (text.equals("meterCustomer")){ replaceCellValue(cell,"meterCustomer",pgCertificate.getMeterCustomer()); }
+					if (text.equals("meterName")){ replaceCellValue(cell,"meterName",pgCertificate.getMeterName()); }
+					if (text.equals("meterType")){ replaceCellValue(cell,"meterType",pgCertificate.getMeterType()); }
+					if (text.equals("meterCode")){ replaceCellValue(cell,"meterCode",pgCertificate.getMeterCode()); }
+					if (text.equals("meterFactory")){ replaceCellValue(cell,"meterFactory",pgCertificate.getMeterFactory()); }
+					if (text.equals("sBasis")){ replaceCellValue(cell,"sBasis",pgCertificate.getSBasis().split("《")[0]); }
+					if (text.equals("detectResult")){ replaceCellValue(cell,"detectResult",pgCertificate.getDetectResult()==0?"合格":"不合格"); }
+
+					if (text.equals("sbasis")){ replaceCellValue(cell,"sbasis",pgCertificate.getSBasis()); }
+					if (text.equals("standardLoc")){ replaceCellValue(cell,"standardLoc",pgCertificate.getStandardLoc()); }
+					if (text.equals("stt")){ replaceCellValue(cell,"stt",String.valueOf(pgCertificate.getSTemperature())); }
+					if (text.equals("shh")){ replaceCellValue(cell,"shh",String.valueOf(pgCertificate.getSHumidity())); }
+//
+					if (text.equals("aa")){ replaceCellValue(cell,"aa",String.valueOf(pgCertificate.getZeroErrorMax())); }  // 零位误差
+					if (text.equals("bb")){ replaceCellValue(cell,"bb",String.valueOf(pgCertificate.getIndicationErrorMax())); }
+					if (text.equals("cc")){ replaceCellValue(cell,"cc",String.valueOf(pgCertificate.getReturnErrorMax())); }
+					if (text.equals("dd")){ replaceCellValue(cell,"dd",String.valueOf(pgCertificate.getPositionMax())); }
+
+					if (index == 2 && text.equals("UnqualifiedItem")){ replaceCellValue(cell,"UnqualifiedItem",String.valueOf(pgCertificate.getUnqualifiedItem())); }
+
+				}
+			}
+		}
+	}
 
 
 

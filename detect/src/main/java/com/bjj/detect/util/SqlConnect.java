@@ -49,7 +49,7 @@ public class SqlConnect {
 
 	/**
 	 * @param conn:
-	 * @param st:
+	 * @param ps:
 	 * @param rs:
 	 * @return:
 	 * @description: 释放资源
