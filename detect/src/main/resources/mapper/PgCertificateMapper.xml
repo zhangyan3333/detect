@@ -24,12 +24,14 @@
         <result column="c_stemperature" property="sTemperature"/>
         <result column="c_shumidity" property="sHumidity"/>
         <result column="c_sname" property="sname"/>
+        <result column="c_srange" property="sRange"/>
         <result column="c_srangel" property="sRangeL"/>
         <result column="c_srangeh" property="sRangeH"/>
         <result column="c_sresolution" property="sResolution"/>
         <result column="c_sregulatecode" property="sRegulateCode"/>
         <result column="c_sedate" property="sEdate"/>
         <result column="c_mname" property="mname"/>
+        <result column="c_mrange" property="mRange"/>
         <result column="c_mrangel" property="mRangeL"/>
         <result column="c_mrangeh" property="mRangeH"/>
         <result column="c_mresolution" property="mResolution"/>
@@ -50,23 +52,23 @@
 
     <insert id="insert" parameterType="com.bjj.detect.entity.PgCertificate">
         INSERT INTO t_pgcertificate
-            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srange,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
         VALUES
-            (#{id},#{createTime},#{recordId},#{meterCustomer},#{meterName},#{meterType},#{meterCode},#{meterFactory},#{sBasis},#{detectResult},#{approver},#{inspector},#{verifier},#{detectDate},#{certCode},#{standardLoc},#{sTemperature},#{sHumidity},#{sname},#{sRangeL},#{sRangeH},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRangeL},#{mRangeH},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{UnqualifiedItem},#{state})
+            (#{id},#{createTime},#{recordId},#{meterCustomer},#{meterName},#{meterType},#{meterCode},#{meterFactory},#{sBasis},#{detectResult},#{approver},#{inspector},#{verifier},#{detectDate},#{certCode},#{standardLoc},#{sTemperature},#{sHumidity},#{sname},#{sRange},#{sRangeL},#{sRangeH},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mRangeL},#{mRangeH},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{UnqualifiedItem},#{state})
     </insert>
 
     <insert id="insertAll" parameterType="java.util.List">
         INSERT INTO t_pgcertificate
-            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srange,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
         VALUES
         <foreach collection="pgCertificates" item="item" separator=",">
-            (#{item.id},#{item.createTime},#{item.recordId},#{item.meterCustomer},#{item.meterName},#{item.meterType},#{item.meterCode},#{item.meterFactory},#{item.sBasis},#{item.detectResult},#{item.approver},#{item.inspector},#{item.verifier},#{item.detectDate},#{item.certCode},#{item.standardLoc},#{item.sTemperature},#{item.sHumidity},#{item.sname},#{item.sRangeL},#{item.sRangeH},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRangeL},#{item.mRangeH},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.UnqualifiedItem},#{item.state})
+            (#{item.id},#{item.createTime},#{item.recordId},#{item.meterCustomer},#{item.meterName},#{item.meterType},#{item.meterCode},#{item.meterFactory},#{item.sBasis},#{item.detectResult},#{item.approver},#{item.inspector},#{item.verifier},#{item.detectDate},#{item.certCode},#{item.standardLoc},#{item.sTemperature},#{item.sHumidity},#{item.sname},#{item.sRange},#{item.sRangeL},#{item.sRangeH},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mRangeL},#{item.mRangeH},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.UnqualifiedItem},#{item.state})
         </foreach>
     </insert>
 
     <update id="update" parameterType="com.bjj.detect.entity.PgCertificate">
         UPDATE t_pgcertificate
-        SET c_recordid=#{recordId},c_metercustomer=#{meterCustomer},c_metername=#{meterName},c_metertype=#{meterType},c_metercode=#{meterCode},c_meterfactory=#{meterFactory},c_sbasis=#{sBasis},c_detectresult=#{detectResult},c_approver=#{approver},c_inspector=#{inspector},c_verifier=#{verifier},c_detectdate=#{detectDate},c_certcode=#{certCode},c_standardloc=#{standardLoc},c_stemperature=#{sTemperature},c_shumidity=#{sHumidity},c_sname=#{sname},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrangel=#{mRangeL},c_mrangeh=#{mRangeH},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_unqualifieditem=#{UnqualifiedItem},c_state=#{state}
+        SET c_recordid=#{recordId},c_metercustomer=#{meterCustomer},c_metername=#{meterName},c_metertype=#{meterType},c_metercode=#{meterCode},c_meterfactory=#{meterFactory},c_sbasis=#{sBasis},c_detectresult=#{detectResult},c_approver=#{approver},c_inspector=#{inspector},c_verifier=#{verifier},c_detectdate=#{detectDate},c_certcode=#{certCode},c_standardloc=#{standardLoc},c_stemperature=#{sTemperature},c_shumidity=#{sHumidity},c_sname=#{sname},c_srange=#{sRange},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mrangel=#{mRangeL},c_mrangeh=#{mRangeH},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_unqualifieditem=#{UnqualifiedItem},c_state=#{state}
         WHERE c_id=#{id}
     </update>
 
@@ -157,6 +159,11 @@
                 WHEN #{item.id} THEN #{item.sname}
             </foreach>
             END
+            ,c_srange = CASE c_id
+            <foreach collection="pgCertificates" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRange}
+            </foreach>
+            END
             ,c_srangel = CASE c_id
             <foreach collection="pgCertificates" item="item" separator=" ">
                 WHEN #{item.id} THEN #{item.sRangeL}
@@ -185,6 +192,11 @@
             ,c_mname = CASE c_id
             <foreach collection="pgCertificates" item="item" separator=" ">
                 WHEN #{item.id} THEN #{item.mname}
+            </foreach>
+            END
+            ,c_mrange = CASE c_id
+            <foreach collection="pgCertificates" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mRange}
             </foreach>
             END
             ,c_mrangel = CASE c_id
@@ -255,22 +267,22 @@
 
     <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.PgCertificate">
         INSERT INTO t_pgcertificate
-            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srange,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
         VALUES
-            (#{id},#{createTime},#{recordId},#{meterCustomer},#{meterName},#{meterType},#{meterCode},#{meterFactory},#{sBasis},#{detectResult},#{approver},#{inspector},#{verifier},#{detectDate},#{certCode},#{standardLoc},#{sTemperature},#{sHumidity},#{sname},#{sRangeL},#{sRangeH},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRangeL},#{mRangeH},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{UnqualifiedItem},#{state})
+            (#{id},#{createTime},#{recordId},#{meterCustomer},#{meterName},#{meterType},#{meterCode},#{meterFactory},#{sBasis},#{detectResult},#{approver},#{inspector},#{verifier},#{detectDate},#{certCode},#{standardLoc},#{sTemperature},#{sHumidity},#{sname},#{sRange},#{sRangeL},#{sRangeH},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mRangeL},#{mRangeH},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{UnqualifiedItem},#{state})
         ON DUPLICATE KEY UPDATE
-            c_recordid=#{recordId},c_metercustomer=#{meterCustomer},c_metername=#{meterName},c_metertype=#{meterType},c_metercode=#{meterCode},c_meterfactory=#{meterFactory},c_sbasis=#{sBasis},c_detectresult=#{detectResult},c_approver=#{approver},c_inspector=#{inspector},c_verifier=#{verifier},c_detectdate=#{detectDate},c_certcode=#{certCode},c_standardloc=#{standardLoc},c_stemperature=#{sTemperature},c_shumidity=#{sHumidity},c_sname=#{sname},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrangel=#{mRangeL},c_mrangeh=#{mRangeH},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_unqualifieditem=#{UnqualifiedItem},c_state=#{state}
+            c_recordid=#{recordId},c_metercustomer=#{meterCustomer},c_metername=#{meterName},c_metertype=#{meterType},c_metercode=#{meterCode},c_meterfactory=#{meterFactory},c_sbasis=#{sBasis},c_detectresult=#{detectResult},c_approver=#{approver},c_inspector=#{inspector},c_verifier=#{verifier},c_detectdate=#{detectDate},c_certcode=#{certCode},c_standardloc=#{standardLoc},c_stemperature=#{sTemperature},c_shumidity=#{sHumidity},c_sname=#{sname},c_srange=#{sRange},c_srangel=#{sRangeL},c_srangeh=#{sRangeH},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mrangel=#{mRangeL},c_mrangeh=#{mRangeH},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_unqualifieditem=#{UnqualifiedItem},c_state=#{state}
     </insert>
 
     <insert id="insertOrUpdateAll" parameterType="java.util.List">
         INSERT INTO t_pgcertificate
-            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
+            (c_id,c_createtime,c_recordid,c_metercustomer,c_metername,c_metertype,c_metercode,c_meterfactory,c_sbasis,c_detectresult,c_approver,c_inspector,c_verifier,c_detectdate,c_certcode,c_standardloc,c_stemperature,c_shumidity,c_sname,c_srange,c_srangel,c_srangeh,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mrangel,c_mrangeh,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_unqualifieditem,c_state)
         VALUES
         <foreach collection="pgCertificates" item="item" separator=",">
-            (#{item.id},#{item.createTime},#{item.recordId},#{item.meterCustomer},#{item.meterName},#{item.meterType},#{item.meterCode},#{item.meterFactory},#{item.sBasis},#{item.detectResult},#{item.approver},#{item.inspector},#{item.verifier},#{item.detectDate},#{item.certCode},#{item.standardLoc},#{item.sTemperature},#{item.sHumidity},#{item.sname},#{item.sRangeL},#{item.sRangeH},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRangeL},#{item.mRangeH},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.UnqualifiedItem},#{item.state})
+            (#{item.id},#{item.createTime},#{item.recordId},#{item.meterCustomer},#{item.meterName},#{item.meterType},#{item.meterCode},#{item.meterFactory},#{item.sBasis},#{item.detectResult},#{item.approver},#{item.inspector},#{item.verifier},#{item.detectDate},#{item.certCode},#{item.standardLoc},#{item.sTemperature},#{item.sHumidity},#{item.sname},#{item.sRange},#{item.sRangeL},#{item.sRangeH},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mRangeL},#{item.mRangeH},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.UnqualifiedItem},#{item.state})
         </foreach>
         ON DUPLICATE KEY UPDATE
-            c_recordid=VALUES(c_recordid),c_metercustomer=VALUES(c_metercustomer),c_metername=VALUES(c_metername),c_metertype=VALUES(c_metertype),c_metercode=VALUES(c_metercode),c_meterfactory=VALUES(c_meterfactory),c_sbasis=VALUES(c_sbasis),c_detectresult=VALUES(c_detectresult),c_approver=VALUES(c_approver),c_inspector=VALUES(c_inspector),c_verifier=VALUES(c_verifier),c_detectdate=VALUES(c_detectdate),c_certcode=VALUES(c_certcode),c_standardloc=VALUES(c_standardloc),c_stemperature=VALUES(c_stemperature),c_shumidity=VALUES(c_shumidity),c_sname=VALUES(c_sname),c_srangel=VALUES(c_srangel),c_srangeh=VALUES(c_srangeh),c_sresolution=VALUES(c_sresolution),c_sregulatecode=VALUES(c_sregulatecode),c_sedate=VALUES(c_sedate),c_mname=VALUES(c_mname),c_mrangel=VALUES(c_mrangel),c_mrangeh=VALUES(c_mrangeh),c_mresolution=VALUES(c_mresolution),c_sfactory=VALUES(c_sfactory),c_sregulatebcode=VALUES(c_sregulatebcode),c_sbdate=VALUES(c_sbdate),c_zeroerrormax=VALUES(c_zeroerrormax),c_indicationerrormax=VALUES(c_indicationerrormax),c_returnerrormax=VALUES(c_returnerrormax),c_positionmax=VALUES(c_positionmax),c_unqualifieditem=VALUES(c_unqualifieditem),c_state=VALUES(c_state)
+            c_recordid=VALUES(c_recordid),c_metercustomer=VALUES(c_metercustomer),c_metername=VALUES(c_metername),c_metertype=VALUES(c_metertype),c_metercode=VALUES(c_metercode),c_meterfactory=VALUES(c_meterfactory),c_sbasis=VALUES(c_sbasis),c_detectresult=VALUES(c_detectresult),c_approver=VALUES(c_approver),c_inspector=VALUES(c_inspector),c_verifier=VALUES(c_verifier),c_detectdate=VALUES(c_detectdate),c_certcode=VALUES(c_certcode),c_standardloc=VALUES(c_standardloc),c_stemperature=VALUES(c_stemperature),c_shumidity=VALUES(c_shumidity),c_sname=VALUES(c_sname),c_srange=VALUES(c_srange),c_srangel=VALUES(c_srangel),c_srangeh=VALUES(c_srangeh),c_sresolution=VALUES(c_sresolution),c_sregulatecode=VALUES(c_sregulatecode),c_sedate=VALUES(c_sedate),c_mname=VALUES(c_mname),c_mrange=VALUES(c_mrange),c_mrangel=VALUES(c_mrangel),c_mrangeh=VALUES(c_mrangeh),c_mresolution=VALUES(c_mresolution),c_sfactory=VALUES(c_sfactory),c_sregulatebcode=VALUES(c_sregulatebcode),c_sbdate=VALUES(c_sbdate),c_zeroerrormax=VALUES(c_zeroerrormax),c_indicationerrormax=VALUES(c_indicationerrormax),c_returnerrormax=VALUES(c_returnerrormax),c_positionmax=VALUES(c_positionmax),c_unqualifieditem=VALUES(c_unqualifieditem),c_state=VALUES(c_state)
     </insert>
 
     <delete id="delete">

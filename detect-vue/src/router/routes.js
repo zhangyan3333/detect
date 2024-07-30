@@ -3,6 +3,7 @@ import setting from './modules/setting';
 import personal from './modules/personal';
 import BasicLayout from '@/layouts/basic-layout';
 import detect from '@/router/modules/detect';
+import tools from '@/router/modules/tools';
 
 /**
  * 在主框架内显示
@@ -50,6 +51,7 @@ const frameIn = [
         ]
     },
     system,
+    tools,
     personal,
     setting,
     detect

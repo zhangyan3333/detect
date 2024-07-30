@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.StandardToolDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="standardToolDefaultMapping" type="com.bjj.detect.entity.StandardTool">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_sname" property="sname"/>
+        <result column="c_srange" property="sRange"/>
+        <result column="c_sresolution" property="sResolution"/>
+        <result column="c_sregulatecode" property="sRegulateCode"/>
+        <result column="c_sedate" property="sEdate"/>
+        <result column="c_mname" property="mname"/>
+        <result column="c_mrange" property="mRange"/>
+        <result column="c_mresolution" property="mResolution"/>
+        <result column="c_sfactory" property="sFactory"/>
+        <result column="c_sregulatebcode" property="sRegulateBcode"/>
+        <result column="c_sbdate" property="sBdate"/>
+        <result column="c_location" property="location"/>
+        <result column="c_organizationid" property="organizationId"/>
+        <result column="c_organizationname" property="organizationName"/>
+        <result column="c_modifyuserid" property="modifyUserId"/>
+        <result column="c_modifyusername" property="modifyUserName"/>
+        <result column="c_modifytime" property="modifyTime"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.StandardTool">
+        INSERT INTO t_standardtool
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+        VALUES
+            (#{id},#{createTime},#{sname},#{sRange},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{location},#{organizationId},#{organizationName},#{modifyUserId},#{modifyUserName},#{modifyTime})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_standardtool
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+        VALUES
+        <foreach collection="standardTools" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.sname},#{item.sRange},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.location},#{item.organizationId},#{item.organizationName},#{item.modifyUserId},#{item.modifyUserName},#{item.modifyTime})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.StandardTool">
+        UPDATE t_standardtool
+        SET c_sname=#{sname},c_srange=#{sRange},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_location=#{location},c_organizationid=#{organizationId},c_organizationname=#{organizationName},c_modifyuserid=#{modifyUserId},c_modifyusername=#{modifyUserName},c_modifytime=#{modifyTime}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_standardtool SET 
+            c_sname = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sname}
+            </foreach>
+            END
+            ,c_srange = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRange}
+            </foreach>
+            END
+            ,c_sresolution = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sResolution}
+            </foreach>
+            END
+            ,c_sregulatecode = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRegulateCode}
+            </foreach>
+            END
+            ,c_sedate = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sEdate}
+            </foreach>
+            END
+            ,c_mname = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mname}
+            </foreach>
+            END
+            ,c_mrange = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mRange}
+            </foreach>
+            END
+            ,c_mresolution = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.mResolution}
+            </foreach>
+            END
+            ,c_sfactory = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sFactory}
+            </foreach>
+            END
+            ,c_sregulatebcode = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sRegulateBcode}
+            </foreach>
+            END
+            ,c_sbdate = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sBdate}
+            </foreach>
+            END
+            ,c_location = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.location}
+            </foreach>
+            END
+            ,c_organizationid = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.organizationId}
+            </foreach>
+            END
+            ,c_organizationname = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.organizationName}
+            </foreach>
+            END
+            ,c_modifyuserid = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.modifyUserId}
+            </foreach>
+            END
+            ,c_modifyusername = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.modifyUserName}
+            </foreach>
+            END
+            ,c_modifytime = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.modifyTime}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="standardTools" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.StandardTool">
+        INSERT INTO t_standardtool
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+        VALUES
+            (#{id},#{createTime},#{sname},#{sRange},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{location},#{organizationId},#{organizationName},#{modifyUserId},#{modifyUserName},#{modifyTime})
+        ON DUPLICATE KEY UPDATE
+            c_sname=#{sname},c_srange=#{sRange},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_location=#{location},c_organizationid=#{organizationId},c_organizationname=#{organizationName},c_modifyuserid=#{modifyUserId},c_modifyusername=#{modifyUserName},c_modifytime=#{modifyTime}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_standardtool
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+        VALUES
+        <foreach collection="standardTools" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.sname},#{item.sRange},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.location},#{item.organizationId},#{item.organizationName},#{item.modifyUserId},#{item.modifyUserName},#{item.modifyTime})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_sname=VALUES(c_sname),c_srange=VALUES(c_srange),c_sresolution=VALUES(c_sresolution),c_sregulatecode=VALUES(c_sregulatecode),c_sedate=VALUES(c_sedate),c_mname=VALUES(c_mname),c_mrange=VALUES(c_mrange),c_mresolution=VALUES(c_mresolution),c_sfactory=VALUES(c_sfactory),c_sregulatebcode=VALUES(c_sregulatebcode),c_sbdate=VALUES(c_sbdate),c_location=VALUES(c_location),c_organizationid=VALUES(c_organizationid),c_organizationname=VALUES(c_organizationname),c_modifyuserid=VALUES(c_modifyuserid),c_modifyusername=VALUES(c_modifyusername),c_modifytime=VALUES(c_modifytime)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_standardtool
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_standardtool
+        WHERE c_id IN
+        <foreach collection="standardTools" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_standardtool
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_standardtool
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_standardtool WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_standardtool
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_standardtool WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="standardToolDefaultMapping">
+        SELECT * FROM t_standardtool
+    </select>
+
+    <select id="getByProperty" resultMap="standardToolDefaultMapping">
+        SELECT * FROM t_standardtool WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="standardToolDefaultMapping">
+        SELECT * FROM t_standardtool
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="standardToolDefaultMapping">
+        ${sql}
+    </select>
+
+    <!--</editor-fold>-->
+
+</mapper>

@@ -8,11 +8,13 @@ public class CodeGenerate {
 	public static void main(String... args){
 //        new CodeGeneratorManager().generateDefaultEntities();
 		new CodeGeneratorManager().generateCode(
-				PgRecord.class
+//				PgRecord.class
 //				PgInfo.class,
 //				PgNotice.class,
 //				PgCertificate.class,
+//				StandardTool.class
 //				StandardMeter.class
+				DeleteRec.class
 		);
 //        new CodeGeneratorManager().createVueProject();
 //        CodePackager.packageToWar();

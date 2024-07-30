@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.DeleteRecDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="deleteRecDefaultMapping" type="com.bjj.detect.entity.DeleteRec">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_message" property="message"/>
+        <result column="c_username" property="userName"/>
+        <result column="c_userid" property="userId"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.DeleteRec">
+        INSERT INTO t_deleterec
+            (c_id,c_createtime,c_message,c_username,c_userid)
+        VALUES
+            (#{id},#{createTime},#{message},#{userName},#{userId})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_deleterec
+            (c_id,c_createtime,c_message,c_username,c_userid)
+        VALUES
+        <foreach collection="deleteRecs" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.message},#{item.userName},#{item.userId})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.DeleteRec">
+        UPDATE t_deleterec
+        SET c_message=#{message},c_username=#{userName},c_userid=#{userId}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_deleterec SET 
+            c_message = CASE c_id
+            <foreach collection="deleteRecs" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.message}
+            </foreach>
+            END
+            ,c_username = CASE c_id
+            <foreach collection="deleteRecs" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.userName}
+            </foreach>
+            END
+            ,c_userid = CASE c_id
+            <foreach collection="deleteRecs" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.userId}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="deleteRecs" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.DeleteRec">
+        INSERT INTO t_deleterec
+            (c_id,c_createtime,c_message,c_username,c_userid)
+        VALUES
+            (#{id},#{createTime},#{message},#{userName},#{userId})
+        ON DUPLICATE KEY UPDATE
+            c_message=#{message},c_username=#{userName},c_userid=#{userId}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_deleterec
+            (c_id,c_createtime,c_message,c_username,c_userid)
+        VALUES
+        <foreach collection="deleteRecs" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.message},#{item.userName},#{item.userId})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_message=VALUES(c_message),c_username=VALUES(c_username),c_userid=VALUES(c_userid)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_deleterec
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_deleterec
+        WHERE c_id IN
+        <foreach collection="deleteRecs" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_deleterec
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_deleterec
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_deleterec WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_deleterec
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_deleterec WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="deleteRecDefaultMapping">
+        SELECT * FROM t_deleterec
+    </select>
+
+    <select id="getByProperty" resultMap="deleteRecDefaultMapping">
+        SELECT * FROM t_deleterec WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="deleteRecDefaultMapping">
+        SELECT * FROM t_deleterec
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="deleteRecDefaultMapping">
+        ${sql}
+    </select>
+
+    <!--</editor-fold>-->
+
+</mapper>

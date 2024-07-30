@@ -24,6 +24,11 @@ export default {
             session:'会话',
             thread:'线程'
         },
+        tools:{
+          self:'仪表管理',
+          standardTool:'标准管理',
+          detectTool:'被检管理'
+        },
         detect:{
             self:'检定管理',
             waitDetect:'待处理',

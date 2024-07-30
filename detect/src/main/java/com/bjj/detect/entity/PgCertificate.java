@@ -40,25 +40,27 @@ public class PgCertificate extends AbstractEntity {
 
 	//检定使用计量标准
 	private String sname;  // 标准名称 | 数字压力计
+	private String sRange; // 量程  测量范围
 	private String sRangeL;    // 量程  测量范围 低 | 0
 	private String sRangeH;    // 量程  测量范围 高 | 60
 	private String sResolution;  // 准确度等级  | 0.05级
 	private String sRegulateCode;    // 计量器证书编号
-	private Date sEdate;	   // 标准器有效期
+	private String sEdate;	   // 标准器有效期
 
 	//检定使用主标准器
 	private String mname;  // 标准器名称 | 数字压力计
+	private String mRange;  // 量程  测量范围
 	private String mRangeL;    // 量程  测量范围 低 | 0
 	private String mRangeH;    // 量程  测量范围 高 | 60
 	private String mResolution;  // 准确度等级  | 0.05级
 	private String sFactory;  // 溯源机构
 	private String sRegulateBcode;   // 溯源机构编号
-	private Date sBdate;     // 溯源有效期
+	private String sBdate;     // 溯源有效期
 
-	private float zeroErrorMax;  // 最大零位误差
-	private float indicationErrorMax;  // 最大示值误差
-	private float returnErrorMax;  // 最大回程误差
-	private float positionMax;  // 最大位移误差
+	private double zeroErrorMax;  // 最大零位误差
+	private double indicationErrorMax;  // 最大示值误差
+	private double returnErrorMax;  // 最大回程误差
+	private double positionMax;  // 最大位移误差
 
 	private String UnqualifiedItem;  // 不合格项目
 
