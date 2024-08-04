@@ -4,6 +4,7 @@ import com.syzx.framework.entity.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -29,7 +30,10 @@ public class PgCertificate extends AbstractEntity {
 	private String inspector; // 检定员
 	private String verifier; // 核验员
 
-	private Date detectDate; // 检定日期
+	private Date detectDate; // 检定日期  弃用
+
+	private Date detectTime; // 检定日期 新增
+	private Date overTime;  // 过期时间  新增
 
 	private String certCode; // 证书编号
 
@@ -65,4 +69,8 @@ public class PgCertificate extends AbstractEntity {
 	private String UnqualifiedItem;  // 不合格项目
 
 	private int state;  // 修改状态
+
+
+	private int exportState; // 冗余 导出文件
+	private long resultId;  // 冗余 赋值
 }

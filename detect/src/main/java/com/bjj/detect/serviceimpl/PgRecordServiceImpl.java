@@ -179,11 +179,11 @@ public class PgRecordServiceImpl implements PgRecordService {
      * @author: zhangyan
      * @date: 2024/7/14 22:52
     **/
-    @Scheduled(fixedRate = 3600000)
-    public void standardMeterSync(){
-        dataTransfer.readStandardMeter();
-        PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
-    }
+//    @Scheduled(fixedRate = 3600000)
+//    public void standardMeterSync(){
+//        dataTransfer.readStandardMeter();
+//        PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
+//    }
     @Override
     @Transactional(rollbackFor = Exception.class)
     public QueryResult<PgRecord> pageByQuery(IEntityQuery entityQuery) {
@@ -221,7 +221,7 @@ public class PgRecordServiceImpl implements PgRecordService {
             PgInfo info = infos.get(i);
             info.setIndicationError(Float.valueOf(df.format(Math.abs(info.getStrikeUp()-info.getStrikeDown()))));
             info.setReturnError(Float.valueOf(df.format(Math.abs(info.getStrikeUp()-info.getStrikeDown()))));
-            pgInfoDao.update(info);
+            pgInfoDao.insertOrUpdate(info);
         }
     }
     @Override

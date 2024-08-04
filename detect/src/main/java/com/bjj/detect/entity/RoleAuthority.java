@@ -22,7 +22,7 @@ public class RoleAuthority extends AbstractJoinEntity {
 
     @JoinColumn(joinClass = Role.class)
     private long roleId;
-    @JoinColumn(joinClass = Authority.class)
+    @JoinColumn(joinClass = MyAuth.class)
     private long authorityId;
 
     //</editor-fold>

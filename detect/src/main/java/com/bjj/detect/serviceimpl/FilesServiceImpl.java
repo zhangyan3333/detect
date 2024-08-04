@@ -1,9 +1,9 @@
 package com.bjj.detect.serviceimpl;
 
-import com.bjj.detect.entity.PgCertificate;
-import com.bjj.detect.entity.PgInfo;
-import com.bjj.detect.entity.PgNotice;
-import com.bjj.detect.entity.PgRecord;
+import com.bjj.detect.dao.PgCertificateDao;
+import com.bjj.detect.dao.PgRecordDao;
+import com.bjj.detect.dao.StandardToolDao;
+import com.bjj.detect.entity.*;
 import com.bjj.detect.query.PgRecordQuery;
 import com.bjj.detect.service.FilesService;
 import com.bjj.detect.service.PgRecordService;
@@ -13,10 +13,12 @@ import com.syzx.framework.query.QueryResult;
 import com.syzx.framework.uid.CentralizedUidGenerator;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -32,6 +34,18 @@ public class FilesServiceImpl implements FilesService {
 
 	@Autowired
 	private PgRecordService pgRecordService;
+
+	@Autowired
+	private PgRecordDao pgRecordDao;
+
+	@Autowired
+	private StandardToolDao standardToolDao;
+
+	@Autowired
+	private PgCertificateDao certificateDao;
+
+	@Resource
+	private Environment environment;
 
 	@Override
 	public String saveBasicFile(MultipartFile file) {
@@ -108,15 +122,15 @@ public class FilesServiceImpl implements FilesService {
 		try{
 			if (index == 0 ){
 				filePath = FrameworkConfig.dataPath + "2024/template" + "/一般压力表原始记录.docx";
-				exportDetect(filePath,(PgRecord) o);
+				returnPath = exportDetect(filePath,(PgRecord) o);
 			}
 			if (index == 1 ){
 				filePath = FrameworkConfig.dataPath + "2024/template" + "/检定证书.docx";
-				exportResult(filePath,index,(PgCertificate) o);
+				returnPath = exportResult(filePath,index,(PgCertificate) o);
 			}
 			if (index == 2 ){
 				filePath = FrameworkConfig.dataPath + "2024/template" + "/检定结果通知书.docx";
-				exportResult(filePath,index,(PgCertificate) o);
+				returnPath = exportResult(filePath,index,(PgCertificate) o);
 
 			}
 		}catch (Exception e){
@@ -132,8 +146,19 @@ public class FilesServiceImpl implements FilesService {
 	}
 
 	public String exportResult(String filePath , int index, Object o){
+
 		String returnPath = "";
 		PgCertificate result = (PgCertificate) o ;
+		if (result.getResultId() == 0){
+			result.setResultId(CentralizedUidGenerator.getId());
+		}else {
+			result.setId(result.getResultId());
+			result.setCreateTime(new Date());
+		}
+		StandardTool tool = standardToolDao.getById(pgRecordDao.getById(result.getRecordId()).getStandardToolId());
+
+		updateCertificate(tool,result);
+
 		try{
 			//调用上面写的方法prepareFile把文件名传入
 			InputStream template = new FileInputStream(filePath);
@@ -158,10 +183,26 @@ public class FilesServiceImpl implements FilesService {
 			output.flush();
 			output.close();
 
+			returnPath = LocalDate.now().format(datePathFormat) + temp;;
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 		return returnPath;
+	}
+
+	public void updateCertificate(StandardTool tool , PgCertificate certificate){
+		certificate.setSname(tool.getSname());
+		certificate.setSRange(tool.getSRange());
+		certificate.setSResolution(tool.getSResolution());
+		certificate.setSRegulateCode(tool.getSRegulateCode());
+		certificate.setSEdate(tool.getSEdate());
+		certificate.setMname(tool.getMname());
+		certificate.setMRange(tool.getMRange());
+		certificate.setMResolution(tool.getMResolution());
+		certificate.setSFactory(tool.getSFactory());
+		certificate.setSRegulateBcode(tool.getSRegulateBcode());
+		certificate.setSBdate(tool.getSBdate());
+		certificateDao.insertOrUpdate(certificate);
 	}
 
 
@@ -212,6 +253,10 @@ public class FilesServiceImpl implements FilesService {
 			//获取每个段落中的内容
 			List<XWPFRun> runs = paragraph.getRuns();
 			Date date = pgCertificate.getDetectDate();
+			Calendar end = Calendar.getInstance();
+			end.setTime(date);
+			end.add(Calendar.MONTH, Integer.valueOf(environment.getProperty("step")));
+			Date endDate = end.getTime();
 			//循环段落内容
 			for (int i1 = 0; i1 < runs.size(); i1++) {
 				//调用自定义方法replacePlaceholderV2替换内容
@@ -223,6 +268,9 @@ public class FilesServiceImpl implements FilesService {
 				if (runs.get(i1).toString().contains("yy")) { replaceParagraphText(runs.get(i1), "yy", String.format("%tY", date)); }
 				if (runs.get(i1).toString().contains("mm")) { replaceParagraphText(runs.get(i1), "mm", String.format("%tm", date)); }
 				if (runs.get(i1).toString().contains("dd")) { replaceParagraphText(runs.get(i1), "dd", String.format("%td", date)); }
+				if (index == 1 && runs.get(i1).toString().contains("g")) { replaceParagraphText(runs.get(i1), "g", String.format("%tY", endDate)); }
+				if (index == 1 && runs.get(i1).toString().contains("yb")) { replaceParagraphText(runs.get(i1), "yb", String.format("%tm", endDate)); }
+				if (index == 1 && runs.get(i1).toString().contains("yc")) { replaceParagraphText(runs.get(i1), "yc", String.format("%td", endDate)); }
 			}
 
 		}
@@ -241,7 +289,7 @@ public class FilesServiceImpl implements FilesService {
 				for (int j = 0; j < cells.size(); j++) {
 					XWPFTableCell cell = cells.get(j);
 					String text = cell.getText();
-					System.out.println(text);
+
 					if (text.equals("meterCustomer")){ replaceCellValue(cell,"meterCustomer",pgCertificate.getMeterCustomer()); }
 					if (text.equals("meterName")){ replaceCellValue(cell,"meterName",pgCertificate.getMeterName()); }
 					if (text.equals("meterType")){ replaceCellValue(cell,"meterType",pgCertificate.getMeterType()); }
@@ -254,11 +302,24 @@ public class FilesServiceImpl implements FilesService {
 					if (text.equals("standardLoc")){ replaceCellValue(cell,"standardLoc",pgCertificate.getStandardLoc()); }
 					if (text.equals("stt")){ replaceCellValue(cell,"stt",String.valueOf(pgCertificate.getSTemperature())); }
 					if (text.equals("shh")){ replaceCellValue(cell,"shh",String.valueOf(pgCertificate.getSHumidity())); }
-//
-					if (text.equals("aa")){ replaceCellValue(cell,"aa",String.valueOf(pgCertificate.getZeroErrorMax())); }  // 零位误差
-					if (text.equals("bb")){ replaceCellValue(cell,"bb",String.valueOf(pgCertificate.getIndicationErrorMax())); }
-					if (text.equals("cc")){ replaceCellValue(cell,"cc",String.valueOf(pgCertificate.getReturnErrorMax())); }
-					if (text.equals("dd")){ replaceCellValue(cell,"dd",String.valueOf(pgCertificate.getPositionMax())); }
+
+					if (text.equals("an")){ replaceCellValue(cell,"an",String.valueOf(pgCertificate.getSname())); }
+					if (text.equals("ar")){ replaceCellLnValue(cell,"ar",String.valueOf(pgCertificate.getSRange())); }
+					if (text.equals("al")){ replaceCellValue(cell,"al",String.valueOf(pgCertificate.getSResolution()) + "级"); }
+					if (text.equals("ac")){ replaceCellValue(cell,"ac",String.valueOf(pgCertificate.getSRegulateCode())); }
+					if (text.equals("ad")){ replaceCellValue(cell,"ad",String.valueOf(pgCertificate.getSEdate())); }
+
+					if (text.equals("bn")){ replaceCellValue(cell,"bn",String.valueOf(pgCertificate.getMname())); }
+					if (text.equals("br")){ replaceCellValue(cell,"br",String.valueOf(pgCertificate.getMRange())); }
+					if (text.equals("bl")){ replaceCellValue(cell,"bl",String.valueOf(pgCertificate.getMResolution()) + "级"); }
+					if (text.equals("bc")){ replaceCellValue(cell,"bc",String.valueOf(pgCertificate.getSFactory() + " " + pgCertificate.getSRegulateBcode())); }
+					if (text.equals("bd")){ replaceCellValue(cell,"bd",String.valueOf(pgCertificate.getSBdate())); }
+
+
+					if (text.equals("sa")){ replaceCellValue(cell,"sa",String.valueOf(pgCertificate.getZeroErrorMax())); }  // 零位误差
+					if (text.equals("sb")){ replaceCellValue(cell,"sb",String.valueOf(pgCertificate.getIndicationErrorMax())); }
+					if (text.equals("sc")){ replaceCellValue(cell,"sc",String.valueOf(pgCertificate.getReturnErrorMax())); }
+					if (text.equals("sd")){ replaceCellValue(cell,"sd",String.valueOf(pgCertificate.getPositionMax())); }
 
 					if (index == 2 && text.equals("UnqualifiedItem")){ replaceCellValue(cell,"UnqualifiedItem",String.valueOf(pgCertificate.getUnqualifiedItem())); }
 
@@ -436,6 +497,29 @@ public class FilesServiceImpl implements FilesService {
 //					ctPr.addNewVAlign().setVal(STVerticalJc.CENTER);
 //					cttc.getPList().get(0).addNewPPr().addNewJc().setVal(STJc.CENTER);
 				}
+			}
+		}
+	}
+
+	/**
+	 * @param cell:
+	 * @param placeholder:
+	 * @param replacement:
+	 * @return: void
+	 * @description: 换行输出表格内容
+	 * @author: zhangyan
+	 * @date: 2024/7/31 19:10
+	**/
+	public void replaceCellLnValue(XWPFTableCell cell, String placeholder, String replacement){
+		if (cell.getText().equals(placeholder)) {
+			cell.removeParagraph(0);
+			XWPFParagraph xwpfParagraph1 = cell.addParagraph();
+			String[] split = replacement.split(",");
+			xwpfParagraph1.setAlignment(ParagraphAlignment.CENTER);
+			for (String s : split) {
+				XWPFRun run = xwpfParagraph1.createRun();//对某个段落设置格式
+				run.setText(s.trim());
+				run.addBreak();//换行
 			}
 		}
 	}

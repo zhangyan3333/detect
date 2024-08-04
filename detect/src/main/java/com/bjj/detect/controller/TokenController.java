@@ -1,6 +1,7 @@
 package com.bjj.detect.controller;
 
 import com.bjj.detect.dao.AuthorityDaoNew;
+import com.bjj.detect.entity.MyAuth;
 import com.bjj.detect.entity.UserInfo;
 import com.syzx.framework.controller.AbstractTokenController;
 
@@ -34,15 +35,15 @@ public class TokenController extends AbstractTokenController {
      */
     private Set<String> getAccess(long userId) {
         //todo 这里作权限的构造
-        List<Authority> authorities = authorityDao.getByQuery(
-                new EntityQuery(Authority.class)
-                        .leftJoin(Authority.class, "id", RoleAuthority.class, "authorityId")
+        List<MyAuth> authorities = authorityDao.getByQuery(
+                new EntityQuery(MyAuth.class)
+                        .leftJoin(MyAuth.class, "id", RoleAuthority.class, "authorityId")
                         .leftJoin(RoleAuthority.class, "roleId", UserInfoRole.class, "roleId")
                         .whereEqual(UserInfoRole.class, "userId", userId)
                         .getQueryMap());
 
         Set<String> accesses = new HashSet<>();
-         for (Authority authority : authorities) {
+         for (MyAuth authority : authorities) {
             accesses.add(authority.getAccess());
         }
 
@@ -89,7 +90,8 @@ public class TokenController extends AbstractTokenController {
         tokenInfo.setAvatar(loginUser.getAvatar());
         tokenInfo.setCompanyId(userInfo.getCompanyId());
         tokenInfo.setOrganizationId(userInfo.getOrganizationId());
-        tokenInfo.setAccess(getAccess(loginUser.getId()));
+        Set<String> auths = getAccess(loginUser.getId());
+        tokenInfo.setAccess(auths);
         return tokenInfo;
     }
 

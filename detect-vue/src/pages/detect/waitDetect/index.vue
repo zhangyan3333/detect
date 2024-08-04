@@ -42,10 +42,10 @@
 				</template>
 
 				<template slot-scope ="{ row, index }" slot="action">
-					<Button v-if="row.checkStep ==0" type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '检定' }}</Button>
-					<Button v-if="row.checkStep ==1" type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '核验' }}</Button>
-					<Button v-if="row.checkStep ==2" type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '批准' }}</Button>
-					<Button v-if="row.checkStep ==4" type="info" size="small" style="margin-right: 10px" @click="reState(index)">{{ '提交' }}</Button>
+					<Button v-if="row.checkStep ==1" type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '检定' }}</Button>
+					<Button v-if="row.checkStep ==2" type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '核验' }}</Button>
+					<Button v-if="row.checkStep ==3" type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '批准' }}</Button>
+					<Button v-if="row.checkStep ==4" type="success" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '结束' }}</Button>
 				</template>
 			</Table>
 			<Page style="margin-top: 10px" :total="queryResult.count" :page-size="entityQuery.pageSize" :current="entityQuery.pageIndex"
@@ -65,22 +65,48 @@
 				   @on-cancel="modalCancel">
 
 				<Form ref="formValidate" :model="entity" :label-width="120" :rules="ruleValidate">
-					<FormItem v-if="entity.checkStep == 0" label="检定员：" prop="inspector">
-						<Input v-model="entity.inspector" placeholder="请输入检定员"></Input>
+					<FormItem v-if="entity.checkStep == 1" label="检定员：" prop="inspector">
+						<Input v-model="entity.inspector" placeholder="请输入检定员" readonly></Input>
 					</FormItem>
-					<FormItem v-if="entity.checkStep ==1" label="核验员：" prop="verifier">
-						<Input v-model="entity.verifier" placeholder="请输入核验员">></Input>
+					<FormItem v-if="entity.checkStep ==2" label="核验员：" prop="verifier">
+						<Input v-model="entity.verifier" placeholder="请输入核验员" readonly></Input>
 					</FormItem>
-					<FormItem v-if="entity.checkStep ==2" label="批准人：">
-						<Input v-model="entity.approver" placeholder="请输入批准人">></Input>
+					<FormItem v-if="entity.checkStep ==3" label="批准人：">
+						<Input v-model="entity.approver" placeholder="请输入批准人" readonly></Input>
 					</FormItem>
 					<FormItem label="备注：">
-						<Input v-model="entity.remark" placeholder="请输入备注,如无可空白。">></Input>
+						<Input v-model="entity.remark" placeholder="请输入备注,如无可空白。"></Input>
 					</FormItem>
 				</Form>
 
 			</Modal>
 		</div>
+
+		<Modal title= "证书盖章上传"
+			   v-model="isShowUp"
+			   :loading="upModalLoading"
+			   :mask-closable=false
+			   :closable=true
+			   width="35%"
+			   @on-ok="modalUpOk"
+			   @on-cancel="modalUpCancel"
+		>
+			<Form :model="entity"  :label-width="140" :label-position="'right'">
+				<FormItem  label="结果文件：" prop="resultFile" style="margin-left: -6%">
+					<Upload  ref="upload"
+							 :headers="headers"
+							 :show-upload-list="false"
+							 :format="['xls','xlsx','doc','docx','pdf','png','jpg']"
+							 :on-success="upFileSuccess"
+							 :on-format-error="onFormatError"
+							 :on-exceeded-size="onExceededSize"
+							 :on-progress="onProgress"
+							 :action="uploadUrl">
+						<Button>点击上传</Button><span style="padding-left: 20px">{{this.entity.resultFile}}</span>
+					</Upload>
+				</FormItem>
+			</Form>
+		</Modal>
 
 <!--		<file-list ref="fileList"/>-->
 		<detect-info ref="detectInfo"/>
@@ -119,9 +145,8 @@ export default {
 				speed: 0,
 				status: 'none'
 			},
-			reportFile:'',
-			reviewFile:'',
-			addFile:'',
+			isShowUp:false,
+			upModalLoading:false,
 			tableLoading: false,
 			modalLoading: true,
 			isShowModel: false,
@@ -153,33 +178,33 @@ export default {
 
 						}
 				},
-				// {
-				// 	title: '型号规格',
-				// 	key: 'sname',
-				// 	minWidth: 200,
-				// 	align: 'center',
-				// 	isShow: true
-				// },
-				// {
-				// 	title: '送检单位',
-				// 	key: 'meterCustomer',
-				// 	minWidth: 300,
-				// 	align: 'center',
-				// 	isShow: true
-				// },
-				// {
-				// 	title: '出厂编号',
-				// 	key: 'meterCode',
-				// 	minWidth: 100,
-				// 	align: 'center',
-				// 	isShow: true
-				// }, {
-				// 	title: '制造单位',
-				// 	key: 'meterFactory',
-				// 	align: 'center',
-				// 	minWidth: 300,
-				// 	isShow: true
-				// },
+				{
+					title: '型号规格',
+					key: 'meterType',
+					minWidth: 200,
+					align: 'center',
+					isShow: true
+				},
+				{
+					title: '送检单位',
+					key: 'meterCustomer',
+					minWidth: 300,
+					align: 'center',
+					isShow: true
+				},
+				{
+					title: '出厂编号',
+					key: 'meterCode',
+					minWidth: 100,
+					align: 'center',
+					isShow: true
+				}, {
+					title: '制造单位',
+					key: 'meterFactory',
+					align: 'center',
+					minWidth: 300,
+					isShow: true
+				},
 				{
 					title: '检定结论',
 					key: 'leaderName',
@@ -203,23 +228,16 @@ export default {
 									_this.$refs.detectInfo.isShowView = true;
 								}
 							}
-						},'查看'),h('a', {
-							style:{
-								marginRight : '20px'
-							},
-							on: {
-								click: (val) => {
-									window.open(getProjectUrl(row.filePath));
-								}
-							}
-						},'     上传'),h('a', {
-							on: {
-								click: (val) => {
-									_this.entityQuery.fullSearch = "print";
-									printWord(_this.entityQuery).then(()=>{console.log('成功')});
-								}
-							}
-						},'     打印')]
+						},'查看')
+						// 	, h('a', {
+						// 	on: {
+						// 		click: (val) => {
+						// 			_this.entityQuery.fullSearch = "print";
+						// 			printWord(_this.entityQuery).then(()=>{console.log('成功')});
+						// 		}
+						// 	}
+						// },'     打印')
+						]
 					},
 					isShow: true
 				}, {
@@ -234,11 +252,18 @@ export default {
 							},
 							on: {
 								click: (val) => {
-									if (row.resultFile == null || row.resultFile == ""){
-										_this.$refs.detectResult.initData(row);
-										_this.$refs.detectResult.isShowView = true;
+									if (row.standardToolId != null){
+										if (row.resultFile != null && row.resultFile != ''){
+											window.open(getProjectUrl(row.resultFile));
+										}else {
+											_this.$refs.detectResult.initData(row);
+										}
 									}else {
-										console.log('显示检定证书')
+										_this.$Message.error({
+											background: true,
+											content: '该仪表还未配置标准器，请在【仪表管理】-【被检管理】中完成配置',
+											duration: 5
+										});
 									}
 
 								}
@@ -249,24 +274,24 @@ export default {
 							},
 							on: {
 								click: (val) => {
-									_this.$Message.success({
-										background: true,
-										content: '上传调用',
-										duration: 3
-									});
+									_this.isShowUp = true;
+									_this.entity = _this.queryResult.entities[index];
 								}
 							}
-						},'上传'), h('a', {
-							on: {
-								click: (val) => {
-									_this.$Message.success({
-										background: true,
-										content: '打印调用',
-										duration: 3
-									});
-								}
-							}
-						},'打印')]
+						},'上传')
+						// 	, h('a', {
+						// 	on: {
+						// 		click: (val) => {
+						//
+						// 			_this.$Message.success({
+						// 				background: true,
+						// 				content: '打印调用',
+						// 				duration: 3
+						// 			});
+						// 		}
+						// 	}
+						// },'打印')
+						]
 					},
 					isShow: true
 				}, {
@@ -315,17 +340,18 @@ export default {
 			},
 			ruleValidate: {
 
-			}
+			},
+			access:[],
+			selectQueryIndex:-1
 		}
 	},
 	mounted() {
 		this.entityQuery.roles = this.info.roles;
-		// this.entityQuery.sortOrder = 'desc';
-		// this.entityQuery.sortKey = 'state';
+		this.entityQuery.checkStep = [1,4];
+		this.entityQuery.overTime = null;
 		this.query();
-		// requestHandle(UpdateToken(), () => {
-		// 	this.uploadUrl = getProjectUrl('api/basicfile');
-		// });
+		this.uploadUrl = getProjectUrl('api/basicfile');
+		this.access = this.info.access;
 	},
 	computed: {
 		...mapState('admin/user', [
@@ -447,7 +473,39 @@ export default {
 		},
 		modalShow(index) {
 			this.entity = index < 0 ? {} : deepClone(this.queryResult.entities[index]);
-			this.isShowModel = true;
+			let access = this.info.access;
+			let flag = false; let itemName = '';
+			if (this.entity.checkStep == 1){
+				itemName ='检定';
+				this.entity.inspector = this.info.name
+				if(access.indexOf("mDetect") > -1){
+					flag = true;
+				}
+			}
+			if (this.entity.checkStep == 2){
+				itemName = '核验';
+				this.entity.verifier = this.info.name
+				if(access.indexOf("mCheck") > -1){
+					flag = true;
+				}
+			}
+			if (this.entity.checkStep == 3){
+				itemName = '审批';
+				this.entity.approver = this.info.name
+				if(access.indexOf("mApprove") > -1){
+					flag = true;
+				}
+			}
+			if (flag){
+				this.isShowModel = true;
+			}else {
+				this.$Message.error({
+					background: true,
+					content: '您不具备【' + itemName +'】的权限，请联系管理员确认',
+					duration: 5
+				});
+			}
+
 		},
 		reState(index){
 			this.entity = index < 0 ? {} : deepClone(this.queryResult.entities[index]);//获取更新的企业
@@ -457,8 +515,11 @@ export default {
 			// 		this.query,null,null,false)
 		},
 		modalOk() {
-			if (this.entity.checkStep < 3){
+
+			if (this.entity.checkStep < 4){
 				this.entity.checkStep += 1;
+			}else {
+				this.entity.checkStep = 0;
 			}
 			entityRequest('update', 'pgRecords', this.entity,
 					(response)=>{
@@ -467,6 +528,7 @@ export default {
 					() => {
 						this.isShowModel = false;
 					})
+
 		},
 		modalCancel() {
 			this.isShowModel = false;
@@ -506,6 +568,38 @@ export default {
 			// 		});
 		},
 		getProjectUrl,
+		upFileSuccess(res, file){
+			let newFilePath = res.data;
+			if(this.entity.resultFile!=undefined && this.entity.resultFile != newFilePath) {
+				deleteFile(this.entity.resultFile);
+			}
+			this.entity.resultFile = res.data;
+			console.log('upFileSuccess:',this.entity)
+			this.uploadInfo.percent = 0;
+			this.uploadInfo.status = 'finished';
+			this.$refs.upload.clearFiles();
+			this.$Message.success({
+				background: true,
+				content: $t('page.info.updateSuccessMessage') + (this.uploadInfo.endTime - this.uploadInfo.startTime) / 1000 + 's',
+				duration: 3
+			});
+		},
+		modalUpOk(){
+			this.upModalLoading = true;
+			console.log('modalUpOk',this.entity)
+			entityRequest('update', this.apiBasePath, this.entity, ()=>{
+				this.query();
+			},()=>{
+				this.isShowOut = false;
+				this.upModalLoading = false;
+			});
+		},
+		modalUpCancel(){
+			// if(this.entity.resultFile!=undefined && this.entity.resultFile.length > 0 ) {
+			// 	deleteFile(this.entity.resultFile);
+			// }
+			this.isShowUp = false;
+		},
 		syncData(){
 
 			setTimeout(() => {

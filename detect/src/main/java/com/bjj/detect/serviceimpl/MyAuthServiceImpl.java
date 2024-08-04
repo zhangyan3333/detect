@@ -1,10 +1,8 @@
 package com.bjj.detect.serviceimpl;
 
-import com.bjj.detect.dao.PgCertificateDao;
-import com.bjj.detect.dao.PgRecordDao;
-import com.bjj.detect.entity.PgCertificate;
-import com.bjj.detect.entity.PgRecord;
-import com.bjj.detect.service.PgCertificateService;
+import com.bjj.detect.dao.MyAuthDao;
+import com.bjj.detect.entity.MyAuth;
+import com.bjj.detect.service.MyAuthService;
 import com.syzx.framework.dao.condition.ConditionFactory;
 import com.syzx.framework.dao.condition.IQueryCondition;
 import com.syzx.framework.query.IEntityQuery;
@@ -16,20 +14,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * PgCertificate服务接口实现 <br/>
+ * MyAuth服务接口实现 <br/>
  * <p>
- * CreateTime 2024/07/10 01:44
- *
+ * CreateTime 2024/08/01 19:20
+ * 
  * @version 1.0.0
  * @author 代码生成器
  */
 @Service
-public class PgCertificateServiceImpl implements PgCertificateService {
+public class MyAuthServiceImpl implements MyAuthService {
 
     //<editor-fold desc="字段区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">
 
     @Autowired
-    private PgCertificateDao pgCertificateDao;
+    private MyAuthDao myAuthDao;
 
     //</editor-fold>
 
@@ -37,32 +35,32 @@ public class PgCertificateServiceImpl implements PgCertificateService {
 
     /**
      * 插入单个实体.
-     * @param pgCertificate 需要插入的实体
-     */
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void insert(PgCertificate pgCertificate) {
-//        pgCertificateDao.insert(pgCertificate);
-//    }
-
-    /**
-     * 插入多个实体.
-     * @param pgCertificates 需要插入的实体集合
+     * @param myAuth 需要插入的实体
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void insertAll(List<PgCertificate> pgCertificates) {
-        pgCertificateDao.insertAll(pgCertificates);
+    public void insert(MyAuth myAuth) {
+        myAuthDao.insert(myAuth);
+    }
+
+    /**
+     * 插入多个实体.
+     * @param myAuths 需要插入的实体集合
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertAll(List<MyAuth> myAuths) {
+        myAuthDao.insertAll(myAuths);
     }
 
     /**
      * 更新单个实体.
-     * @param pgCertificate 需要更新的实体
+     * @param myAuth 需要更新的实体
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(PgCertificate pgCertificate) {
-        pgCertificateDao.update(pgCertificate);
+    public void update(MyAuth myAuth) {
+        myAuthDao.update(myAuth);
     }
 
 
@@ -73,7 +71,7 @@ public class PgCertificateServiceImpl implements PgCertificateService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(long id) {
-        pgCertificateDao.deleteById(id);
+        myAuthDao.deleteById(id);
     }
 
     /**
@@ -82,8 +80,8 @@ public class PgCertificateServiceImpl implements PgCertificateService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<PgCertificate> get() {
-        return pgCertificateDao.get();
+    public List<MyAuth> get() {
+        return myAuthDao.get();
     }
 
     /**
@@ -93,8 +91,8 @@ public class PgCertificateServiceImpl implements PgCertificateService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public PgCertificate getById(long id) {
-        return pgCertificateDao.getById(id);
+    public MyAuth getById(long id) {
+        return myAuthDao.getById(id);
     }
 
     /**
@@ -104,8 +102,8 @@ public class PgCertificateServiceImpl implements PgCertificateService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<PgCertificate> getByConditions(IQueryCondition... conditions) {
-        return pgCertificateDao.getByQuery(ConditionFactory.buildSimpleQuery(PgCertificate.class,conditions));
+    public List<MyAuth> getByConditions(IQueryCondition... conditions) {
+        return myAuthDao.getByQuery(ConditionFactory.buildSimpleQuery(MyAuth.class,conditions));
     }
 
     /**
@@ -115,8 +113,8 @@ public class PgCertificateServiceImpl implements PgCertificateService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<PgCertificate> getByQuery(IEntityQuery entityQuery) {
-        return pgCertificateDao.getByQuery(entityQuery.getQueryMap());
+    public List<MyAuth> getByQuery(IEntityQuery entityQuery) {
+        return myAuthDao.getByQuery(entityQuery.getQueryMap());
     }
 
     /**
@@ -126,25 +124,14 @@ public class PgCertificateServiceImpl implements PgCertificateService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public QueryResult<PgCertificate> pageByQuery(IEntityQuery entityQuery) {
-        QueryResult<PgCertificate> result = new QueryResult<>();
-        result.setEntities(pgCertificateDao.getByQuery(entityQuery.getQueryMap()));
-        result.setCount(pgCertificateDao.countByQuery(entityQuery.getCountMap()));
+    public QueryResult<MyAuth> pageByQuery(IEntityQuery entityQuery) {
+        QueryResult<MyAuth> result = new QueryResult<>();
+        result.setEntities(myAuthDao.getByQuery(entityQuery.getQueryMap()));
+        result.setCount(myAuthDao.countByQuery(entityQuery.getCountMap()));
         return result;
     }
 
 
     //</editor-fold>
 
-    @Autowired
-    private PgRecordDao recordDao;
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void insert(PgCertificate pgCertificate) {
-        pgCertificateDao.insert(pgCertificate);
-        PgRecord record = recordDao.getById(pgCertificate.getRecordId());
-        record.setResultId(pgCertificate.getId());
-        recordDao.update(record);
-    }
 }

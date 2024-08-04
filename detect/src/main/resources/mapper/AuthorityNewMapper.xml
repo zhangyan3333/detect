@@ -4,12 +4,10 @@
 
     <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
 
-    <resultMap id="authorityDefaultMapping" type="com.syzx.framework.entity.Authority">
+    <resultMap id="authorityDefaultMapping" type="com.bjj.detect.entity.MyAuth">
         <result column="c_id" property="id"/>
         <result column="c_createtime" property="createTime"/>
-        <result column="c_parentid" property="parentId"/>
         <result column="c_name" property="name"/>
-        <result column="c_path" property="path"/>
         <result column="c_access" property="access"/>
         <result column="c_type" property="type"/>
     </resultMap>

@@ -8,7 +8,8 @@ const Setting = {
      * 基础配置
      * */
     // 网页标题的后缀
-    titleSuffix: 'CRSC',
+    // titleSuffix: 'CRSC',
+    titleSuffix: '',
     // 路由模式，可选值为 history 或 hash
     routerMode: 'hash',
     // 应用的基路径

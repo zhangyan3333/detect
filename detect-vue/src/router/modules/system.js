@@ -42,6 +42,16 @@ export default {
                 closable: true
             },
             component: () => import('@/pages/system/role')
+        },
+        {
+            path: 'auth',
+            name: `${pre}auth`,
+            meta: {
+                auth,
+                title: '$t:menu.system.auth',
+                closable: true
+            },
+            component: () => import('@/pages/system/auth')
         }
     ]
 };

@@ -1,11 +1,12 @@
 package com.bjj.detect.query;
 
+import com.bjj.detect.entity.MyAuth;
 import com.bjj.detect.entity.Role;
+import com.bjj.detect.entity.RoleAuthority;
+import com.syzx.framework.entity.Authority;
+import com.syzx.framework.query.AbstractEntityQuery;
 import lombok.Getter;
 import lombok.Setter;
-import com.syzx.framework.query.AbstractEntityQuery;
-import com.syzx.framework.entity.Authority;
-import com.bjj.detect.entity.RoleAuthority;
 
 /**
  * Role查询 <br/>
@@ -37,9 +38,9 @@ public class RoleQuery extends AbstractEntityQuery {
     @Override
     protected void configSql() {
         select(Role.class)
-                .select("GROUP_CONCAT", Authority.class, "id", "authorityIds")
+                .select("GROUP_CONCAT", MyAuth.class, "id", "authorityIds")
                 .leftJoin(Role.class, "id", RoleAuthority.class, "roleId")
-                .leftJoin(RoleAuthority.class, "authorityId", Authority.class, "id")
+                .leftJoin(RoleAuthority.class, "authorityId", MyAuth.class, "id")
                 .group(Role.class, "id")
                 .fullSearch(fullSearch,"name")
                 .sort(Role.class, sortKey, sortOrder);

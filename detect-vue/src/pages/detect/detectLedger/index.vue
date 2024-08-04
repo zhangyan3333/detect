@@ -43,6 +43,13 @@
 					<Tag v-if="row.detectResult === 0" color="blue">合格</Tag>
 					<Tag v-if="row.detectResult === 1" color="red">不合格</Tag>
 				</template>
+				<template slot-scope="{ row }" slot="checkStep">
+					<Tag v-if="row.checkStep === 0" color="green">检定完成</Tag>
+					<Tag v-if="row.checkStep === 1" color="blue">待检定</Tag>
+					<Tag v-if="row.checkStep === 2" color="blue">待核验</Tag>
+					<Tag v-if="row.checkStep === 3" color="blue">待批准</Tag>
+					<Tag v-if="row.checkStep === 4" color="blue">待确认</Tag>
+				</template>
 
 				<template slot-scope ="{ row, index }" slot="action">
 					<Button  type="primary" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ '编辑' }}</Button>
@@ -148,14 +155,31 @@
 						isShow: true
 					},
 					{
-						title: '有效期至',
-						key: 'createTime',
+						title: '检测日期',
+						key: 'detectTime',
 						minWidth: 140,
 						align: 'center',
 						isShow: true,
 						render: function (h, {row,index}) {
-							return h('div',dayjs(row.createTime).format('YYYY年M月D日'));
-
+							if (row.detectTime == null){
+								return h('div','');
+							}else {
+								return h('div',dayjs(row.detectTime).format('YYYY年M月D日'));
+							}
+						}
+					},
+					{
+						title: '有效期至',
+						key: 'overTime',
+						minWidth: 140,
+						align: 'center',
+						isShow: true,
+						render: function (h, {row,index}) {
+							if (row.detectTime == null){
+								return h('div','');
+							}else {
+								return h('div',dayjs(row.overTime).format('YYYY年M月D日'));
+							}
 						}
 					},
 					// {
@@ -178,6 +202,14 @@
 					// 	minWidth: 300,
 					// 	isShow: true
 					// },
+					{
+						title: '检定状态',
+						key: 'checkStep',
+						minWidth: 100,
+						align: 'center',
+						slot: 'checkStep',
+						isShow: true
+					},
 					{
 						title: '检定结论',
 						key: 'leaderName',
@@ -207,15 +239,15 @@
 						isShow: true
 					}, {
 						title: '结果文件',
-						key: 'qualificationType',
+						key: 'resultFile',
 						minWidth: 120,
 						align: 'center',
 						render: function (h, {row,index}) {
 							return [h('a', {
 								on: {
 									click: (val) => {
-										if (row.reviewFile != null){
-											window.open(getProjectUrl(row.reviewFile));
+										if (row.resultFile != null){
+											window.open(getProjectUrl(row.resultFile));
 										}else {
 											_this.$Message.error({
 												background: true,
@@ -280,12 +312,8 @@
 		},
 		mounted() {
 			this.entityQuery.roles = this.info.roles;
-			// this.entityQuery.sortOrder = 'desc';
-			// this.entityQuery.sortKey = 'state';
+			this.entityQuery.checkStep = [0,4];
 			this.query();
-			// requestHandle(UpdateToken(), () => {
-			// 	this.uploadUrl = getProjectUrl('api/basicfile');
-			// });
 		},
 		computed: {
 			...mapState('admin/user', [

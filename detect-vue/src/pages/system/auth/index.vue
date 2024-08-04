@@ -34,6 +34,11 @@
                     {{ (entityQuery.pageIndex - 1) * entityQuery.pageSize + index + 1 }}
                 </template>
 
+				<template slot-scope="{ row }" slot="type">
+					<Tag v-if="row.type === 1" color="blue">审核权限</Tag>
+					<Tag v-if="row.type === 2" color="green">浏览权限</Tag>
+				</template>
+
                 <!-- 这里添加订制列 -->
                 <template slot-scope ="{ row, index }" slot="action">
                     <Button type="warning" size="small" style="margin-right: 5px" @click="modalShow(index)">{{ $t('page.common.modify') }}</Button>
@@ -57,14 +62,18 @@
                    @on-cancel="modalCancel">
 
                 <Form ref="formValidate" :model="entity" :label-width="100" :rules="ruleValidate">
-                    <FormItem :label="$t('page.role.entityDescription') + $t('page.common.name')" prop="name">
-                        <Input v-model="entity.name" :placeholder="$t('page.role.entityDescription') + $t('page.common.name')"></Input>
+                    <FormItem label="权限名称" prop="name">
+                        <Input v-model="entity.name" placeholder="权限名称"></Input>
                     </FormItem>
-                    <FormItem :label="$t('page.role.entityDescription') + $t('page.role.access')" prop="access">
-						<Select v-model="entity.authorityIds" multiple :max-tag-count="2" :max-tag-placeholder="maxTagPlaceholder">
-							<Option v-for="item in auths" :value="item.id" :key="item.id">{{ item.name }}</Option>
-						</Select>
+					<FormItem label="权限代码" prop="access">
+						<Input v-model="entity.access" placeholder="权限名称"></Input>
 					</FormItem>
+                    <FormItem label="权限类型" prop="type">
+						<Select v-model="entity.type" clearable aria-placeholder="请选择权限类型">
+							<Option :value="1" :key="1">审核权限</Option>
+							<Option :value="2" :key="2">浏览权限</Option>
+						</Select>
+                    </FormItem>
                 </Form>
 
             </Modal>
@@ -80,9 +89,8 @@
     export default {
         name: 'system-role',
         data() {
-			let _this = this;
             return {
-                apiBasePath: 'roles',
+                apiBasePath: 'myAuths',
                 tableLoading: false,
                 modalLoading: true,
                 isShowModel: false,
@@ -96,39 +104,30 @@
                         fixed: 'left',
                         align: 'center',
                         isShow: true
-                    }, {
-                        title: $t('page.role.entityDescription') + $t('page.common.name'),
-                        key: 'name',
-                        minWidth: 150,
-                        isShow: true
-                    }, {
-                        title: $t('page.role.entityDescription') + $t('page.role.access'),
-                        key: 'access',
-                        minWidth: 150,
-                        isShow: true,
-						render: function (h, {row,index}) {
-                        	let as = _this.auths;
-                        	let accessName = [];
-							for (let i = 0; i < row.authorityIds.length; i++) {
-								for (let j = 0; j < as.length; j++) {
-									if (row.authorityIds[i] == as[j].id){
-										accessName.push('['+as[j].name+']-')
-									}
-								}
-							}
-							return h('div', accessName);
-						}
-                    }, {
-                        title: $t('page.common.createTime'),
-                        key: 'createTime',
-                        minWidth: 200,
-                        sortable: 'custom',
-                        isShow: true,
-                        render: function (h) {
-                            return h('div',
-                                dayjs(this.row.createTime).format('YYYY/MM/DD HH:mm:ss'));  /*这里的this.row能够获取当前行的数据*/
-                        }
-                    }, {
+                    },
+					{
+						title: '名称',
+						key: 'name',
+						minwidth: 200,
+						align: 'center',
+						isShow: true
+					},
+					{
+						title: '权限类型',
+						key: 'type',
+						slot: 'type',
+						minwidth: 200,
+						align: 'center',
+						isShow: true
+					},
+					{
+						title: '权限代码',
+						key: 'access',
+						minwidth: 200,
+						align: 'center',
+						isShow: true
+					},
+					{
                         title: $t('page.common.action'),
                         slot: 'action',
                         width: 150,
@@ -152,12 +151,10 @@
                     name: [
                         {required: true, message: format($t('page.common.notNullTemplate'), {propertyName: $t('page.role.entityDescription') + $t('page.common.name') }), trigger: 'blur'}
                     ]
-                },
-				auths:[]
+                }
             }
         },
         mounted() {
-        	this.initAuth();
             this.query();
         },
         computed: {
@@ -166,9 +163,6 @@
             }
         },
         methods: {
-			maxTagPlaceholder (num) {
-				return 'more '+ num;
-			},
             onPageChange(pageIndex) {
                 this.entityQuery.pageIndex = pageIndex;
                 this.query();
@@ -193,6 +187,7 @@
             modalOk() {
                 this.$refs.formValidate.validate((valid) => {
                     if (valid) {
+						this.entity.authorityIds = ['298959070142922752','298959070142922753'];
                         entityRequest(this.selectIndex < 0 ? 'insert' : 'update', this.apiBasePath, this.entity,
                             //第四个参数, onSuccess
                             this.query,
@@ -232,7 +227,6 @@
                 entityRequest('page', this.apiBasePath, this.entityQuery,
                     // 第四个参数, onSuccess
                     (response) => {
-
                         this.queryResult.count = response.data.count;
                         this.queryResult.entities = response.data.entities;
                     },
@@ -240,18 +234,7 @@
                     () => {
                         this.tableLoading = false;
                     });
-            },
-			initAuth(){
-				entityRequest('noPage', 'myAuths', {},
-						// 第四个参数, onSuccess
-						(response) => {
-							this.auths = response.data;
-						},
-						// 第五个参数, onFinish
-						() => {
-							this.tableLoading = false;
-						});
-			}
+            }
         }
     }
 </script>

@@ -29,9 +29,11 @@ public class Role extends AbstractEntity {
     @Column(length = 30)
     private String name;
 
-    @ManyToMany(middleClass = RoleAuthority.class, joinClass = Authority.class, joinPropertyName = "id", cascade = true)
-    private Set<Long> authorityIds;
+//    @ManyToMany(middleClass = RoleAuthority.class, joinClass = Authority.class, joinPropertyName = "id", cascade = true)
+//    private Set<Long> authorityIds;
 
     //</editor-fold>
 
+    @ManyToMany(middleClass = RoleAuthority.class, joinClass = MyAuth.class, joinPropertyName = "id", cascade = true)
+    private Set<Long> authorityIds;
 }

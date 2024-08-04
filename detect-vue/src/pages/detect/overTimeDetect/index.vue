@@ -2,17 +2,17 @@
 	<Card dis-hover>
 		<div>
 			<Row style="margin-bottom: 5px;">
-<!--				<Col flex="100px">-->
-<!--					<Button type="success" icon="md-add" @click="modalShow(-1)" long>{{ '同步检定数据' }}</Button>-->
-<!--				</Col>-->
+				<!--				<Col flex="100px">-->
+				<!--					<Button type="success" icon="md-add" @click="modalShow(-1)" long>{{ '同步检定数据' }}</Button>-->
+				<!--				</Col>-->
 				<Col style="" flex="500px">
 					<Input search placeholder='可搜索送检单位及仪表名称' v-model="entityQuery.fullSearch" @on-search="query" />
 				</Col>
 				<Col flex="auto">
 				</Col>
-<!--				<Col style="margin-left: 20px" flex="500px">-->
-<!--					<Input search placeholder='可搜索送检单位及仪表名称' v-model="entityQuery.fullSearch" @on-search="query" />-->
-<!--				</Col>-->
+				<!--				<Col style="margin-left: 20px" flex="500px">-->
+				<!--					<Input search placeholder='可搜索送检单位及仪表名称' v-model="entityQuery.fullSearch" @on-search="query" />-->
+				<!--				</Col>-->
 				<Col flex="20px">
 					<Dropdown trigger="click" style="margin-top: 5px">
 						<Tooltip class="ivu-ml" :content="$t('page.common.columnSetting')" placement="top">
@@ -148,13 +148,24 @@
 						isShow: true
 					},
 					{
-						title: '有效期至',
-						key: 'createTime',
+						title: '检测日期',
+						key: 'detectTime',
 						minWidth: 140,
 						align: 'center',
 						isShow: true,
 						render: function (h, {row,index}) {
-							return h('div',dayjs(row.createTime).format('YYYY年M月D日'));
+							return h('div',dayjs(row.detectTime).format('YYYY年M月D日'));
+
+						}
+					},
+					{
+						title: '有效期至',
+						key: 'overTime',
+						minWidth: 140,
+						align: 'center',
+						isShow: true,
+						render: function (h, {row,index}) {
+							return h('div',dayjs(row.overTime).format('YYYY年M月D日'));
 
 						}
 					},
@@ -207,15 +218,15 @@
 						isShow: true
 					}, {
 						title: '结果文件',
-						key: 'qualificationType',
+						key: 'resultFile',
 						minWidth: 120,
 						align: 'center',
 						render: function (h, {row,index}) {
 							return [h('a', {
 								on: {
 									click: (val) => {
-										if (row.reviewFile != null){
-											window.open(getProjectUrl(row.reviewFile));
+										if (row.resultFile != null){
+											window.open(getProjectUrl(row.resultFile));
 										}else {
 											_this.$Message.error({
 												background: true,
@@ -280,8 +291,8 @@
 		},
 		mounted() {
 			this.entityQuery.roles = this.info.roles;
-			// this.entityQuery.sortOrder = 'desc';
-			// this.entityQuery.sortKey = 'state';
+			this.entityQuery.overTime = dayjs(new Date()).add(1, 'month').format('YYYY-MM-DD');
+			this.entityQuery.checkStep = [0,0];
 			this.query();
 			// requestHandle(UpdateToken(), () => {
 			// 	this.uploadUrl = getProjectUrl('api/basicfile');
@@ -429,39 +440,16 @@
 				this.isShowModel = false;
 			},
 			query() {
-				this.tableLoading = false;
-				// this.tableLoading = true;
-				// // 使用 mysql查询
-				// entityRequest('page', this.apiBasePath, this.entityQuery,
-				// 		(response)=>{
-				// 			this.queryResult.entities = response.data.entities;
-				// 			this.queryResult.count = response.data.count;
-				// 		},
-				// 		() => {
-				// 			this.tableLoading = false;
-				// 		})
-				// 按照sql查询
-				// entityRequest('page', this.apiBasePath, this.entityQuery,
-				// 		// 第四个参数, onSuccess
-				// 		(response) => {
-				// 			this.queryResult.count = response.data.count;
-				// 			console.log(this.entityQuery.pageIndex , this.entityQuery.pageSize)
-				// 			let entities = response.data.entities;
-				//
-				// 			let result = [];
-				// 			let index = this.entityQuery.pageIndex;
-				// 			let size = this.entityQuery.pageSize;
-				//
-				// 			for (let i = (index-1) *size; i < (index-1) *size + size && i < entities.length; i++) {
-				// 				result.push(entities[i]);
-				// 			}
-				//
-				// 			this.queryResult.entities = result;
-				// 		},
-				// 		// 第五个参数, onFinish
-				// 		() => {
-				// 			this.tableLoading = false;
-				// 		});
+				this.tableLoading = true;
+				// 使用 mysql查询
+				entityRequest('page', this.apiBasePath, this.entityQuery,
+						(response)=>{
+							this.queryResult.entities = response.data.entities;
+							this.queryResult.count = response.data.count;
+						},
+						() => {
+							this.tableLoading = false;
+						})
 			},
 			getProjectUrl
 		}

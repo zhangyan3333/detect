@@ -26,6 +26,12 @@ export default {
             path: `${pre}role`,
             title: '$t:menu.system.role',
             icon: 'iconfont icon-role'
+        },
+        {
+            auth,
+            path: `${pre}auth`,
+            title: '$t:menu.system.auth',
+            icon: 'iconfont icon-role'
         }
     ]
 }

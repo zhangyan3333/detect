@@ -48,6 +48,10 @@ server:
     context-path: /detect
 #</editor-fold>
 
+step: 6
+tables:
+  detectTable: 'Tbl_DetectedMeter_copy1'
+
 syzxframework:
   generator:
     entity-package: com.bjj.detect.entity

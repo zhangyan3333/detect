@@ -36,7 +36,7 @@ public class StandardToolQuery extends AbstractEntityQuery {
     @Override
     protected void configSql() {
         select(StandardTool.class)
-                .fullSearch(fullSearch,"name","sFactory","sResolution","sRegulateBcode","modifyUserName","organizationName","location")
+                .fullSearch(fullSearch,"sname","mname","sFactory","sResolution","sRegulateBcode","modifyUserName","organizationName","location")
                 .sort(StandardTool.class, sortKey, sortOrder);
     }
 

@@ -1,33 +1,25 @@
-package com.bjj.detect.util;
+package com.bjj.detect;
 
-import org.springframework.core.env.Environment;
 import com.bjj.detect.dao.PgCertificateDao;
 import com.bjj.detect.dao.PgInfoDao;
 import com.bjj.detect.dao.PgRecordDao;
-import com.bjj.detect.entity.PgCertificate;
 import com.bjj.detect.entity.PgInfo;
 import com.bjj.detect.entity.PgRecord;
-import com.bjj.detect.entity.StandardMeter;
-import com.bjj.detect.query.PgRecordQuery;
-import com.bjj.detect.service.PgInfoService;
 import com.bjj.detect.service.PgRecordService;
-import com.bjj.detect.service.StandardMeterService;
-import com.bjj.detect.sqldto.DetectedDetail;
-import com.bjj.detect.sqldto.DetectedMeter;
+import com.bjj.detect.util.MultipartFileDto;
+import com.bjj.detect.util.SqlConnect;
 import com.syzx.framework.config.FrameworkConfig;
 import com.syzx.framework.exceptions.BusinessException;
 import com.syzx.framework.uid.CentralizedUidGenerator;
 import com.syzx.framework.utils.PrintUtil;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.ibatis.session.SqlSessionException;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.beans.Transient;
+import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +27,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -43,41 +34,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@Component
-public class DataTransfer {
+@SpringBootTest
+public class SqlTest {
 
 	@Autowired
 	private SqlConnect sqlConnect;
 
-	@Autowired
-	private PgInfoService pgInfoService;
+	@Resource
+	private Environment environment;
 
 	@Autowired
 	private PgRecordService pgRecordService;
 
 	@Autowired
-	private StandardMeterService standardMeterService;
-
-	@Autowired
-	private PgCertificateDao certificateDao;
+	private PgRecordDao pgRecordDao;
 
 	@Autowired
 	private PgInfoDao pgInfoDao;
 
 	@Autowired
-	private PgRecordDao pgRecordDao;
+	private PgCertificateDao certificateDao;
 
-	@Autowired
-	private Environment environment;
 
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 	private static final DateTimeFormatter datePathFormat = DateTimeFormatter.ofPattern("yyyy/MM");
 
-	private SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-
-	@Transactional(rollbackFor = Exception.class)
-	public void detectRecordSqlToMysql(){
+	@Test
+	public void test(){
 		List<Integer> records = new ArrayList<>();
 
 		//读取 sql数据库中所有状态不为0的数据
@@ -93,15 +76,8 @@ public class DataTransfer {
 							pgInfoDao.deleteByProperty("pgRecordId",record.getId());
 							certificateDao.deleteByRecordId(record.getId());
 							record.setInfos(recordList.get(i).getInfos());
-
-							pgRecordDao.update(cacheRecord(record));
-
-							List<PgInfo> pgInfos =  recordList.get(i).getInfos();
-							for (PgInfo info : pgInfos){
-								info.setPgRecordId(record.getId());
-								pgInfoDao.insert(info);
-							}
-
+							record.setCheckStep(1);
+							pgRecordService.update(record);
 						}
 						recordList.remove(recordList.get(i));
 					}
@@ -118,21 +94,6 @@ public class DataTransfer {
 		}
 	}
 
-	public PgRecord cacheRecord(PgRecord record){
-		record.setCheckStep(1);
-		record.setCreateTime(new Date());
-		record.setInspector(null);
-		record.setVerifier(null);
-		record.setApprover(null);
-		record.setRecordFile(null);
-		record.setResultFile(null);
-		record.setResultId(0);
-		record.setRemark(null);
-		record.setImgPath1(null);
-		record.setImgPath2(null);
-		record.setImgPath3(null);
-		return record;
-	}
 
 	@Transactional(rollbackFor = Exception.class)
 	public List<PgRecord> readRecord(List<Integer> pgs, SqlConnect sqlConnect){
@@ -338,115 +299,6 @@ public class DataTransfer {
 			}
 		}else {
 			return "";
-		}
-	}
-
-
-
-
-
-
-	/**
-	 * @param record:
-	 * @param meter:
-	 * @return: void
-	 * @description: 添加标准器信息到记录中
-	 * @author: zhangyan
-	 * @date: 2024/7/14 22:16
-	 **/
-	private void loadStandardMetetInfo(PgRecord record, StandardMeter meter){
-		record.setSname(meter.getSname());
-		record.setScode(meter.getScode());
-		record.setSRangeL(meter.getSRangeL());
-		record.setSRangeH(meter.getSRangeH());
-		record.setSResolution(meter.getSResolution());
-		record.setSEdate(meter.getSEdate());
-		record.setSResolution(meter.getSResolution());
-		record.setSFactory(meter.getSFactory());
-		record.setSRegulateBcode(meter.getSRegulateBcode());
-		record.setSBdate(meter.getSBdate());
-	}
-
-	/**
-	 * @param :
-	 * @return: void
-	 * @description: 从标准器数据库读取同步
-	 * @author: zhangyan
-	 * @date: 2024/7/14 23:50
-	**/
-	@Transactional(rollbackFor = Exception.class)
-	public void readStandardMeter(){
-		List<StandardMeter> meters = standardMeterService.get();
-		List<Integer> ids = new ArrayList<>();
-		for (StandardMeter m:meters){
-			ids.add(m.getSid());
-		}
-		try{
-			Connection conn = sqlConnect.connect();
-			String sqlCount = "select count(*) from Tbl_StandardMeter";
-			PreparedStatement ps = conn.prepareStatement(sqlCount);
-			ResultSet rs = ps.executeQuery();
-			int count = 0;
-			if (rs.next()){
-				count = rs.getInt(1);
-			}
-			if (count == meters.size()){
-
-			}else {
-				// 获取所有标准器
-				String sql = "select * from Tbl_StandardMeter";
-				ps = conn.prepareStatement(sql);
-				rs = ps.executeQuery();
-
-				List<StandardMeter> standards = new ArrayList<>();
-				while(rs.next()){
-					StandardMeter standardMeter = new StandardMeter();
-					standardMeter.setSid(rs.getInt("sid"));
-					standardMeter.setSname(rs.getString("sname"));
-					standardMeter.setScode(rs.getString("scode"));
-					standardMeter.setSRegulateBcode(rs.getString("sResolution"));
-					standardMeter.setSRangeL(rs.getString("sRangeL"));
-					standardMeter.setSRangeH(rs.getString("sRangeH"));
-					standardMeter.setSEdate(rs.getDate("sEdate"));
-					standardMeter.setSRegulateCode(rs.getString("sRegulateCode"));
-					standardMeter.setSFactory(rs.getString("sFactory"));
-					standardMeter.setSRegulateBcode(rs.getString("sRegulateBcode"));
-					standardMeter.setSBdate(rs.getDate("sBdate"));
-					standardMeter.setSAccuracy(rs.getString("sAccuracy"));
-					standardMeter.setSDivisionNo(rs.getString("sDivisionNo"));
-					standardMeter.setSRangeUnit(rs.getString("sRangeUnit"));
-					standardMeter.setSunit(rs.getString("sunit"));
-					standardMeter.setSModule(rs.getInt("sModule"));
-					standardMeter.setRtp(rs.getBigDecimal("rtp").toString());
-					standardMeter.setRa(rs.getBigDecimal("ra").toString());
-					standardMeter.setRb(rs.getBigDecimal("rb").toString());
-					standardMeter.setRc(rs.getBigDecimal("rc").toString());
-					standardMeter.setA4(rs.getBigDecimal("a4").toString());
-					standardMeter.setB4(rs.getBigDecimal("b4").toString());
-					standardMeter.setW0(rs.getBigDecimal("w0").toString());
-					standardMeter.setW100(rs.getBigDecimal("w100").toString());
-					standardMeter.setT800(rs.getBigDecimal("t800").toString());
-					standardMeter.setT900(rs.getBigDecimal("t900").toString());
-					standardMeter.setT1000(rs.getBigDecimal("t1000").toString());
-					standardMeter.setT1100(rs.getBigDecimal("t1100").toString());
-
-					standards.add(standardMeter);
-				}
-				for (int i = 0; i < standards.size(); i++) {
-					StandardMeter standardMeter = standards.get(i);
-					if (ids.indexOf(standardMeter.getSid()) > -1){
-						continue;
-					}else {
-						standardMeterService.insert(standardMeter);
-					}
-				}
-			}
-
-			sqlConnect.release(conn,ps,rs);
-		}catch (Exception e){
-			PrintUtil.info("读取标准器数据库出错"
-					+ sdf.format(new Date())
-					+ e.toString());
 		}
 	}
 }

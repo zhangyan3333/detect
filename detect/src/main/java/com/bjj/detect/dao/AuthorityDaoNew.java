@@ -1,18 +1,19 @@
 package com.bjj.detect.dao;
 
+import com.bjj.detect.entity.MyAuth;
 import com.syzx.framework.entity.Authority;
 
 import java.util.List;
 import java.util.Map;
 
 public interface AuthorityDaoNew {
-	void insert(Authority authority);
+	void insert(MyAuth authority);
 
-	void insertAll(List<Authority> authorities);
+	void insertAll(List<MyAuth> authorities);
 
 	int count();
 
-	List<Authority> get();
+	List<MyAuth> get();
 
-	List<Authority> getByQuery(Map<String, Object> query);
+	List<MyAuth> getByQuery(Map<String, Object> query);
 }

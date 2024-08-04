@@ -65,7 +65,7 @@
 		</Row>
 		<Row class-name="rowElement">
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">标准器有效期</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"> <Input class="pInput" v-model="entity.se"/></Col>
+			<Col span="2" class="ivu-b ivu-text-center"> <p class="pElement" v-text="entity.se"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">检定依据</p></Col>
 			<Col span="10" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.sbasis"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">温度</p></Col>
@@ -214,7 +214,7 @@
 
 		<template #footer>
 			<Button type="primary"  @click="modalExport()">导出</Button>
-			<Button type="primary" v-if="entity.status == 'ledger'" @click="modalExport()">打印</Button>
+<!--			<Button type="primary" v-if="entity.status == 'ledger'" @click="modalExport()">打印</Button>-->
 			<Button type="primary" v-if="entity.status != 'ledger'" @click="modalOk()">保存</Button>
 			<Button type="default" @click="modalCancel()">取消</Button>
 		</template>

@@ -11,10 +11,13 @@ public class CodeGenerate {
 //				PgRecord.class
 //				PgInfo.class,
 //				PgNotice.class,
-//				PgCertificate.class,
+//				PgCertificate.class
 //				StandardTool.class
 //				StandardMeter.class
-				DeleteRec.class
+//				DeleteRec.class
+//				Role.class,
+				MyAuth.class
+//				RoleAuthority.class
 		);
 //        new CodeGeneratorManager().createVueProject();
 //        CodePackager.packageToWar();

@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-@FullSearch(propertyNames = {"name","sFactory","sResolution","sRegulateBcode","modifyUserName","organizationName","location"})
+@FullSearch(propertyNames = {"sname","mname","sFactory","sResolution","sRegulateBcode","modifyUserName","organizationName","location"})
 public class StandardTool extends AbstractEntity {
 
 	//检定使用计量标准

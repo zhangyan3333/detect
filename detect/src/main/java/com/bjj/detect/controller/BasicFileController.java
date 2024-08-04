@@ -5,10 +5,7 @@ import com.bjj.detect.entity.PgRecord;
 import com.bjj.detect.service.FilesService;
 import com.syzx.framework.controller.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -34,7 +31,7 @@ public class BasicFileController {
     }
 
     @PostMapping(value = "/exportDetectResult")
-    public ApiResult<String> exportDetectResult(@RequestBody PgCertificate certificate,int index) {
-        return new ApiResult(0, "导出成功", this.fileService.exportDetectRecord(certificate,index));
+    public ApiResult<String> exportDetectResult(@RequestBody PgCertificate certificate) {
+        return new ApiResult(0, "导出成功", this.fileService.exportDetectRecord(certificate,certificate.getExportState()));
     }
 }

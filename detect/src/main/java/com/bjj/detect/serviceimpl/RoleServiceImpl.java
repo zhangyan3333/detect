@@ -1,22 +1,22 @@
 package com.bjj.detect.serviceimpl;
 
-import com.bjj.detect.entity.Role;
-import com.bjj.detect.service.RoleService;
-import com.bjj.detect.dao.RoleDao;
-import com.syzx.framework.dao.condition.ConditionFactory;
-import java.util.List;
-import java.util.ArrayList;
-import com.syzx.framework.query.IEntityQuery;
-import com.syzx.framework.dao.condition.IQueryCondition;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.bjj.detect.entity.RoleAuthority;
 import com.bjj.detect.dao.RoleAuthorityDao;
+import com.bjj.detect.dao.RoleDao;
 import com.bjj.detect.dao.UserInfoRoleDao;
-import com.syzx.framework.exceptions.BusinessException;
+import com.bjj.detect.entity.Role;
+import com.bjj.detect.entity.RoleAuthority;
+import com.bjj.detect.service.RoleService;
 import com.syzx.framework.controller.ApiResultCode;
+import com.syzx.framework.dao.condition.ConditionFactory;
+import com.syzx.framework.dao.condition.IQueryCondition;
+import com.syzx.framework.exceptions.BusinessException;
+import com.syzx.framework.query.IEntityQuery;
 import com.syzx.framework.query.QueryResult;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Role服务接口实现 <br/>

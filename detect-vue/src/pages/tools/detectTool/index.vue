@@ -102,12 +102,9 @@
 					<FormItem label="分度值" prop="meterDivisionNo">
 						<Input v-model="entity.meterDivisionNo" placeholder=" 请输入分度值 "></Input>
 					</FormItem>
-					<FormItem label="规格型号" prop="meterType">
-						<Input v-model="entity.meterType" placeholder=" 请输入规格型号 "></Input>
-					</FormItem>
 					<FormItem label="检定标准" prop="roleIds">
-						<Select v-model="entity.roleIds" clearable aria-placeholder="请选择检定标准及标准器">
-							<Option v-for="item in roles" :value="item.id" :key="item.id">{{ item.name }}</Option>
+						<Select v-model="entity.standardToolId" clearable aria-placeholder="请选择检定标准及标准器">
+							<Option v-for="item in standards" :value="item.id" :key="item.id">{{ item.sname + '   -   ' + item.mname }}</Option>
 						</Select>
 					</FormItem>
                 </Form>
@@ -125,7 +122,7 @@
 	import util from '@/libs/util';
 
     export default {
-        name: 'tools-standardTool',
+        name: 'tools-detectTool',
         data() {
             return {
                 apiBasePath: 'pgRecords',
@@ -144,36 +141,36 @@
                         isShow: true
                     },
 					{
-						title: '标准名称',
-						key: 'sname',
+						title: '名称',
+						key: 'meterName',
 						width: 200,
 						align: 'center',
 						isShow: true
 					},
 					{
-						title: '标准器名',
-						key: 'mname',
+						title: '规格型号',
+						key: 'meterType',
 						width: 200,
 						align: 'center',
 						isShow: true
 					},
 					{
-						title: '标准器证书编号',
-						key: 'sregulateBcode',
+						title: '检定证书编号',
+						key: 'detectCode',
 						width: 150,
 						align: 'center',
 						isShow: true
 					},
 					{
-						title: '归属单位',
-						key: 'organizationName',
+						title: '送检单位',
+						key: 'meterCustomer',
 						minWidth: 150,
 						align: 'center',
 						isShow: true
 					},
 					{
-                        title: '地点',
-						key: 'location',
+                        title: '出厂编号',
+						key: 'meterCode',
 						width: 200,
 						align: 'center',
 						isShow: true
@@ -185,81 +182,54 @@
 						align: 'center',
 						isShow: true,
 						render: function (h, {row,index}) {
-							if(row.srange != null &&row.srange.length > 0){
-								let result = row.srange.split(",");
-								switch (result.length){
-									case 0 : return h('div','');break;
-									case 1 : return h('div',result[0]);break;
-									case 2 : return [h('p',result[0]),h('p',result[1])];break;
-									case 3 : return [h('p',result[0]),h('p',result[1]),h('p',result[2])];break;
-									case 4 : return [h('p',result[0]),h('p',result[1]),h('p',result[2]),h('p',result[3])];break;
-									case 5 : return [h('p',result[0]),h('p',result[1]),h('p',result[2]),h('p',result[3]),h('p',result[4])];break;
-								}
-							}else {
-								return h('div','')
-							}
+							return h('div','(' + row.meterRangeL + '-' + row.meterRangeH+')MPa')
 						}
 					},
 					{
 						title: '准确度等级',
-						key: 'sresolution',
+						key: 'meterResolution',
 						width: 120,
 						align: 'center',
 						isShow: true
 					},
 					{
-						title: '证书编号',
-						key: 'sregulateCode',
+						title: '分度值',
+						key: 'meterDivisionNo',
 						width: 200,
 						align: 'center',
 						isShow: true
 					},
 					{
-						title: '有效期至',
-						key: 'sedate',
+						title: '制造单位',
+						key: 'meterFactory',
 						width: 200,
 						align: 'center',
 						isShow: true
 					},
 					{
-						title: '标准器测量范围',
-						key: 'mrange',
+						title: '检定日期',
+						key: 'detectTime',
+						width: 200,
+						align: 'center',
+						isShow: true,
+						render: function (h, {row,index}) {
+							return h('div',dayjs(row.detectTime).format('YYYY年M月D日'));
+						}
+					},
+					{
+						title: '检定标准',
+						key: 'standardName',
 						width: 200,
 						align: 'center',
 						isShow: true
 					},
 					{
-						title: '标准器准确度等级',
-						key: 'mresolution',
-						width: 120,
-						align: 'center',
-						isShow: true					},
-					{
-						title: '溯源机构',
-						key: 'sfactory',
+						title: '检定标准器',
+						key: 'standardToolName',
 						width: 200,
 						align: 'center',
 						isShow: true
 					},
-
-					{
-						title: '标准器有效期至',
-						key: 'sbdate',
-						width: 200,
-						align: 'center',
-						isShow: true
-					},
-					// {
-                    //     title: $t('page.common.createTime'),
-                    //     key: 'createTime',
-                    //     minWidth: 200,
-                    //     sortable: 'custom',
-                    //     isShow: true,
-                    //     render: function (h) {
-                    //         return h('div',
-                    //             dayjs(this.row.createTime).format('YYYY/MM/DD HH:mm:ss'));  /*这里的this.row能够获取当前行的数据*/
-                    //     }
-                    // },
 					{
                         title: $t('page.common.action'),
                         slot: 'action',
@@ -274,7 +244,8 @@
                     pageIndex: 1,
                     pageSize: 10,
                     sortKey: '',
-                    sortOrder: ''
+                    sortOrder: '',
+					standardToolId:''
                 },
                 queryResult: {
                     count: 0,
@@ -284,11 +255,13 @@
                 roles: [],
                 ruleValidate: {
 
-                }
+                },
+				standards:[]
             }
         },
         mounted() {
-            this.entityQuery.organizationId = this.info.organizationId;
+            this.entityQuery.checkStep = [0,4];
+            this.initStandards();
             this.query();
         },
         computed: {
@@ -354,12 +327,11 @@
             },
             onDeleteEntityClick(index) {
                 this.$Modal.confirm({
-					title: '标准删除',
-					content: '确认删除<'+ this.queryResult.entities[index].sname+ '>吗？',
+					title: '被检表删除',
+					content: '删除后将无法恢复，确认删除<'+ this.queryResult.entities[index].meterName+ '>吗？',
                     onOk: () => {
                     	let deleteEntity ={};
-						deleteEntity.name = this.queryResult.entities[index].sname;
-						deleteEntity.message = this.queryResult.entities[index].mname;
+						deleteEntity.message = this.queryResult.entities[index].meterName;
 						deleteEntity.userName = this.info.name;
 						deleteEntity.userId = util.cookies.get('uuid');
                         // 第四个参数, onSuccess
@@ -369,7 +341,7 @@
 								this.queryResult.entities[index].id,
 								()=>{
 									entityRequest('insert', 'deleteRecs', deleteEntity, this.query)
-								}
+								},null,null,false
 						);
                     }
                 });
@@ -387,7 +359,45 @@
                         this.tableLoading = false;
                     });
             },
-            getProjectUrl
-        }
+            getProjectUrl,
+			initStandards(){
+				entityRequest('noPage', 'standardTools', {},
+						// 第四个参数, onSuccess
+						(response) => {
+							this.standards = response.data;
+						},null,null,false);
+			},
+			getStandardById(id,standards){
+            	let result = null;
+				for (let i = 0; i < standards.length; i++) {
+					if (id == standards[i].id){
+						result = standards[i];
+					}
+				}
+				return result;
+			}
+        },
+		watch: {
+			'entity.standardToolId':{
+				handler (val) {
+					if (val != null && typeof val != 'undefined' && val > 0){
+						let standard = this.getStandardById(val,this.standards);
+						if (standard != null ){
+							this.entity.sname = standard.sname;
+							this.entity.scode = standard.sregulateBcode;
+							console.log(new Date(standard.sbdate))
+							this.entity.sresolution = standard.mresolution;
+							let range = (standard.mrange).split("~");
+							this.entity.srangeL = range[0].substr(1,range[0].length -1);
+							this.entity.srangeH = range[1].substr(0,range[1].indexOf(")"));
+							this.entity.standardLoc = standard.location;
+							this.entity.sedate = new Date(standard.sbdate);
+							this.entity.sfactory = standard.sfactory;
+						}
+					}
+				},
+				immediate: true
+			},
+		}
     }
 </script>

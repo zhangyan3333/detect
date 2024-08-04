@@ -2,9 +2,11 @@ package com.bjj.detect.entity;
 
 import com.syzx.framework.entity.AbstractEntity;
 import com.syzx.framework.orm.annotation.FullSearch;
+import com.syzx.framework.orm.annotation.ManyToOne;
 import com.syzx.framework.orm.annotation.Transient;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.ibatis.annotations.Many;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -72,9 +74,13 @@ public class PgRecord extends AbstractEntity {
 	private String inspector; // 检定员
 	private String verifier; // 核验员
 	private String approver; // 批准员
-	private Date detectTime; // 检定日期
 
-	private int checkStep;  // 状态 1.检定员上传完证书  2.核验审核  3.批准人审核  4.结果导出  5.提交
+	@ManyToOne(foreignKeyName = "resultId",joinClass = PgCertificate.class,joinPropertyName = "detectTime")
+	private Date detectTime; // 检定日期
+	@ManyToOne(foreignKeyName = "resultId",joinClass = PgCertificate.class,joinPropertyName = "overTime")
+	private Date overTime;  // 过期时间
+
+	private int checkStep;  // 状态 0.完成所有审批 1.检定员  2.核验员审核  3.批准人审核
 
 	private long resultId;  // 关联结果文件id
 
@@ -87,6 +93,12 @@ public class PgRecord extends AbstractEntity {
 	private String imgPath1;  // 图片文件地址
 	private String imgPath2;  // 图片文件地址
 	private String imgPath3;  // 图片文件地址
+
+	private Long standardToolId;   // 检测标准id
+	@ManyToOne(foreignKeyName = "standardToolId",joinClass = StandardTool.class,joinPropertyName = "sname")
+	private String standardName;  // 检测标准名称
+	@ManyToOne(foreignKeyName = "standardToolId",joinClass = StandardTool.class,joinPropertyName = "mname")
+	private String standardToolName;  // 检测标准器名称
 
 	@Transient
 	private List<PgInfo> infos; // 加载检测信息
