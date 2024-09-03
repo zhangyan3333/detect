@@ -85,8 +85,9 @@ public class DataTransfer {
 
 		if (recordList.size()>0){
 			List<PgRecord> haveList = pgRecordService.get();
-			for (int i = 0; i < recordList.size(); i++) {
-				for (int j = 0; j < haveList.size(); j++) {
+			for (int i = recordList.size()-1; i >-1; i--) {
+				boolean flag = true;
+				for (int j = 0; j < haveList.size() && flag; j++) {
 					if (recordList.get(i).getMid() == haveList.get(j).getMid()){
 						if (haveList.get(j).getCheckStep() == 0){
 							PgRecord record = haveList.get(j);
@@ -102,8 +103,11 @@ public class DataTransfer {
 								pgInfoDao.insert(info);
 							}
 
+							haveReadRecord(recordList.get(i).getMid(),sqlConnect);
+
 						}
 						recordList.remove(recordList.get(i));
+						flag =false;
 					}
 				}
 			}
@@ -132,6 +136,25 @@ public class DataTransfer {
 		record.setImgPath2(null);
 		record.setImgPath3(null);
 		return record;
+	}
+
+	public void haveReadRecord(int recordId, SqlConnect sqlConnect){
+		Connection conn = sqlConnect.connect();
+
+		String tableName = environment.getProperty("tables.detectTable");
+		String sql = "update " + tableName + " set meterstate = ? where mid = ?";
+		try{
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, 0);
+			ps.setInt(2, recordId);
+			ps.executeUpdate();
+
+			ps.close();
+			conn.close();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
 	}
 
 	@Transactional(rollbackFor = Exception.class)

@@ -29,7 +29,8 @@ function tTitle (title = '') {
  */
 util.title = function ({ title, count }) {
     title = tTitle(title);
-    let fullTitle = title ? `${title} - ${Setting.titleSuffix}` : Setting.titleSuffix;
+    let fullTitle = title ;
+    // let fullTitle = title ? `${title} - ${Setting.titleSuffix}` : Setting.titleSuffix;
 
     if (count) fullTitle = `(${count}条消息)${fullTitle}`;
     window.document.title = fullTitle;

@@ -33,9 +33,9 @@ export default {
                         // 如有必要 token 需要定时更新，默认保存一天，可在 setting.js 中修改
                         // 如果你的 token 不是通过 cookie 携带，而是普通字段，也可视情况存储在 localStorage
                         if(res && res.data && res.data !== 'undefined'){
-                            console.log('------------------')
-                            console.log(res.data.token)
-                            console.log('------------------')
+                            // console.log('------------------')
+                            // console.log(res.data)
+                            // console.log('------------------')
                             res.data.info.access.push('personal');
                             util.cookies.set('uuid', res.data.uuid);
                             util.cookies.set('token', res.data.token);

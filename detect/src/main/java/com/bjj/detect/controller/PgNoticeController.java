@@ -1,12 +1,31 @@
 package com.bjj.detect.controller;
 
 import com.bjj.detect.entity.PgNotice;
+import com.bjj.detect.gptest.OtherTest;
 import com.bjj.detect.query.PgNoticeQuery;
 import com.bjj.detect.service.PgNoticeService;
+import com.syzx.framework.config.annotation.NotAuthorization;
 import com.syzx.framework.controller.ApiResult;
 import com.syzx.framework.controller.ApiResultCode;
 import com.syzx.framework.query.QueryResult;
+
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  * PgNotice控制器 <br/>
  * <p>
  * CreateTime 2024/07/10 01:44
- * 
+ *
  * @version 1.0.0
  * @author 代码生成器
  */

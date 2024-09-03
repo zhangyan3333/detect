@@ -1,9 +1,12 @@
 package com.bjj.detect;
 
+import com.alibaba.fastjson.JSON;
 import com.bjj.detect.dao.PgCertificateDao;
 import com.bjj.detect.dao.PgInfoDao;
+import com.bjj.detect.dao.PgNoticeDao;
 import com.bjj.detect.dao.PgRecordDao;
 import com.bjj.detect.entity.PgInfo;
+import com.bjj.detect.entity.PgNotice;
 import com.bjj.detect.entity.PgRecord;
 import com.bjj.detect.service.PgRecordService;
 import com.bjj.detect.util.MultipartFileDto;
@@ -12,6 +15,18 @@ import com.syzx.framework.config.FrameworkConfig;
 import com.syzx.framework.exceptions.BusinessException;
 import com.syzx.framework.uid.CentralizedUidGenerator;
 import com.syzx.framework.utils.PrintUtil;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
+//import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,15 +39,21 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest
 public class SqlTest {
@@ -53,11 +74,29 @@ public class SqlTest {
 	private PgInfoDao pgInfoDao;
 
 	@Autowired
+	private PgNoticeDao pgNoticeDao;
+
+	@Autowired
 	private PgCertificateDao certificateDao;
 
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 	private static final DateTimeFormatter datePathFormat = DateTimeFormatter.ofPattern("yyyy/MM");
+
+
+
+	@Test
+	public void testConnect() throws SQLException {
+		Connection conn = sqlConnect.connect();
+		if (conn == null){
+			System.out.println("xxx");
+		}else {
+			System.out.println("yyy");
+		}
+		conn.close();
+
+	}
+
 
 	@Test
 	public void test(){

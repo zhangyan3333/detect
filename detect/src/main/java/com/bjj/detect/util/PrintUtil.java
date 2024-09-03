@@ -396,7 +396,7 @@ public class PrintUtil {
 //		String pdfPath = getRandomTmpFilePath("pdf");
 //		AsposeUtil.wordToPdf(filePath,pdfPath,null);
 
-		PdfUtil.docToPdf(filePath,newPath);
+//		PdfUtil.docToPdf(filePath,newPath);
 
 		return  newPath;
 	}

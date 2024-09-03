@@ -23,3 +23,11 @@ export function exportDetectResult (data) {
         data
     });
 }
+
+export function refreshDetectData (data) {
+    return request({
+        url: '/api/pgRecords/refreshDetectData',
+        method: 'post',
+        data
+    });
+}

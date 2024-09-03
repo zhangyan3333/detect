@@ -96,7 +96,7 @@ export default {
             d: '天'
         },
         login: {
-            title: '企业级安全防护解决方案',
+            title: '计量管理系统',
             remember: '自动登录',
             forgot: '忘记密码',
             submit: '登录',

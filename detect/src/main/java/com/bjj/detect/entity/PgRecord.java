@@ -1,11 +1,11 @@
 package com.bjj.detect.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.syzx.framework.entity.AbstractEntity;
 import com.syzx.framework.orm.annotation.FullSearch;
 import com.syzx.framework.orm.annotation.ManyToOne;
 import com.syzx.framework.orm.annotation.Transient;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.apache.ibatis.annotations.Many;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +19,16 @@ import java.util.List;
 **/
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 @FullSearch(propertyNames = {"meterName","meterCustomer"})
 public class PgRecord extends AbstractEntity {
 
 	private int mid; //记录已经同步的检定结果，因为sql库中主键id自增，可以选择比mid大的读取即可。
 
+//	@ExcelProperty(value = "检定证书编号")
 	private String detectCode; // 检定证书编号
 
 	private String meterCustomer;  // 送检单位
@@ -34,6 +39,7 @@ public class PgRecord extends AbstractEntity {
 	private String meterDivisionNo;  // 分度值
 	private String meterFactory;   // 制造单位
 
+	@ExcelProperty(value = "名称")
 	private String sname;  // 标准器名称 | 数字压力计
 	private String scode;  // 标准器编号
 	private String sRangeL;    // 量程  测量范围 低 | 0
@@ -86,6 +92,7 @@ public class PgRecord extends AbstractEntity {
 
 	// 冗余字段
 	private String meterName;  // 器具名称
+	@ExcelProperty(value = "规格型号")
 	private String meterType;  // 规格型号未知
 
 	private String resultFile; // 结果文件地址

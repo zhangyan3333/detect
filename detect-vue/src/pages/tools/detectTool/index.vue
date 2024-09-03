@@ -2,14 +2,14 @@
     <Card dis-hover>
         <div>
             <Row style="margin-bottom: 5px;">
-                <Col flex="100px">
-                    <Button type="success" icon="md-add" @click="modalShow(-1)" long>{{ $t('page.common.add') }}</Button>
-                </Col>
+				<Col flex="400px">
+					<Input search :placeholder="$t('page.user.searchHolder')" v-model="entityQuery.fullSearch" @on-search="query" />
+				</Col>
                 <Col flex="auto">
                 </Col>
-                <Col flex="400px">
-                    <Input search :placeholder="$t('page.user.searchHolder')" v-model="entityQuery.fullSearch" @on-search="query" />
-                </Col>
+				<Col flex="100px">
+					<Button type="success" icon="md-add" @click="modalShow(-1)" long>{{ $t('page.common.add') }}</Button>
+				</Col>
                 <Col flex="20px">
                     <Dropdown trigger="click" style="margin-top: 5px">
                         <Tooltip class="ivu-ml" :content="$t('page.common.columnSetting')" placement="top">

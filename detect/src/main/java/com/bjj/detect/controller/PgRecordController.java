@@ -3,6 +3,7 @@ package com.bjj.detect.controller;
 import com.bjj.detect.entity.PgRecord;
 import com.bjj.detect.query.PgRecordQuery;
 import com.bjj.detect.service.PgRecordService;
+import com.bjj.detect.util.DataTransfer;
 import com.syzx.framework.controller.ApiResult;
 import com.syzx.framework.controller.ApiResultCode;
 import com.syzx.framework.query.QueryResult;
@@ -116,9 +117,18 @@ public class PgRecordController {
 
     //</editor-fold>
 
+    @Autowired
+    private DataTransfer dataTransfer;
+
     @PostMapping(value = "/print")
     public ApiResult<QueryResult<PgRecord>> printWord(@RequestBody PgRecordQuery pgRecordQuery) {
         pgRecordService.printWord("");
+        return new ApiResult<>(ApiResultCode.Success, "获取成功", null);
+    }
+
+    @PostMapping(value = "/refreshDetectData")
+    public ApiResult<QueryResult<PgRecord>> printWord() {
+        dataTransfer.detectRecordSqlToMysql();
         return new ApiResult<>(ApiResultCode.Success, "获取成功", null);
     }
 

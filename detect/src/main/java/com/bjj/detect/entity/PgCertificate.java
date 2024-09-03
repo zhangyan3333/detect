@@ -4,7 +4,7 @@ import com.syzx.framework.entity.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Transient;
+//import javax.persistence.Transient;
 import java.util.Date;
 
 /**

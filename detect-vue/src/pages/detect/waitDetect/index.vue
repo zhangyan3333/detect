@@ -26,7 +26,8 @@
 					</Dropdown>
 				</Col>
 			</Row>
-			<Table border
+			<Table ref="dataTable"
+					border
 				   :loading="tableLoading"
 				   :columns="displayColumns"
 				   :data="queryResult.entities"
@@ -118,6 +119,7 @@
 import { mapState, mapActions } from 'vuex';
 import dayjs from 'dayjs';
 import { deepClone, format, getProjectUrl } from '@/libs/system/commonUtil';
+import {refreshDetectData} from '@api/detect';
 import {deleteFile, entityRequest, requestHandle} from '@/libs/system/requestUtil';
 import util from "@/libs/util";
 import detectInfo from '@/pages/detect/waitDetect/detectInfo';
@@ -601,16 +603,21 @@ export default {
 			this.isShowUp = false;
 		},
 		syncData(){
-
-			setTimeout(() => {
-				this.$Message.success({
-					background: true,
-					content: '数据同步成功',
-					duration: 3
-				});
-			}, 2000);
-
-
+			refreshDetectData(null).then(
+					()=>{
+						setTimeout(() => {
+							this.$Message.success({
+								background: true,
+								content: '数据同步成功',
+								duration: 3
+							});
+						}, 2000);
+					}
+			).finally(
+					()=>{
+						this.query();
+					}
+			)
 		}
 	}
 }

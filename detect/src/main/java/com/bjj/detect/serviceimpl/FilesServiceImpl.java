@@ -356,8 +356,8 @@ public class FilesServiceImpl implements FilesService {
 			for (int i1 = 0; i1 < runs.size(); i1++) {
 				//调用自定义方法replacePlaceholderV2替换内容
 				if (runs.get(i1).toString().contains("detectCode")) { replaceParagraphText(runs.get(i1), "detectCode", record.getDetectCode()); }
-				if (runs.get(i1).toString().contains("ude")) { replaceParagraphText(runs.get(i1), "ude", record.getInspector()); }
-				if (runs.get(i1).toString().contains("upe")) { replaceParagraphText(runs.get(i1), "upe", record.getVerifier()); }
+				if (runs.get(i1).toString().contains("ude")) { replaceParagraphText(runs.get(i1), "ude", record.getInspector()==null?"":record.getInspector()); }
+				if (runs.get(i1).toString().contains("upe")) { replaceParagraphText(runs.get(i1), "upe", record.getVerifier()==null?"": record.getVerifier()); }
 				if (runs.get(i1).toString().contains("yy")) { replaceParagraphText(runs.get(i1), "yy", String.format("%tY", date)); }
 				if (runs.get(i1).toString().contains("mm")) { replaceParagraphText(runs.get(i1), "mm", String.format("%tm", date)); }
 				if (runs.get(i1).toString().contains("dd")) { replaceParagraphText(runs.get(i1), "dd", String.format("%td", date)); }

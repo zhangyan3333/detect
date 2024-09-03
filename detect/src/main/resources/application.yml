@@ -27,7 +27,7 @@ spring:
 
 sqlmeta:
   connect-info:
-    url: jdbc:sqlserver://localhost:1433;databaseName=sllaid;
+    url: jdbc:sqlserver://localhost:14335;databaseName=sllaid;
     username: sa
     password: '123456'
     driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
