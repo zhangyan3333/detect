@@ -1,5 +1,7 @@
 package com.bjj.detect;
 
+import com.bjj.detect.dao.GitTestDao;
+import com.bjj.detect.entity.GitTest;
 import com.bjj.detect.sqldto.DetectedDetail;
 import com.bjj.detect.sqldto.WordItem;
 import com.bjj.detect.util.SqlConnect;
@@ -89,7 +91,7 @@ class DetectApplicationTests {
 //		// 添加
 //		String sql = "insert into Tbl_test(id,image) values(?,?) ";
 //		PreparedStatement ps = conn.prepareStatement(sql);
-//		ps.setInt(1,2);	
+//		ps.setInt(1,2);
 //		ps.setBytes(2,source);
 //		int result = ps.executeUpdate();
 //		System.out.println(result == 1);
@@ -200,5 +202,20 @@ class DetectApplicationTests {
 			val=ch-0x41+10;
 		}
 		return val;
+	}
+
+	@Autowired
+	private GitTestDao gitTestDao;
+
+	@Test
+	public void testGit(){
+		GitTest gitTest = new GitTest();
+		gitTest.setMessage("测试");
+		gitTest.setStatus(1);
+		String[] result = new String[2];
+		result[0] = "1.00f";
+		result[1] = "2.00f";
+		gitTest.setCount(result);
+		gitTestDao.insert(gitTest);
 	}
 }

@@ -39,4 +39,6 @@ public class StandardTool extends AbstractEntity {
 	private Long modifyUserId;
 	private String modifyUserName;
 	private Date modifyTime;
+
+	private String sBasis;    // 检定依据  | JJG52-2013《弹性元件式一般压力表、压力真空表和真空表》
 }

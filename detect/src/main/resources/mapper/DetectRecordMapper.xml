@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.DetectRecordDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="detectRecordDefaultMapping" type="com.bjj.detect.entity.DetectRecord">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_meterid" property="meterId"/>
+        <result column="c_spressure" property="sPressure"/>
+        <result column="c_strikeup" property="strikeUp"/>
+        <result column="c_strikedown" property="strikeDown"/>
+        <result column="c_positionup" property="positionUp"/>
+        <result column="c_positiondown" property="positionDown"/>
+        <result column="c_indicationerror" property="indicationError"/>
+        <result column="c_returnerror" property="returnError"/>
+        <result column="c_upimage1" property="upImage1"/>
+        <result column="c_downimage1" property="downImage1"/>
+        <result column="c_upimage2" property="upImage2"/>
+        <result column="c_downimage2" property="downImage2"/>
+        <result column="c_upimage3" property="upImage3"/>
+        <result column="c_downimage3" property="downImage3"/>
+        <result column="c_upimage4" property="upImage4"/>
+        <result column="c_downimage4" property="downImage4"/>
+        <result column="c_upimage5" property="upImage5"/>
+        <result column="c_downimage5" property="downImage5"/>
+        <result column="c_upimage6" property="upImage6"/>
+        <result column="c_downimage6" property="downImage6"/>
+        <result column="c_upimage7" property="upImage7"/>
+        <result column="c_downimage7" property="downImage7"/>
+        <result column="c_appearance" property="appearance"/>
+        <result column="c_pointer" property="pointer"/>
+        <result column="c_zeroerrormax" property="zeroErrorMax"/>
+        <result column="c_indicationerrormax" property="indicationErrorMax"/>
+        <result column="c_returnerrormax" property="returnErrorMax"/>
+        <result column="c_positionmax" property="positionMax"/>
+        <result column="c_indicationerrorpermit" property="indicationErrorPermit"/>
+        <result column="c_returnerrorpermit" property="returnErrorPermit"/>
+        <result column="c_positionpermit" property="positionPermit"/>
+        <result column="c_indicationerrorupper" property="indicationErrorUpper"/>
+        <result column="c_returnerrorupper" property="returnErrorUpper"/>
+        <result column="c_positionupper" property="positionUpper"/>
+        <result column="c_indicationerrorupperpermit" property="indicationErrorUpperPermit"/>
+        <result column="c_returnerrorupperpermit" property="returnErrorUpperPermit"/>
+        <result column="c_positionupperpermit" property="positionUpperPermit"/>
+        <result column="c_remark" property="remark"/>
+        <result column="c_detectresult" property="detectResult"/>
+        <result column="c_detectlevel" property="detectLevel"/>
+        <result column="c_checkstep" property="checkStep"/>
+        <result column="c_inspector" property="inspector"/>
+        <result column="c_verifier" property="verifier"/>
+        <result column="c_approver" property="approver"/>
+        <result column="c_resultid" property="resultId"/>
+        <result column="c_detectcode" property="detectCode"/>
+        <result column="c_standardtoolid" property="standardToolId"/>
+        <result column="c_resultfile" property="resultFile"/>
+        <result column="c_recordfile" property="recordFile"/>
+        <result column="c_imgpath1" property="imgPath1"/>
+        <result column="c_imgpath2" property="imgPath2"/>
+        <result column="c_detecttime" property="detectTime"/>
+        <result column="c_overtime" property="overTime"/>
+        <result column="c_standardname" property="standardName"/>
+        <result column="c_standardtoolname" property="standardToolName"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.DetectRecord">
+        INSERT INTO t_detectrecord
+            (c_id,c_createtime,c_meterid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage1,c_downimage1,c_upimage2,c_downimage2,c_upimage3,c_downimage3,c_upimage4,c_downimage4,c_upimage5,c_downimage5,c_upimage6,c_downimage6,c_upimage7,c_downimage7,c_appearance,c_pointer,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_indicationerrorpermit,c_returnerrorpermit,c_positionpermit,c_indicationerrorupper,c_returnerrorupper,c_positionupper,c_indicationerrorupperpermit,c_returnerrorupperpermit,c_positionupperpermit,c_remark,c_detectresult,c_detectlevel,c_checkstep,c_inspector,c_verifier,c_approver,c_resultid,c_detectcode,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+            (#{id},#{createTime},#{meterId},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError},#{upImage1},#{downImage1},#{upImage2},#{downImage2},#{upImage3},#{downImage3},#{upImage4},#{downImage4},#{upImage5},#{downImage5},#{upImage6},#{downImage6},#{upImage7},#{downImage7},#{appearance},#{pointer},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{indicationErrorPermit},#{returnErrorPermit},#{positionPermit},#{indicationErrorUpper},#{returnErrorUpper},#{positionUpper},#{indicationErrorUpperPermit},#{returnErrorUpperPermit},#{positionUpperPermit},#{remark},#{detectResult},#{detectLevel},#{checkStep},#{inspector},#{verifier},#{approver},#{resultId},#{detectCode},#{standardToolId},#{resultFile},#{recordFile},#{imgPath1},#{imgPath2})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_detectrecord
+            (c_id,c_createtime,c_meterid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage1,c_downimage1,c_upimage2,c_downimage2,c_upimage3,c_downimage3,c_upimage4,c_downimage4,c_upimage5,c_downimage5,c_upimage6,c_downimage6,c_upimage7,c_downimage7,c_appearance,c_pointer,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_indicationerrorpermit,c_returnerrorpermit,c_positionpermit,c_indicationerrorupper,c_returnerrorupper,c_positionupper,c_indicationerrorupperpermit,c_returnerrorupperpermit,c_positionupperpermit,c_remark,c_detectresult,c_detectlevel,c_checkstep,c_inspector,c_verifier,c_approver,c_resultid,c_detectcode,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+        <foreach collection="detectRecords" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.meterId},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError},#{item.upImage1},#{item.downImage1},#{item.upImage2},#{item.downImage2},#{item.upImage3},#{item.downImage3},#{item.upImage4},#{item.downImage4},#{item.upImage5},#{item.downImage5},#{item.upImage6},#{item.downImage6},#{item.upImage7},#{item.downImage7},#{item.appearance},#{item.pointer},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.indicationErrorPermit},#{item.returnErrorPermit},#{item.positionPermit},#{item.indicationErrorUpper},#{item.returnErrorUpper},#{item.positionUpper},#{item.indicationErrorUpperPermit},#{item.returnErrorUpperPermit},#{item.positionUpperPermit},#{item.remark},#{item.detectResult},#{item.detectLevel},#{item.checkStep},#{item.inspector},#{item.verifier},#{item.approver},#{item.resultId},#{item.detectCode},#{item.standardToolId},#{item.resultFile},#{item.recordFile},#{item.imgPath1},#{item.imgPath2})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.DetectRecord">
+        UPDATE t_detectrecord
+        SET c_meterid=#{meterId},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError},c_upimage1=#{upImage1},c_downimage1=#{downImage1},c_upimage2=#{upImage2},c_downimage2=#{downImage2},c_upimage3=#{upImage3},c_downimage3=#{downImage3},c_upimage4=#{upImage4},c_downimage4=#{downImage4},c_upimage5=#{upImage5},c_downimage5=#{downImage5},c_upimage6=#{upImage6},c_downimage6=#{downImage6},c_upimage7=#{upImage7},c_downimage7=#{downImage7},c_appearance=#{appearance},c_pointer=#{pointer},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_indicationerrorpermit=#{indicationErrorPermit},c_returnerrorpermit=#{returnErrorPermit},c_positionpermit=#{positionPermit},c_indicationerrorupper=#{indicationErrorUpper},c_returnerrorupper=#{returnErrorUpper},c_positionupper=#{positionUpper},c_indicationerrorupperpermit=#{indicationErrorUpperPermit},c_returnerrorupperpermit=#{returnErrorUpperPermit},c_positionupperpermit=#{positionUpperPermit},c_remark=#{remark},c_detectresult=#{detectResult},c_detectlevel=#{detectLevel},c_checkstep=#{checkStep},c_inspector=#{inspector},c_verifier=#{verifier},c_approver=#{approver},c_resultid=#{resultId},c_detectcode=#{detectCode},c_standardtoolid=#{standardToolId},c_resultfile=#{resultFile},c_recordfile=#{recordFile},c_imgpath1=#{imgPath1},c_imgpath2=#{imgPath2}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_detectrecord SET 
+            c_meterid = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterId}
+            </foreach>
+            END
+            ,c_spressure = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sPressure}
+            </foreach>
+            END
+            ,c_strikeup = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.strikeUp}
+            </foreach>
+            END
+            ,c_strikedown = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.strikeDown}
+            </foreach>
+            END
+            ,c_positionup = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionUp}
+            </foreach>
+            END
+            ,c_positiondown = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionDown}
+            </foreach>
+            END
+            ,c_indicationerror = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.indicationError}
+            </foreach>
+            END
+            ,c_returnerror = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.returnError}
+            </foreach>
+            END
+            ,c_upimage1 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage1}
+            </foreach>
+            END
+            ,c_downimage1 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage1}
+            </foreach>
+            END
+            ,c_upimage2 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage2}
+            </foreach>
+            END
+            ,c_downimage2 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage2}
+            </foreach>
+            END
+            ,c_upimage3 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage3}
+            </foreach>
+            END
+            ,c_downimage3 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage3}
+            </foreach>
+            END
+            ,c_upimage4 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage4}
+            </foreach>
+            END
+            ,c_downimage4 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage4}
+            </foreach>
+            END
+            ,c_upimage5 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage5}
+            </foreach>
+            END
+            ,c_downimage5 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage5}
+            </foreach>
+            END
+            ,c_upimage6 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage6}
+            </foreach>
+            END
+            ,c_downimage6 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage6}
+            </foreach>
+            END
+            ,c_upimage7 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.upImage7}
+            </foreach>
+            END
+            ,c_downimage7 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.downImage7}
+            </foreach>
+            END
+            ,c_appearance = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.appearance}
+            </foreach>
+            END
+            ,c_pointer = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.pointer}
+            </foreach>
+            END
+            ,c_zeroerrormax = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.zeroErrorMax}
+            </foreach>
+            END
+            ,c_indicationerrormax = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.indicationErrorMax}
+            </foreach>
+            END
+            ,c_returnerrormax = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.returnErrorMax}
+            </foreach>
+            END
+            ,c_positionmax = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionMax}
+            </foreach>
+            END
+            ,c_indicationerrorpermit = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.indicationErrorPermit}
+            </foreach>
+            END
+            ,c_returnerrorpermit = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.returnErrorPermit}
+            </foreach>
+            END
+            ,c_positionpermit = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionPermit}
+            </foreach>
+            END
+            ,c_indicationerrorupper = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.indicationErrorUpper}
+            </foreach>
+            END
+            ,c_returnerrorupper = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.returnErrorUpper}
+            </foreach>
+            END
+            ,c_positionupper = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionUpper}
+            </foreach>
+            END
+            ,c_indicationerrorupperpermit = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.indicationErrorUpperPermit}
+            </foreach>
+            END
+            ,c_returnerrorupperpermit = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.returnErrorUpperPermit}
+            </foreach>
+            END
+            ,c_positionupperpermit = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.positionUpperPermit}
+            </foreach>
+            END
+            ,c_remark = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.remark}
+            </foreach>
+            END
+            ,c_detectresult = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.detectResult}
+            </foreach>
+            END
+            ,c_detectlevel = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.detectLevel}
+            </foreach>
+            END
+            ,c_checkstep = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.checkStep}
+            </foreach>
+            END
+            ,c_inspector = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.inspector}
+            </foreach>
+            END
+            ,c_verifier = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.verifier}
+            </foreach>
+            END
+            ,c_approver = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.approver}
+            </foreach>
+            END
+            ,c_resultid = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.resultId}
+            </foreach>
+            END
+            ,c_detectcode = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.detectCode}
+            </foreach>
+            END
+            ,c_standardtoolid = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.standardToolId}
+            </foreach>
+            END
+            ,c_resultfile = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.resultFile}
+            </foreach>
+            END
+            ,c_recordfile = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.recordFile}
+            </foreach>
+            END
+            ,c_imgpath1 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.imgPath1}
+            </foreach>
+            END
+            ,c_imgpath2 = CASE c_id
+            <foreach collection="detectRecords" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.imgPath2}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="detectRecords" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.DetectRecord">
+        INSERT INTO t_detectrecord
+            (c_id,c_createtime,c_meterid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage1,c_downimage1,c_upimage2,c_downimage2,c_upimage3,c_downimage3,c_upimage4,c_downimage4,c_upimage5,c_downimage5,c_upimage6,c_downimage6,c_upimage7,c_downimage7,c_appearance,c_pointer,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_indicationerrorpermit,c_returnerrorpermit,c_positionpermit,c_indicationerrorupper,c_returnerrorupper,c_positionupper,c_indicationerrorupperpermit,c_returnerrorupperpermit,c_positionupperpermit,c_remark,c_detectresult,c_detectlevel,c_checkstep,c_inspector,c_verifier,c_approver,c_resultid,c_detectcode,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+            (#{id},#{createTime},#{meterId},#{sPressure},#{strikeUp},#{strikeDown},#{positionUp},#{positionDown},#{indicationError},#{returnError},#{upImage1},#{downImage1},#{upImage2},#{downImage2},#{upImage3},#{downImage3},#{upImage4},#{downImage4},#{upImage5},#{downImage5},#{upImage6},#{downImage6},#{upImage7},#{downImage7},#{appearance},#{pointer},#{zeroErrorMax},#{indicationErrorMax},#{returnErrorMax},#{positionMax},#{indicationErrorPermit},#{returnErrorPermit},#{positionPermit},#{indicationErrorUpper},#{returnErrorUpper},#{positionUpper},#{indicationErrorUpperPermit},#{returnErrorUpperPermit},#{positionUpperPermit},#{remark},#{detectResult},#{detectLevel},#{checkStep},#{inspector},#{verifier},#{approver},#{resultId},#{detectCode},#{standardToolId},#{resultFile},#{recordFile},#{imgPath1},#{imgPath2})
+        ON DUPLICATE KEY UPDATE
+            c_meterid=#{meterId},c_spressure=#{sPressure},c_strikeup=#{strikeUp},c_strikedown=#{strikeDown},c_positionup=#{positionUp},c_positiondown=#{positionDown},c_indicationerror=#{indicationError},c_returnerror=#{returnError},c_upimage1=#{upImage1},c_downimage1=#{downImage1},c_upimage2=#{upImage2},c_downimage2=#{downImage2},c_upimage3=#{upImage3},c_downimage3=#{downImage3},c_upimage4=#{upImage4},c_downimage4=#{downImage4},c_upimage5=#{upImage5},c_downimage5=#{downImage5},c_upimage6=#{upImage6},c_downimage6=#{downImage6},c_upimage7=#{upImage7},c_downimage7=#{downImage7},c_appearance=#{appearance},c_pointer=#{pointer},c_zeroerrormax=#{zeroErrorMax},c_indicationerrormax=#{indicationErrorMax},c_returnerrormax=#{returnErrorMax},c_positionmax=#{positionMax},c_indicationerrorpermit=#{indicationErrorPermit},c_returnerrorpermit=#{returnErrorPermit},c_positionpermit=#{positionPermit},c_indicationerrorupper=#{indicationErrorUpper},c_returnerrorupper=#{returnErrorUpper},c_positionupper=#{positionUpper},c_indicationerrorupperpermit=#{indicationErrorUpperPermit},c_returnerrorupperpermit=#{returnErrorUpperPermit},c_positionupperpermit=#{positionUpperPermit},c_remark=#{remark},c_detectresult=#{detectResult},c_detectlevel=#{detectLevel},c_checkstep=#{checkStep},c_inspector=#{inspector},c_verifier=#{verifier},c_approver=#{approver},c_resultid=#{resultId},c_detectcode=#{detectCode},c_standardtoolid=#{standardToolId},c_resultfile=#{resultFile},c_recordfile=#{recordFile},c_imgpath1=#{imgPath1},c_imgpath2=#{imgPath2}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_detectrecord
+            (c_id,c_createtime,c_meterid,c_spressure,c_strikeup,c_strikedown,c_positionup,c_positiondown,c_indicationerror,c_returnerror,c_upimage1,c_downimage1,c_upimage2,c_downimage2,c_upimage3,c_downimage3,c_upimage4,c_downimage4,c_upimage5,c_downimage5,c_upimage6,c_downimage6,c_upimage7,c_downimage7,c_appearance,c_pointer,c_zeroerrormax,c_indicationerrormax,c_returnerrormax,c_positionmax,c_indicationerrorpermit,c_returnerrorpermit,c_positionpermit,c_indicationerrorupper,c_returnerrorupper,c_positionupper,c_indicationerrorupperpermit,c_returnerrorupperpermit,c_positionupperpermit,c_remark,c_detectresult,c_detectlevel,c_checkstep,c_inspector,c_verifier,c_approver,c_resultid,c_detectcode,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+        <foreach collection="detectRecords" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.meterId},#{item.sPressure},#{item.strikeUp},#{item.strikeDown},#{item.positionUp},#{item.positionDown},#{item.indicationError},#{item.returnError},#{item.upImage1},#{item.downImage1},#{item.upImage2},#{item.downImage2},#{item.upImage3},#{item.downImage3},#{item.upImage4},#{item.downImage4},#{item.upImage5},#{item.downImage5},#{item.upImage6},#{item.downImage6},#{item.upImage7},#{item.downImage7},#{item.appearance},#{item.pointer},#{item.zeroErrorMax},#{item.indicationErrorMax},#{item.returnErrorMax},#{item.positionMax},#{item.indicationErrorPermit},#{item.returnErrorPermit},#{item.positionPermit},#{item.indicationErrorUpper},#{item.returnErrorUpper},#{item.positionUpper},#{item.indicationErrorUpperPermit},#{item.returnErrorUpperPermit},#{item.positionUpperPermit},#{item.remark},#{item.detectResult},#{item.detectLevel},#{item.checkStep},#{item.inspector},#{item.verifier},#{item.approver},#{item.resultId},#{item.detectCode},#{item.standardToolId},#{item.resultFile},#{item.recordFile},#{item.imgPath1},#{item.imgPath2})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_meterid=VALUES(c_meterid),c_spressure=VALUES(c_spressure),c_strikeup=VALUES(c_strikeup),c_strikedown=VALUES(c_strikedown),c_positionup=VALUES(c_positionup),c_positiondown=VALUES(c_positiondown),c_indicationerror=VALUES(c_indicationerror),c_returnerror=VALUES(c_returnerror),c_upimage1=VALUES(c_upimage1),c_downimage1=VALUES(c_downimage1),c_upimage2=VALUES(c_upimage2),c_downimage2=VALUES(c_downimage2),c_upimage3=VALUES(c_upimage3),c_downimage3=VALUES(c_downimage3),c_upimage4=VALUES(c_upimage4),c_downimage4=VALUES(c_downimage4),c_upimage5=VALUES(c_upimage5),c_downimage5=VALUES(c_downimage5),c_upimage6=VALUES(c_upimage6),c_downimage6=VALUES(c_downimage6),c_upimage7=VALUES(c_upimage7),c_downimage7=VALUES(c_downimage7),c_appearance=VALUES(c_appearance),c_pointer=VALUES(c_pointer),c_zeroerrormax=VALUES(c_zeroerrormax),c_indicationerrormax=VALUES(c_indicationerrormax),c_returnerrormax=VALUES(c_returnerrormax),c_positionmax=VALUES(c_positionmax),c_indicationerrorpermit=VALUES(c_indicationerrorpermit),c_returnerrorpermit=VALUES(c_returnerrorpermit),c_positionpermit=VALUES(c_positionpermit),c_indicationerrorupper=VALUES(c_indicationerrorupper),c_returnerrorupper=VALUES(c_returnerrorupper),c_positionupper=VALUES(c_positionupper),c_indicationerrorupperpermit=VALUES(c_indicationerrorupperpermit),c_returnerrorupperpermit=VALUES(c_returnerrorupperpermit),c_positionupperpermit=VALUES(c_positionupperpermit),c_remark=VALUES(c_remark),c_detectresult=VALUES(c_detectresult),c_detectlevel=VALUES(c_detectlevel),c_checkstep=VALUES(c_checkstep),c_inspector=VALUES(c_inspector),c_verifier=VALUES(c_verifier),c_approver=VALUES(c_approver),c_resultid=VALUES(c_resultid),c_detectcode=VALUES(c_detectcode),c_standardtoolid=VALUES(c_standardtoolid),c_resultfile=VALUES(c_resultfile),c_recordfile=VALUES(c_recordfile),c_imgpath1=VALUES(c_imgpath1),c_imgpath2=VALUES(c_imgpath2)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_detectrecord
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_detectrecord
+        WHERE c_id IN
+        <foreach collection="detectRecords" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_detectrecord
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_detectrecord
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_detectrecord WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_detectrecord
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_detectrecord WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="detectRecordDefaultMapping">
+        SELECT * FROM t_detectrecord
+    </select>
+
+    <select id="getByProperty" resultMap="detectRecordDefaultMapping">
+        SELECT * FROM t_detectrecord WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="detectRecordDefaultMapping">
+        SELECT * FROM t_detectrecord
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="detectRecordDefaultMapping">
+        ${sql}
+    </select>
+
+    <!--</editor-fold>-->
+
+</mapper>

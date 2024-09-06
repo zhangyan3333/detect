@@ -24,7 +24,7 @@ public class RunnerSelf implements ApplicationRunner {
 	**/
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		pgRecordService.detectRecordSync();
+//		pgRecordService.detectRecordSync();
 //		pgRecordService.standardMeterSync();
 	}
 }

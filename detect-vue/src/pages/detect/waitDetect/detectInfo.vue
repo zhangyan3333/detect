@@ -55,7 +55,7 @@
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">标准器编号</p></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.scode"/></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">测量范围</p></Col>
-			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">{{entity.srangeL}}～{{entity.srangeH}}</p></Col>
+			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">{{entity.srangeH}}</p></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">准确度等级</p></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.sresolution"><template #append> 级 </template></Input></Col>
 			<Col span="2" class="ivu-b ivu-text-center"><p class="pElement">工作介质</p></Col>
@@ -99,70 +99,70 @@
 					<Col span="4" class="ivu-b ivu-text-center"><p style="margin-top: 40px;font-size: 16px">回程误差</p></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.spressure"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.spressure[0]"/></Col>
 					<Col span="3" class="ivu-b ivu-text-center">
-						<Input class="pInput" v-model="info1.strikeUp">
+						<Input class="pInput" v-model="entity.strikeUp[0]">
 							<template #append>
 								<Button icon="ios-search" @click="imageUpShow(info1)"></Button>
 							</template>
 						</Input>
 					</Col>
 					<Col span="3" class="ivu-b ivu-text-center">
-						<Input class="pInput" v-model="info1.strikeDown">
+						<Input class="pInput" v-model="entity.strikeDown[0]">
 							<template #append>
 								<Button icon="ios-search" @click="imageDownShow(info1)"></Button>
 							</template>
 						</Input>
 					</Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.positionUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.positionDown"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.indicationError"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info1.returnError"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionUp[0]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionDown[0]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.indicationError[0]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.returnError[0]"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.spressure"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.strikeUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.strikeDown"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.positionUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.positionDown"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.indicationError"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info2.returnError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.spressure[1]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeUp[1]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeDown[1]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionUp[1]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionDown[1]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.indicationError[1]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.returnError[1]"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.spressure"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.strikeUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.strikeDown"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.positionUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.positionDown"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.indicationError"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info3.returnError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.spressure[2]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeUp[2]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeDown[2]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionUp[2]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionDown[2]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.indicationError[2]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.returnError[2]"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.spressure"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.strikeUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.strikeDown"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.positionUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.positionDown"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.indicationError"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info4.returnError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.spressure[3]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeUp[3]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeDown[3]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionUp[3]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionDown[3]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.indicationError[3]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.returnError[3]"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.spressure"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.strikeUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.strikeDown"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.positionUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.positionDown"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.indicationError"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info5.returnError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.spressure[4]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeUp[4]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeDown[4]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionUp[4]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionDown[4]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.indicationError[4]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.returnError[4]"/></Col>
 				</Row>
 				<Row class-name="rowElement">
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.spressure"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.strikeUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.strikeDown"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.positionUp"/></Col>
-					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.positionDown"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.indicationError"/></Col>
-					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="info6.returnError"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.spressure[5]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeUp[5]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.strikeDown[5]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionUp[5]"/></Col>
+					<Col span="3" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.positionDown[5]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.indicationError[5]"/></Col>
+					<Col span="4" class="ivu-b ivu-text-center"><Input class="pInput" v-model="entity.returnError[5]"/></Col>
 				</Row>
 			</Col>
 			<Col span="10" class="ivu-b" style="font-size: 16px">
@@ -247,6 +247,13 @@ export default {
 			tableKey:0,
 			evaluations:[],
 			entity:{
+				spressure:[],
+				strikeUp:[],
+				strikeDown:[],
+				positionUp:[],
+				positionDown:[],
+				indicationError:[],
+				returnError:[],
 				total:0
 			},
 			info1: { },
@@ -369,15 +376,19 @@ export default {
 		initData(info){
 			this.entity = info;
 			this.entity.se = dayjs(info.sEdate).format('YYYY年M月D日');
-			let infos = this.entity.infos;
-			for (let i = 0; i < infos.length; i++) {
-				if (i == 0){ this.info1 = infos[i]}
-				if (i == 1){ this.info2 = infos[i]}
-				if (i == 2){ this.info3 = infos[i]}
-				if (i == 3){ this.info4 = infos[i]}
-				if (i == 4){ this.info5 = infos[i]}
-				if (i == 5){ this.info6 = infos[i]}
+			let infos = [];
+			for (let i = 0; i < this.entity.spressure.size; i++){
+				let info
 			}
+			// for (let i = 0; i < infos.length; i++) {
+			// 	if (i == 0){ this.info1 = infos[i]}
+			// 	if (i == 1){ this.info2 = infos[i]}
+			// 	if (i == 2){ this.info3 = infos[i]}
+			// 	if (i == 3){ this.info4 = infos[i]}
+			// 	if (i == 4){ this.info5 = infos[i]}
+			// 	if (i == 5){ this.info6 = infos[i]}
+			// }
+
 		},
 		modalOk(){
 			entityRequest('update', 'pgRecords', this.entity,

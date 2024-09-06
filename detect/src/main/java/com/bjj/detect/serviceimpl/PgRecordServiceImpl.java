@@ -169,8 +169,8 @@ public class PgRecordServiceImpl implements PgRecordService {
     **/
     @Scheduled(fixedRate = 1800000)
     public void detectRecordSync(){
-        dataTransfer.detectRecordSqlToMysql();
-        PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
+//        dataTransfer.detectRecordSqlToMysql();
+//        PrintUtil.info("自动同步数据"+ "条--[" + sdf.format(new Date()) + "]", new Object[0]);
     }
     /**
      * @param :

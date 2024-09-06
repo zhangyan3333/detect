@@ -2,8 +2,14 @@
     <Card dis-hover>
         <div>
             <Row style="margin-bottom: 5px;">
+				<Col flex="200px">
+					<Select v-model="entityQuery.standardToolId" clearable placeholder="请选择检定标准器">
+						<Option v-for="item in standards" :value="item.id" :key="item.id">{{ item.sname }}</Option>
+					</Select>
+				</Col>
+				<Col flex="20px"/>
 				<Col flex="400px">
-					<Input search :placeholder="$t('page.user.searchHolder')" v-model="entityQuery.fullSearch" @on-search="query" />
+					<Input search placeholder="可搜索被检表名称" v-model="entityQuery.fullSearch" @on-search="queryFirst" />
 				</Col>
                 <Col flex="auto">
                 </Col>
@@ -103,13 +109,15 @@
 						<Input v-model="entity.meterDivisionNo" placeholder=" 请输入分度值 "></Input>
 					</FormItem>
 					<FormItem label="检定标准" prop="roleIds">
-						<Select v-model="entity.standardToolId" clearable aria-placeholder="请选择检定标准及标准器">
+						<Select v-model="entity.standardToolId" clearable placeholder="请选择检定标准及标准器">
 							<Option v-for="item in standards" :value="item.id" :key="item.id">{{ item.sname + '   -   ' + item.mname }}</Option>
 						</Select>
 					</FormItem>
                 </Form>
             </Modal>
         </div>
+
+		<detect-history ref="detectHistory"/>
     </Card>
 </template>
 
@@ -120,12 +128,15 @@
     import { entityRequest } from '@/libs/system/requestUtil';
     import { organizationToNodeMapping, entityTreeToNodeTree } from '@/libs/system/treeUtil';
 	import util from '@/libs/util';
+	import detectHistory from '@/pages/tools/detectTool/detectHistory';
 
     export default {
         name: 'tools-detectTool',
+		components:{ detectHistory },
         data() {
+			let _this = this;
             return {
-                apiBasePath: 'pgRecords',
+                apiBasePath: 'detectMeters',
                 tableLoading: false,
                 modalLoading: true,
                 isShowModel: false,
@@ -213,6 +224,9 @@
 						align: 'center',
 						isShow: true,
 						render: function (h, {row,index}) {
+							if(row.detectTime === null){
+								return h('div','未检定');
+							}
 							return h('div',dayjs(row.detectTime).format('YYYY年M月D日'));
 						}
 					},
@@ -228,6 +242,26 @@
 						key: 'standardToolName',
 						width: 200,
 						align: 'center',
+						isShow: true
+					},
+					{
+						title: '检定历史记录',
+						key: 'leaderTel',
+						minWidth: 200,
+						align: 'center',
+						render: function (h, {row,index}) {
+							return [h('a', {
+								style:{
+									marginRight : '20px'
+								},
+								on: {
+									click: (val) => {
+										_this.$refs.detectHistory.initData(row);
+										_this.$refs.detectHistory.isShowView = true;
+									}
+								}
+							},'查看')]
+						},
 						isShow: true
 					},
 					{
@@ -346,6 +380,10 @@
                     }
                 });
             },
+			queryFirst(){
+            	this.entityQuery.pageIndex = 1;
+            	this.query();
+			},
             query() {
                 this.tableLoading = true;
                 entityRequest('page', this.apiBasePath, this.entityQuery,
@@ -393,11 +431,20 @@
 							this.entity.standardLoc = standard.location;
 							this.entity.sedate = new Date(standard.sbdate);
 							this.entity.sfactory = standard.sfactory;
+							this.entity.location = standard.location;
 						}
 					}
 				},
 				immediate: true
 			},
+			'entityQuery.standardToolId':{
+				handler (val) {
+					console.log(val)
+					this.entityQuery.standardToolId = val;
+					this.query();
+				},
+				immediate: true
+			}
 		}
     }
 </script>

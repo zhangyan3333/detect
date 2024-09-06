@@ -17,7 +17,7 @@
 			<p style="text-align: center;font-size: 50px;margin-top: 30px" v-if="entity.detectResult == 1">检定结果通知书</p>
 			<div class="divList">
 				<p class="pElement" style="font-size: 25px">证书编号：</p>
-				<Input class="pInput" style="font-size: 25px;width: 10%" v-model="entity.certCode"/>
+				<Input class="pInput" style="font-size: 25px;width: 10%" v-model="entity.detectCode"/>
 				<p class="pElement" style="font-size: 25px;margin-left: 20px">号</p>
 			</div>
 			<div class="divList" >
@@ -101,7 +101,7 @@
 
 			<div class="divList">
 				<p class="pElement" style="font-size: 25px">证书编号：</p>
-				<Input class="pInput" style="font-size: 25px;width: 10%" v-model="entity.certCode"/>
+				<Input class="pInput" style="font-size: 25px;width: 10%" v-model="entity.detectCode"/>
 				<p class="pElement" style="font-size: 25px;margin-left: 20px">号</p>
 				<p class="pElement" style="font-size: 25px;margin-left: 500px">第 2 页共 2 页</p>
 			</div>
@@ -624,7 +624,7 @@ export default {
 			this.entity.exportState = this.currentIndex;
 			this.entity.recordId = this.entity.id;
 			this.entity.resultId = this.entity.resultId==null?0:this.entity.resultId;
-			// this.entity.certCode = this.entity.detectCode;
+			this.entity.certCode = this.entity.detectCode;
 			this.entity.detectTime = new Date(this.entity.detectTime);
 			exportDetectResult(this.entity)
 					.then(( response)=>{

@@ -24,6 +24,7 @@
         <result column="c_modifyuserid" property="modifyUserId"/>
         <result column="c_modifyusername" property="modifyUserName"/>
         <result column="c_modifytime" property="modifyTime"/>
+        <result column="c_sbasis" property="sBasis"/>
     </resultMap>
 
     <!--</editor-fold>-->
@@ -32,23 +33,23 @@
 
     <insert id="insert" parameterType="com.bjj.detect.entity.StandardTool">
         INSERT INTO t_standardtool
-            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime,c_sbasis)
         VALUES
-            (#{id},#{createTime},#{sname},#{sRange},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{location},#{organizationId},#{organizationName},#{modifyUserId},#{modifyUserName},#{modifyTime})
+            (#{id},#{createTime},#{sname},#{sRange},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{location},#{organizationId},#{organizationName},#{modifyUserId},#{modifyUserName},#{modifyTime},#{sBasis})
     </insert>
 
     <insert id="insertAll" parameterType="java.util.List">
         INSERT INTO t_standardtool
-            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime,c_sbasis)
         VALUES
         <foreach collection="standardTools" item="item" separator=",">
-            (#{item.id},#{item.createTime},#{item.sname},#{item.sRange},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.location},#{item.organizationId},#{item.organizationName},#{item.modifyUserId},#{item.modifyUserName},#{item.modifyTime})
+            (#{item.id},#{item.createTime},#{item.sname},#{item.sRange},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.location},#{item.organizationId},#{item.organizationName},#{item.modifyUserId},#{item.modifyUserName},#{item.modifyTime},#{item.sBasis})
         </foreach>
     </insert>
 
     <update id="update" parameterType="com.bjj.detect.entity.StandardTool">
         UPDATE t_standardtool
-        SET c_sname=#{sname},c_srange=#{sRange},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_location=#{location},c_organizationid=#{organizationId},c_organizationname=#{organizationName},c_modifyuserid=#{modifyUserId},c_modifyusername=#{modifyUserName},c_modifytime=#{modifyTime}
+        SET c_sname=#{sname},c_srange=#{sRange},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_location=#{location},c_organizationid=#{organizationId},c_organizationname=#{organizationName},c_modifyuserid=#{modifyUserId},c_modifyusername=#{modifyUserName},c_modifytime=#{modifyTime},c_sbasis=#{sBasis}
         WHERE c_id=#{id}
     </update>
 
@@ -139,6 +140,11 @@
                 WHEN #{item.id} THEN #{item.modifyTime}
             </foreach>
             END
+            ,c_sbasis = CASE c_id
+            <foreach collection="standardTools" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.sBasis}
+            </foreach>
+            END
         WHERE c_id IN
         <foreach collection="standardTools" item="item" separator="," open="(" close=")">
             #{item.id}
@@ -147,22 +153,22 @@
 
     <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.StandardTool">
         INSERT INTO t_standardtool
-            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime,c_sbasis)
         VALUES
-            (#{id},#{createTime},#{sname},#{sRange},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{location},#{organizationId},#{organizationName},#{modifyUserId},#{modifyUserName},#{modifyTime})
+            (#{id},#{createTime},#{sname},#{sRange},#{sResolution},#{sRegulateCode},#{sEdate},#{mname},#{mRange},#{mResolution},#{sFactory},#{sRegulateBcode},#{sBdate},#{location},#{organizationId},#{organizationName},#{modifyUserId},#{modifyUserName},#{modifyTime},#{sBasis})
         ON DUPLICATE KEY UPDATE
-            c_sname=#{sname},c_srange=#{sRange},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_location=#{location},c_organizationid=#{organizationId},c_organizationname=#{organizationName},c_modifyuserid=#{modifyUserId},c_modifyusername=#{modifyUserName},c_modifytime=#{modifyTime}
+            c_sname=#{sname},c_srange=#{sRange},c_sresolution=#{sResolution},c_sregulatecode=#{sRegulateCode},c_sedate=#{sEdate},c_mname=#{mname},c_mrange=#{mRange},c_mresolution=#{mResolution},c_sfactory=#{sFactory},c_sregulatebcode=#{sRegulateBcode},c_sbdate=#{sBdate},c_location=#{location},c_organizationid=#{organizationId},c_organizationname=#{organizationName},c_modifyuserid=#{modifyUserId},c_modifyusername=#{modifyUserName},c_modifytime=#{modifyTime},c_sbasis=#{sBasis}
     </insert>
 
     <insert id="insertOrUpdateAll" parameterType="java.util.List">
         INSERT INTO t_standardtool
-            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime)
+            (c_id,c_createtime,c_sname,c_srange,c_sresolution,c_sregulatecode,c_sedate,c_mname,c_mrange,c_mresolution,c_sfactory,c_sregulatebcode,c_sbdate,c_location,c_organizationid,c_organizationname,c_modifyuserid,c_modifyusername,c_modifytime,c_sbasis)
         VALUES
         <foreach collection="standardTools" item="item" separator=",">
-            (#{item.id},#{item.createTime},#{item.sname},#{item.sRange},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.location},#{item.organizationId},#{item.organizationName},#{item.modifyUserId},#{item.modifyUserName},#{item.modifyTime})
+            (#{item.id},#{item.createTime},#{item.sname},#{item.sRange},#{item.sResolution},#{item.sRegulateCode},#{item.sEdate},#{item.mname},#{item.mRange},#{item.mResolution},#{item.sFactory},#{item.sRegulateBcode},#{item.sBdate},#{item.location},#{item.organizationId},#{item.organizationName},#{item.modifyUserId},#{item.modifyUserName},#{item.modifyTime},#{item.sBasis})
         </foreach>
         ON DUPLICATE KEY UPDATE
-            c_sname=VALUES(c_sname),c_srange=VALUES(c_srange),c_sresolution=VALUES(c_sresolution),c_sregulatecode=VALUES(c_sregulatecode),c_sedate=VALUES(c_sedate),c_mname=VALUES(c_mname),c_mrange=VALUES(c_mrange),c_mresolution=VALUES(c_mresolution),c_sfactory=VALUES(c_sfactory),c_sregulatebcode=VALUES(c_sregulatebcode),c_sbdate=VALUES(c_sbdate),c_location=VALUES(c_location),c_organizationid=VALUES(c_organizationid),c_organizationname=VALUES(c_organizationname),c_modifyuserid=VALUES(c_modifyuserid),c_modifyusername=VALUES(c_modifyusername),c_modifytime=VALUES(c_modifytime)
+            c_sname=VALUES(c_sname),c_srange=VALUES(c_srange),c_sresolution=VALUES(c_sresolution),c_sregulatecode=VALUES(c_sregulatecode),c_sedate=VALUES(c_sedate),c_mname=VALUES(c_mname),c_mrange=VALUES(c_mrange),c_mresolution=VALUES(c_mresolution),c_sfactory=VALUES(c_sfactory),c_sregulatebcode=VALUES(c_sregulatebcode),c_sbdate=VALUES(c_sbdate),c_location=VALUES(c_location),c_organizationid=VALUES(c_organizationid),c_organizationname=VALUES(c_organizationname),c_modifyuserid=VALUES(c_modifyuserid),c_modifyusername=VALUES(c_modifyusername),c_modifytime=VALUES(c_modifytime),c_sbasis=VALUES(c_sbasis)
     </insert>
 
     <delete id="delete">

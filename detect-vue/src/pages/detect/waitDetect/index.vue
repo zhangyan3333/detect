@@ -133,7 +133,7 @@ export default {
 	data() {
 		let _this = this;
 		return {
-			apiBasePath: 'pgRecords',
+			apiBasePath: 'detectRecords',
 			uploadUrl:'',
 			headers: {
 				'Authorization': 'Bearer ' + util.cookies.get('token')
@@ -518,12 +518,12 @@ export default {
 		},
 		modalOk() {
 
-			if (this.entity.checkStep < 4){
+			if (this.entity.checkStep < 3){
 				this.entity.checkStep += 1;
 			}else {
 				this.entity.checkStep = 0;
 			}
-			entityRequest('update', 'pgRecords', this.entity,
+			entityRequest('update', 'detectRecords', this.entity,
 					(response)=>{
 						this.query();
 					},

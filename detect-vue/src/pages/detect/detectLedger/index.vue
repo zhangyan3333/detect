@@ -110,7 +110,7 @@
 		data() {
 			let _this = this;
 			return {
-				apiBasePath: 'pgRecords',
+				apiBasePath: 'detectRecords',
 				uploadUrl:'',
 				headers: {
 					'Authorization': 'Bearer ' + util.cookies.get('token')
@@ -251,7 +251,7 @@
 										}else {
 											_this.$Message.error({
 												background: true,
-												content: '当前公司未上传准入评审材料',
+												content: '当前仪表未上传结果证书',
 												duration: 5
 											});
 										}

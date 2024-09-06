@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjj.detect.dao.DetectMeterDao">
+
+    <!--<editor-fold desc="ResultMap区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <resultMap id="detectMeterDefaultMapping" type="com.bjj.detect.entity.DetectMeter">
+        <result column="c_id" property="id"/>
+        <result column="c_createtime" property="createTime"/>
+        <result column="c_metername" property="meterName"/>
+        <result column="c_metertype" property="meterType"/>
+        <result column="c_metercustomer" property="meterCustomer"/>
+        <result column="c_metercode" property="meterCode"/>
+        <result column="c_meterrangel" property="meterRangeL"/>
+        <result column="c_meterrangeh" property="meterRangeH"/>
+        <result column="c_meterresolution" property="meterResolution"/>
+        <result column="c_meterdivisionno" property="meterDivisionNo"/>
+        <result column="c_meterfactory" property="meterFactory"/>
+        <result column="c_checkstep" property="checkStep"/>
+        <result column="c_detectresult" property="detectResult"/>
+        <result column="c_detectcode" property="detectCode"/>
+        <result column="c_remark" property="remark"/>
+        <result column="c_resultid" property="resultId"/>
+        <result column="c_standardtoolid" property="standardToolId"/>
+        <result column="c_resultfile" property="resultFile"/>
+        <result column="c_recordfile" property="recordFile"/>
+        <result column="c_imgpath1" property="imgPath1"/>
+        <result column="c_imgpath2" property="imgPath2"/>
+        <result column="c_detecttime" property="detectTime"/>
+        <result column="c_overtime" property="overTime"/>
+        <result column="c_standardname" property="standardName"/>
+        <result column="c_standardtoolname" property="standardToolName"/>
+    </resultMap>
+
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Sql区，此为代码自动生成区，为防止您的代码丢失，请勿在此区域内添加手动代码">-->
+
+    <insert id="insert" parameterType="com.bjj.detect.entity.DetectMeter">
+        INSERT INTO t_detectmeter
+            (c_id,c_createtime,c_metername,c_metertype,c_metercustomer,c_metercode,c_meterrangel,c_meterrangeh,c_meterresolution,c_meterdivisionno,c_meterfactory,c_checkstep,c_detectresult,c_detectcode,c_remark,c_resultid,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+            (#{id},#{createTime},#{meterName},#{meterType},#{meterCustomer},#{meterCode},#{meterRangeL},#{meterRangeH},#{meterResolution},#{meterDivisionNo},#{meterFactory},#{checkStep},#{detectResult},#{detectCode},#{remark},#{resultId},#{standardToolId},#{resultFile},#{recordFile},#{imgPath1},#{imgPath2})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO t_detectmeter
+            (c_id,c_createtime,c_metername,c_metertype,c_metercustomer,c_metercode,c_meterrangel,c_meterrangeh,c_meterresolution,c_meterdivisionno,c_meterfactory,c_checkstep,c_detectresult,c_detectcode,c_remark,c_resultid,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+        <foreach collection="detectMeters" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.meterName},#{item.meterType},#{item.meterCustomer},#{item.meterCode},#{item.meterRangeL},#{item.meterRangeH},#{item.meterResolution},#{item.meterDivisionNo},#{item.meterFactory},#{item.checkStep},#{item.detectResult},#{item.detectCode},#{item.remark},#{item.resultId},#{item.standardToolId},#{item.resultFile},#{item.recordFile},#{item.imgPath1},#{item.imgPath2})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.bjj.detect.entity.DetectMeter">
+        UPDATE t_detectmeter
+        SET c_metername=#{meterName},c_metertype=#{meterType},c_metercustomer=#{meterCustomer},c_metercode=#{meterCode},c_meterrangel=#{meterRangeL},c_meterrangeh=#{meterRangeH},c_meterresolution=#{meterResolution},c_meterdivisionno=#{meterDivisionNo},c_meterfactory=#{meterFactory},c_checkstep=#{checkStep},c_detectresult=#{detectResult},c_detectcode=#{detectCode},c_remark=#{remark},c_resultid=#{resultId},c_standardtoolid=#{standardToolId},c_resultfile=#{resultFile},c_recordfile=#{recordFile},c_imgpath1=#{imgPath1},c_imgpath2=#{imgPath2}
+        WHERE c_id=#{id}
+    </update>
+
+    <update id="updateAll" parameterType="java.util.List">
+        UPDATE t_detectmeter SET 
+            c_metername = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterName}
+            </foreach>
+            END
+            ,c_metertype = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterType}
+            </foreach>
+            END
+            ,c_metercustomer = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterCustomer}
+            </foreach>
+            END
+            ,c_metercode = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterCode}
+            </foreach>
+            END
+            ,c_meterrangel = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterRangeL}
+            </foreach>
+            END
+            ,c_meterrangeh = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterRangeH}
+            </foreach>
+            END
+            ,c_meterresolution = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterResolution}
+            </foreach>
+            END
+            ,c_meterdivisionno = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterDivisionNo}
+            </foreach>
+            END
+            ,c_meterfactory = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.meterFactory}
+            </foreach>
+            END
+            ,c_checkstep = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.checkStep}
+            </foreach>
+            END
+            ,c_detectresult = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.detectResult}
+            </foreach>
+            END
+            ,c_detectcode = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.detectCode}
+            </foreach>
+            END
+            ,c_remark = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.remark}
+            </foreach>
+            END
+            ,c_resultid = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.resultId}
+            </foreach>
+            END
+            ,c_standardtoolid = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.standardToolId}
+            </foreach>
+            END
+            ,c_resultfile = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.resultFile}
+            </foreach>
+            END
+            ,c_recordfile = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.recordFile}
+            </foreach>
+            END
+            ,c_imgpath1 = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.imgPath1}
+            </foreach>
+            END
+            ,c_imgpath2 = CASE c_id
+            <foreach collection="detectMeters" item="item" separator=" ">
+                WHEN #{item.id} THEN #{item.imgPath2}
+            </foreach>
+            END
+        WHERE c_id IN
+        <foreach collection="detectMeters" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="insertOrUpdate" parameterType="com.bjj.detect.entity.DetectMeter">
+        INSERT INTO t_detectmeter
+            (c_id,c_createtime,c_metername,c_metertype,c_metercustomer,c_metercode,c_meterrangel,c_meterrangeh,c_meterresolution,c_meterdivisionno,c_meterfactory,c_checkstep,c_detectresult,c_detectcode,c_remark,c_resultid,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+            (#{id},#{createTime},#{meterName},#{meterType},#{meterCustomer},#{meterCode},#{meterRangeL},#{meterRangeH},#{meterResolution},#{meterDivisionNo},#{meterFactory},#{checkStep},#{detectResult},#{detectCode},#{remark},#{resultId},#{standardToolId},#{resultFile},#{recordFile},#{imgPath1},#{imgPath2})
+        ON DUPLICATE KEY UPDATE
+            c_metername=#{meterName},c_metertype=#{meterType},c_metercustomer=#{meterCustomer},c_metercode=#{meterCode},c_meterrangel=#{meterRangeL},c_meterrangeh=#{meterRangeH},c_meterresolution=#{meterResolution},c_meterdivisionno=#{meterDivisionNo},c_meterfactory=#{meterFactory},c_checkstep=#{checkStep},c_detectresult=#{detectResult},c_detectcode=#{detectCode},c_remark=#{remark},c_resultid=#{resultId},c_standardtoolid=#{standardToolId},c_resultfile=#{resultFile},c_recordfile=#{recordFile},c_imgpath1=#{imgPath1},c_imgpath2=#{imgPath2}
+    </insert>
+
+    <insert id="insertOrUpdateAll" parameterType="java.util.List">
+        INSERT INTO t_detectmeter
+            (c_id,c_createtime,c_metername,c_metertype,c_metercustomer,c_metercode,c_meterrangel,c_meterrangeh,c_meterresolution,c_meterdivisionno,c_meterfactory,c_checkstep,c_detectresult,c_detectcode,c_remark,c_resultid,c_standardtoolid,c_resultfile,c_recordfile,c_imgpath1,c_imgpath2)
+        VALUES
+        <foreach collection="detectMeters" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.meterName},#{item.meterType},#{item.meterCustomer},#{item.meterCode},#{item.meterRangeL},#{item.meterRangeH},#{item.meterResolution},#{item.meterDivisionNo},#{item.meterFactory},#{item.checkStep},#{item.detectResult},#{item.detectCode},#{item.remark},#{item.resultId},#{item.standardToolId},#{item.resultFile},#{item.recordFile},#{item.imgPath1},#{item.imgPath2})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            c_metername=VALUES(c_metername),c_metertype=VALUES(c_metertype),c_metercustomer=VALUES(c_metercustomer),c_metercode=VALUES(c_metercode),c_meterrangel=VALUES(c_meterrangel),c_meterrangeh=VALUES(c_meterrangeh),c_meterresolution=VALUES(c_meterresolution),c_meterdivisionno=VALUES(c_meterdivisionno),c_meterfactory=VALUES(c_meterfactory),c_checkstep=VALUES(c_checkstep),c_detectresult=VALUES(c_detectresult),c_detectcode=VALUES(c_detectcode),c_remark=VALUES(c_remark),c_resultid=VALUES(c_resultid),c_standardtoolid=VALUES(c_standardtoolid),c_resultfile=VALUES(c_resultfile),c_recordfile=VALUES(c_recordfile),c_imgpath1=VALUES(c_imgpath1),c_imgpath2=VALUES(c_imgpath2)
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM t_detectmeter
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM t_detectmeter
+        WHERE c_id IN
+        <foreach collection="detectMeters" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM t_detectmeter
+        WHERE c_id=#{id}
+    </delete>
+
+    <delete id="deleteAllByIds">
+        DELETE FROM t_detectmeter
+        WHERE c_id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByQuery">
+        ${sql}
+    </delete>
+
+    <delete id="deleteByProperty">
+        DELETE FROM t_detectmeter WHERE c_${propertyName} = #{value}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_detectmeter
+    </select>
+
+    <select id="countByProperty" resultType="java.lang.Integer">
+        SELECT COUNT(c_id) FROM t_detectmeter WHERE c_${propertyName} = #{value}
+    </select>
+
+    <select id="countByQuery" resultType="java.lang.Integer">
+        ${sql}
+    </select>
+
+    <select id="get" resultMap="detectMeterDefaultMapping">
+        SELECT * FROM t_detectmeter
+    </select>
+
+    <select id="getByProperty" resultMap="detectMeterDefaultMapping">
+        SELECT * FROM t_detectmeter WHERE c_${propertyName} = #{value}
+    </select>
+    <select id="getById" resultMap="detectMeterDefaultMapping">
+        SELECT * FROM t_detectmeter
+        WHERE c_id=#{id}
+    </select>
+
+    <select id="getByQuery" resultMap="detectMeterDefaultMapping">
+        ${sql}
+    </select>
+
+    <!--</editor-fold>-->
+
+</mapper>

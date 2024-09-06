@@ -163,9 +163,14 @@
 							</Col>
 						</Row>
 					</FormItem>
-					<FormItem label="">
+					<FormItem label="检定依据">
 						<Row>
-							<Col span="10"></Col>
+							<Col span="9">
+								<FormItem prop="sBasis">
+									<Input v-model="entity.sbasis" placeholder="请输入检定依据"></Input>
+								</FormItem>
+							</Col>
+							<Col span="1"></Col>
 							<Col span="3" style="text-align: right ;padding-right: 10px">溯源机构</Col>
 							<Col span="11">
 								<FormItem prop="sFactory">
@@ -246,6 +251,13 @@
 					{
 						title: '地点',
 						key: 'location',
+						width: 200,
+						align: 'center',
+						isShow: true
+					},
+					{
+						title: '检定依据',
+						key: 'sbasis',
 						width: 200,
 						align: 'center',
 						isShow: true

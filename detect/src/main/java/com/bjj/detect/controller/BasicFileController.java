@@ -1,7 +1,9 @@
 package com.bjj.detect.controller;
 
+import com.bjj.detect.entity.DetectRecord;
 import com.bjj.detect.entity.PgCertificate;
 import com.bjj.detect.entity.PgRecord;
+import com.bjj.detect.entity.VO.DetectRecordVO;
 import com.bjj.detect.service.FilesService;
 import com.syzx.framework.controller.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class BasicFileController {
     }
 
     @PostMapping(value = "/exportDetectRecord")
-    public ApiResult<String> exportDetectRecord(@RequestBody PgRecord record) {
+    public ApiResult<String> exportDetectRecord(@RequestBody DetectRecordVO record) {
         return new ApiResult(0, "导出成功", this.fileService.exportDetectRecord(record,0));
     }
 

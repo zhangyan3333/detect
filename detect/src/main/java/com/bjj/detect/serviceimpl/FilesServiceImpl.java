@@ -3,13 +3,15 @@ package com.bjj.detect.serviceimpl;
 import com.bjj.detect.dao.PgCertificateDao;
 import com.bjj.detect.dao.PgRecordDao;
 import com.bjj.detect.dao.StandardToolDao;
-import com.bjj.detect.entity.*;
-import com.bjj.detect.query.PgRecordQuery;
+import com.bjj.detect.entity.DetectRecord;
+import com.bjj.detect.entity.PgCertificate;
+import com.bjj.detect.entity.StandardTool;
+import com.bjj.detect.entity.VO.DetectRecordVO;
+import com.bjj.detect.service.DetectRecordService;
 import com.bjj.detect.service.FilesService;
 import com.bjj.detect.service.PgRecordService;
 import com.syzx.framework.config.FrameworkConfig;
 import com.syzx.framework.exceptions.BusinessException;
-import com.syzx.framework.query.QueryResult;
 import com.syzx.framework.uid.CentralizedUidGenerator;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.annotation.Resource;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,6 +36,9 @@ public class FilesServiceImpl implements FilesService {
 
 	@Autowired
 	private PgRecordService pgRecordService;
+
+	@Autowired
+	private DetectRecordService detectRecordService;
 
 	@Autowired
 	private PgRecordDao pgRecordDao;
@@ -122,7 +127,7 @@ public class FilesServiceImpl implements FilesService {
 		try{
 			if (index == 0 ){
 				filePath = FrameworkConfig.dataPath + "2024/template" + "/一般压力表原始记录.docx";
-				returnPath = exportDetect(filePath,(PgRecord) o);
+				returnPath = exportDetect(filePath,(DetectRecordVO) o);
 			}
 			if (index == 1 ){
 				filePath = FrameworkConfig.dataPath + "2024/template" + "/检定证书.docx";
@@ -155,7 +160,9 @@ public class FilesServiceImpl implements FilesService {
 			result.setId(result.getResultId());
 			result.setCreateTime(new Date());
 		}
-		StandardTool tool = standardToolDao.getById(pgRecordDao.getById(result.getRecordId()).getStandardToolId());
+		DetectRecord record = detectRecordService.getById(result.getRecordId());
+		StandardTool tool = standardToolDao.getById(record.getStandardToolId());
+		result.setDetectTime(record.getCreateTime());
 
 		updateCertificate(tool,result);
 
@@ -206,7 +213,7 @@ public class FilesServiceImpl implements FilesService {
 	}
 
 
-	public String exportDetect(String filePath,PgRecord record){
+	public String exportDetect(String filePath,DetectRecordVO record){
 		String returnPath = "";
 		try{
 			//调用上面写的方法prepareFile把文件名传入
@@ -229,7 +236,7 @@ public class FilesServiceImpl implements FilesService {
 
 			returnPath = LocalDate.now().format(datePathFormat) + temp;
 			record.setRecordFile(returnPath);
-			pgRecordService.update(record);
+			detectRecordService.update(detectRecordService.changeToPo(record));
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -252,7 +259,7 @@ public class FilesServiceImpl implements FilesService {
 			XWPFParagraph paragraph = paragraphList.get(i);
 			//获取每个段落中的内容
 			List<XWPFRun> runs = paragraph.getRuns();
-			Date date = pgCertificate.getDetectDate();
+			Date date = pgCertificate.getDetectTime();
 			Calendar end = Calendar.getInstance();
 			end.setTime(date);
 			end.add(Calendar.MONTH, Integer.valueOf(environment.getProperty("step")));
@@ -260,17 +267,41 @@ public class FilesServiceImpl implements FilesService {
 			//循环段落内容
 			for (int i1 = 0; i1 < runs.size(); i1++) {
 				//调用自定义方法replacePlaceholderV2替换内容
-				if (runs.get(i1).toString().contains("detectCode")) { replaceParagraphText(runs.get(i1), "detectCode", pgCertificate.getCertCode()); }
+				if (runs.get(i1).toString().contains("detectCode")) {
+					replaceParagraphText(runs.get(i1), "detectCode",
+							pgCertificate.getCertCode()==null?"":pgCertificate.getCertCode());
+				}
 
-				if (runs.get(i1).toString().contains("approver")) { replaceParagraphText(runs.get(i1), "approver", pgCertificate.getApprover()); }
-				if (runs.get(i1).toString().contains("verifier")) { replaceParagraphText(runs.get(i1), "verifier", pgCertificate.getVerifier()); }
-				if (runs.get(i1).toString().contains("inspector")) { replaceParagraphText(runs.get(i1), "inspector", pgCertificate.getInspector()); }
-				if (runs.get(i1).toString().contains("yy")) { replaceParagraphText(runs.get(i1), "yy", String.format("%tY", date)); }
-				if (runs.get(i1).toString().contains("mm")) { replaceParagraphText(runs.get(i1), "mm", String.format("%tm", date)); }
-				if (runs.get(i1).toString().contains("dd")) { replaceParagraphText(runs.get(i1), "dd", String.format("%td", date)); }
-				if (index == 1 && runs.get(i1).toString().contains("g")) { replaceParagraphText(runs.get(i1), "g", String.format("%tY", endDate)); }
-				if (index == 1 && runs.get(i1).toString().contains("yb")) { replaceParagraphText(runs.get(i1), "yb", String.format("%tm", endDate)); }
-				if (index == 1 && runs.get(i1).toString().contains("yc")) { replaceParagraphText(runs.get(i1), "yc", String.format("%td", endDate)); }
+				if (runs.get(i1).toString().contains("approver")) {
+					replaceParagraphText(runs.get(i1), "approver",
+							pgCertificate.getApprover()==null?"":pgCertificate.getApprover());
+				}
+				if (runs.get(i1).toString().contains("verifier")) {
+					replaceParagraphText(runs.get(i1), "verifier",
+							pgCertificate.getVerifier()==null?"":pgCertificate.getVerifier());
+				}
+				if (runs.get(i1).toString().contains("inspector")) {
+					replaceParagraphText(runs.get(i1), "inspector",
+							pgCertificate.getInspector()==null?"":pgCertificate.getInspector());
+				}
+				if (runs.get(i1).toString().contains("yy")) {
+					replaceParagraphText(runs.get(i1), "yy", String.format("%tY", date));
+				}
+				if (runs.get(i1).toString().contains("mm")) {
+					replaceParagraphText(runs.get(i1), "mm", String.format("%tm", date));
+				}
+				if (runs.get(i1).toString().contains("dd")) {
+					replaceParagraphText(runs.get(i1), "dd", String.format("%td", date));
+				}
+				if (index == 1 && runs.get(i1).toString().contains("g")) {
+					replaceParagraphText(runs.get(i1), "g", String.format("%tY", endDate));
+				}
+				if (index == 1 && runs.get(i1).toString().contains("yb")) {
+					replaceParagraphText(runs.get(i1), "yb", String.format("%tm", endDate));
+				}
+				if (index == 1 && runs.get(i1).toString().contains("yc")) {
+					replaceParagraphText(runs.get(i1), "yc", String.format("%td", endDate));
+				}
 			}
 
 		}
@@ -342,7 +373,7 @@ public class FilesServiceImpl implements FilesService {
 
 
 
-	public void replaceDetectRecordParagraph(XWPFDocument document,PgRecord record) throws IOException {
+	public void replaceDetectRecordParagraph(XWPFDocument document,DetectRecordVO record) throws IOException {
 		//获取所有段落
 		List<XWPFParagraph> paragraphList = document.getParagraphs();
 		//遍历段落
@@ -351,7 +382,7 @@ public class FilesServiceImpl implements FilesService {
 			XWPFParagraph paragraph = paragraphList.get(i);
 			//获取每个段落中的内容
 			List<XWPFRun> runs = paragraph.getRuns();
-			Date date = record.getDetectTime();
+			Date date = record.getCreateTime();
 			//循环段落内容
 			for (int i1 = 0; i1 < runs.size(); i1++) {
 				//调用自定义方法replacePlaceholderV2替换内容
@@ -366,7 +397,7 @@ public class FilesServiceImpl implements FilesService {
 		}
 	}
 
-	public void replaceDetectRecordCellParagraph1(XWPFTableCell cell, PgRecord record) throws IOException {
+	public void replaceDetectRecordCellParagraph1(XWPFTableCell cell, DetectRecordVO record) throws IOException {
 		//获取所有段落
 		List<XWPFParagraph> paragraphList = cell.getParagraphs();
 		//遍历段落
@@ -417,7 +448,8 @@ public class FilesServiceImpl implements FilesService {
 		}
 	}
 
-	public void replaceDetectRecordCellParagraph2(XWPFTableCell cell,PgRecord record) throws IOException {
+	public void replaceDetectRecordCellParagraph2(XWPFTableCell cell,DetectRecordVO record) throws IOException {
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		//获取所有段落
 		List<XWPFParagraph> paragraphList = cell.getParagraphs();
 		//遍历段落
@@ -426,7 +458,14 @@ public class FilesServiceImpl implements FilesService {
 			XWPFParagraph paragraph = paragraphList.get(i);
 			//获取每个段落中的内容
 			List<XWPFRun> runs = paragraph.getRuns();
-			Date date = record.getSEdate();
+
+			Date date = null;
+			try {
+				date = sdf.parse(record.getSEdate());
+			} catch (ParseException e) {
+				System.out.println("441行格式转化出错");
+				e.printStackTrace();
+			}
 			//循环段落内容
 			for (int i1 = 0; i1 < runs.size(); i1++) {
 				if (runs.get(i1).toString().contains("yy")) { replaceParagraphText(runs.get(i1), "yy", String.format("%tY", date)); }
@@ -436,7 +475,7 @@ public class FilesServiceImpl implements FilesService {
 		}
 	}
 
-	public void replaceDetectRecordExcel(XWPFDocument document,PgRecord record) throws IOException {
+	public void replaceDetectRecordExcel(XWPFDocument document,DetectRecordVO record) throws IOException {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		int tableSize = document.getTables().size();
 		for (int m = 0; m < tableSize; m++) {
@@ -461,16 +500,37 @@ public class FilesServiceImpl implements FilesService {
 					if (text.equals("shx")){ replaceCellValue(cell,"shx",String.valueOf(record.getSHumidity())+"％RH"); }
 					if (text.equals("qte")){ replaceCellValue(cell,"qte",String.valueOf(record.getRemark())); }
 
+//					for (int k = 0; k < 6; k++) {
+//						if (k < record.getInfos().size()){
+//							PgInfo info = record.getInfos().get(k);
+//							if (text.equals("A"+(k+1))){ replaceCellValue(cell,"A"+(k+1),String.valueOf(info.getSPressure()));continue; }
+//							if (text.equals("B"+(k+1))){ replaceCellValue(cell,"B"+(k+1),String.valueOf(info.getStrikeUp()));continue; }
+//							if (text.equals("C"+(k+1))){ replaceCellValue(cell,"C"+(k+1),String.valueOf(info.getReturnError()));continue; }
+//							if (text.equals("D"+(k+1))){ replaceCellValue(cell,"D"+(k+1),String.valueOf(info.getPositionUp()));continue; }
+//							if (text.equals("E"+(k+1))){ replaceCellValue(cell,"E"+(k+1),String.valueOf(info.getPositionDown()));continue; }
+//							if (text.equals("F"+(k+1))){ replaceCellValue(cell,"F"+(k+1),String.valueOf(info.getIndicationError()));continue; }
+//							if (text.equals("G"+(k+1))){ replaceCellValue(cell,"G"+(k+1),String.valueOf(info.getReturnError()));continue; }
+//						}else {
+//							if (text.equals("A"+(k+1))){ replaceCellValue(cell,"A"+(k+1),"");continue; }
+//							if (text.equals("B"+(k+1))){ replaceCellValue(cell,"B"+(k+1),"");continue; }
+//							if (text.equals("C"+(k+1))){ replaceCellValue(cell,"C"+(k+1),"");continue; }
+//							if (text.equals("D"+(k+1))){ replaceCellValue(cell,"D"+(k+1),"");continue; }
+//							if (text.equals("E"+(k+1))){ replaceCellValue(cell,"E"+(k+1),"");continue; }
+//							if (text.equals("F"+(k+1))){ replaceCellValue(cell,"F"+(k+1),"");continue; }
+//							if (text.equals("G"+(k+1))){ replaceCellValue(cell,"G"+(k+1),"");continue; }
+//						}
+//					}
+
 					for (int k = 0; k < 6; k++) {
-						if (k < record.getInfos().size()){
-							PgInfo info = record.getInfos().get(k);
-							if (text.equals("A"+(k+1))){ replaceCellValue(cell,"A"+(k+1),String.valueOf(info.getSPressure()));continue; }
-							if (text.equals("B"+(k+1))){ replaceCellValue(cell,"B"+(k+1),String.valueOf(info.getStrikeUp()));continue; }
-							if (text.equals("C"+(k+1))){ replaceCellValue(cell,"C"+(k+1),String.valueOf(info.getReturnError()));continue; }
-							if (text.equals("D"+(k+1))){ replaceCellValue(cell,"D"+(k+1),String.valueOf(info.getPositionUp()));continue; }
-							if (text.equals("E"+(k+1))){ replaceCellValue(cell,"E"+(k+1),String.valueOf(info.getPositionDown()));continue; }
-							if (text.equals("F"+(k+1))){ replaceCellValue(cell,"F"+(k+1),String.valueOf(info.getIndicationError()));continue; }
-							if (text.equals("G"+(k+1))){ replaceCellValue(cell,"G"+(k+1),String.valueOf(info.getReturnError()));continue; }
+						if (k < record.getSPressure().length){
+//							PgInfo info = record.getInfos().get(k);
+							if (text.equals("A"+(k+1))){ replaceCellValue(cell,"A"+(k+1),String.valueOf(record.getSPressure()[k]));continue; }
+							if (text.equals("B"+(k+1))){ replaceCellValue(cell,"B"+(k+1),String.valueOf(record.getStrikeUp()[k]));continue; }
+							if (text.equals("C"+(k+1))){ replaceCellValue(cell,"C"+(k+1),String.valueOf(record.getStrikeDown()[k]));continue; }
+							if (text.equals("D"+(k+1))){ replaceCellValue(cell,"D"+(k+1),String.valueOf(record.getPositionUp()[k]));continue; }
+							if (text.equals("E"+(k+1))){ replaceCellValue(cell,"E"+(k+1),String.valueOf(record.getPositionDown()[k]));continue; }
+							if (text.equals("F"+(k+1))){ replaceCellValue(cell,"F"+(k+1),String.valueOf(record.getIndicationError()[k]));continue; }
+							if (text.equals("G"+(k+1))){ replaceCellValue(cell,"G"+(k+1),String.valueOf(record.getReturnError()[k]));continue; }
 						}else {
 							if (text.equals("A"+(k+1))){ replaceCellValue(cell,"A"+(k+1),"");continue; }
 							if (text.equals("B"+(k+1))){ replaceCellValue(cell,"B"+(k+1),"");continue; }
